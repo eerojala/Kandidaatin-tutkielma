@@ -811,9 +811,3 @@ Kurosen ja Rossin krijassa käytetyt p2p liittyvät lähteet ja kohdat joissa ni
 		
 	Baset 2006; Guha 2006; Chen 2006; Suh 2006; Ren 2006
 		Researches have learned how Skype generally works
-		
-				Calculating the distribution time for the p2p architecture is somewhat more complicated than for client-server architecture --. Nevertheless, a simple
-		expression for the minimal distribution time can be obtained
-		
-		It turns out that if we imagine that each peer can distribute a bit as oon as it receives the bit, then there is a redistribution scheme that actually 
-		achieves this lower bound
