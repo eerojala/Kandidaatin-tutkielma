@@ -1,0 +1,841 @@
+Ongelmaa ei aiheuta pelkästään p2p, vaan ylipäätänsä päällysverkot, jotka reitittävät mielivaltaisesti
+	-p2p on kyllä tosi suosittu, yli 50% verkkoliikenteestä vuonna sejase
+
+-Gnutella on rakenteetoon, bittorrent on rakenteellinen
+
+-P2P reititys aiheuttaa haittaa ISPiden lisäksi internetin reititykselle
+
+-Client/server on helpommin ennustettavemmissa kuin p2p?
+
+
+Suluissa omat huomiot
+
+Epäselväksi jäänyttä
+	-Miksi BitTorrent yms. eivät valitse lähempänä sijaitsevia vertaisia?
+		-Ehkä saattaa johtua siitä että upload-nopeudet eivät ole lähellä suuria joten voi olla loppujen lopuksi nopeampaa hakea kauempaa
+			-Tutkimuksen mukaan lataajat kuitenkin hyötyivät lähempänä sijaitsevista vertaisista ja yksikään vertainen ei kärsinyt locality awarenessista
+			
+		-Ehkä johtuu myös tit-for-tatista, liittyen ehkäpä ylempään
+		
+	-P2P vs. Peer-assisted
+		-Viitaako tässä tekstissä peer-assisted nimenomaan skenaario 5 mukaiseen järjestelmään
+		
+	-Mikä on 95th percentile
+	-Jos kerran 4. osiossa tarkasteltiin bittorrent packetteja, kuinka siitä sitten ekstrapoloitiin teoreettisiin skenaarioihin 
+
+
+
+	-BitTorrent on rakenteellinen kaiketi
+		-Selvitä miten tracker ja dht toimivat keskenään
+		
+	-Feldmannin et al oraakkeliratkaisu vissiin vaan rakenteettomille p2p-järjestelmille
+
+Huom! Suurin osa käännetty melko suoraan, koita ilmaista omin sanoin kirjoitelmassa
+
+Käännöksiä
+	-Bandwidth: Kaista / Siirtonopeus
+	-Cache: Välimuisti
+	-Content: Sisältö
+	-Download: Lataus
+	-Engineering: Suunnittelu / Toteutus
+	-Factor of X: X-kertainen (esim factor of 7 = 7-kertainen)
+	-ISP: (Internet-)Palveluntarjoaja
+	-Locality: Lokaliteetti / Paikallisuus
+	-Online: Verkossa / Kytkettynä verkkoon
+	-Overlay: Päällys-
+	-Performance: Suorituskyky / Tehokkuus
+	-Provision: Tarjonta
+	-Quantify: Määrittää
+	-Topology: Topologia (The arrangement of nodes in a communications network.)
+	-Traffic: (Verkko)liikenne
+	-Traffic volume: Liikenteen määrä
+	-Underlay: Alus-
+	-Upload: Jakaminen (?) / (Tiedoston) lähetys
+	
+	
+Should internet service providers fear peer-assisted content distribution?
+	-Abstract
+		-P2P
+			-Käytetään suurempien tiedostojen jakamiseen
+			-Ei tarvitse alkuperäiseltä jakajalta suurta infrastruktuuria (verrattuna client/server, CDN, yms.)
+			-Hyödyllinen content providerille ja sen kuluttajalle
+				-ISP:n kustannuksella tosin
+					-While existing P2P content distribution solutions may provide significant benefits for content providers and endconsumers in terms of cost and performance, our 
+					results demonstrate that they have an adverse impact on ISPs’ costs by shifting the associated capacity requirements from the content providers and CDNs to the ISPs 
+					themselves.
+		
+				-"Locality aware" P2P voi lieventää ISP:hin kohdistunutta taakkaa
+				
+	-1. Introduction
+		-P2P
+			-Käyttäjät muodostavat verkon ja jakavat resurssejaan; storage, cpu, bandwith
+			-Itse-skaalautuva
+				-Systeemin bandwith capacity kasvaa node (vertainen) lisääntyessä
+					-Jokainen uusi node vaatii contenttia muilta, mutta samalla myös jakaa omaa keräämäänsä contenttia muille
+					
+				-Systeemin kapasiteetti lisääntyy kysynnän lisääntyessä
+				
+			-Vertaisverkko voi hyötykäyttää jokaisen vertaisen resursseja
+				-Kestää paremmin ns. "flash crowdeja" vastaan
+					-Voivat kyykyttää jopa satojen palvelimien CDN:iä
+					-[10]: J. Jung, B. Krishnamurthy, and M. Rabinovich. Flash Crowds and Denial of Service Attacks: Characterization and Implications for CDNs and Web Sites. In WWW, 2002.
+			
+			-BitTorrent-protokolla yksi tunnettu p2p-menetelmä
+				-Monet CP:t käyttävät (Blizzard, Lindows)
+					-Vähentää taakkaa ruuhkautuneilta palvelimilta
+					-Minimoi distribution costin
+					-Parantaa käyttäjien latausaikoja.
+			
+		-CPt hyötyvät P2P:stä
+			-benefit from a cost-effective distribution of bandwidth-intensive content to thousands of simultaneous users, both Internet-wide and in private networks.
+			
+		-ISPt huolissaan
+			-Since demand is shifted from data centers to end-nodes, peers become servers for other peers at the network edge.
+			-This shift increases the amount of data served by each ISP without a corresponding increase in revenue from the peer-hosted data services provided.
+				-(Eli ISPt saavat rahaa data centereistä?)
+				
+			-In particular, we focus on how peerassisted solutions affect ISP’s traffic as load is shifted from the content provider’s data center to peers at the edge of the network
+			
+		-Tutkimus näyttää miten nykyiset peer-assisted järjestelmät tuplaavat trafficin ISP:iden access linkeillä
+			-In particular, we show that current peer-assisted solutions roughly double the total traffic on the ISPs access link as well as their peak load due to the outbound 
+			network traffic.
+				-(Access linkit on siis runkoverkkoon yms?)
+				
+			-Syynä se että Peer-Assisted algoritmit eivät ota ISP:n tarpeita huomioon
+				-Tästä johtuen ISP:t koittavat hallita aiheuuvaa ruuhkaa mm. asettamalla download cappeja (yläräja latauksille)
+					-Jos P2P-protokollat ottaisivat ISPt huomioon, tähän ei olisi tarvetta
+					
+		-Yksi ratkaisu helpottaa ISP:n taakkaa olisivat cachet joihin tallennetaan tiedostoja joita vertaiset haluavat
+			-Vähentäisi ISPn ulosmenevää trafficia
+			-Sen puoleen hankala ratkaisu että cachejen pitäisi tukea erilaisia p2p-ratkaisuja
+				-Lisäksi myös pitäisi hankkia rautaa ja huolehtia sen ylläpidosta
+				-(Ongelmallista on myöskin se että p2p usein levitetään tekijäinoikeuksia rikkovaa materiaalia, jonka tallentaminen cacheihin olisi kyseenalaista.)
+				-(Varmaan täytyy myös jotenkin huolehtia siitä milloin tiedostot poistetaan cachesta jotta se ei täyty)
+				
+		-Toinen ratkaisu olisi muuntaa P2P-järjestelmiä siten että ne ottavat lokaliteetin huomioon
+			-Mimic caches
+			-Tämä ratkaisu voisi siis vähentää ISPn taakkaa ja samalla myös tarjota cache-ratkaisua vastaavaa tehoa
+			
+		-In Section 2 we make the case for BitTorrent-like systems as P2P-mechanisms that could facilitate large scale content distribution and describe BitTorrent’s functionality. 
+		-In section 3, we demonstrate that current P2P systems and specifically BitTorrent do not exploit locality and present the implications of such a practice on a small ISP. 
+		-In Section 4 we quantify the impact of P2P content distribution on the capacity requirements of an ISP network. 
+			-Our findings motivate the need for a locality aware mechanism that directs peers to obtain the requested content from other peers located inside the same network, if 
+			they exist. 
+		
+		-We describe such mechanisms and evaluate their performance in section 5. 
+		-In section 6, we describe related work. 
+		-We discuss implications of our findings in section 7 
+		-and finally concludein Section 8.
+
+			
+	-2. 2 P2P as a mechanism for large scale content distribution
+		-P2P paradigm on houkutteleva vaihtoehto laajamittaiseen content distributioniin
+			-Perinteiset content distribution mekanismit tyypillisesti vaativat suuria infrastruktuuri-investointeja
+				-Usein CDN ja/tai suuret server-farmit
+				
+		-P2P content distribution on viable vain jos se tyydyttää sekä CP että loppukäyttäjien tarpeet
+			-Ei saa aiheuttaa ylimääräistä overheadia CP:lle, loppukäyttäjille ja ISPlle
+				-(Käytännössä vissiin kuitenkin aiheutuu ISPlle)
+				
+			-Tutkimuksen tekijät uskovat että BitTorrent olisi käypä ratkaisu tähän
+				-As a P2P protocol, BitTorrent enjoys the benefits of a distributed system that is inherently more robust to events such as flash crowds, shown to be challenging even 
+				for CDNs with hundreds of servers [10], as well as cheaper in terms of infrastructure cost on the part of the content provider.
+				
+			-Content distribution using BitTorrent has been shown to offer outstanding performance in terms of content delivery rates to the clients [22, 9]. 
+				-[9]: M. Izal, G. Urvoy-Keller, E.W. Biersack, P.A. Felber, A. Al Hamra, and L. Garc´es-Erice. Dissecting BitTorrent: Five Months in a Torrent’s Lifetime. In PAM, 2004.
+				-[22]: [22] D. Qiu and R. Srikant. Modeling and performance analysis of bittorrent-like peer-to-peer networks. In ACM Sigcomm, 2004.
+				
+			-Lastly, BitTorrent features a unique policy across P2P protocols, called the tit-for-tat policy, which is described below and ensures higher content availability.
+			
+		-Bittorrent [28]
+			-1. Tracker
+			-2. Torrent meta-info
+			-3. Peers downloading the file
+				-Leechers
+				-Seeders
+				
+			-Vertaiset ensin yhdistävät Trackeriin, pyytävät listaa muista vertaisista, ja valitsevat niistä satunnaisen subsetin
+				-Vertais-subset päivitetään säännöllisin väliajoin based on jokaisen vertaisen kontribuutiosta
+					-With each peer trying to achieve the maximum available throughput
+					
+			-BitTorrent is characterized by a“choke/unchoke” mechanism that encourages cooperation among peers (peers upload more to the peers that offer them more data, tit-for-tat 
+			policy).
+			
+			-Tit-for-tat
+				-Vertaiset pakotetaan jakamaan contenttia latausten yhteydessä (muuten epä-suorasti bannataan, eli ei enää pysty lataamaan muilta vertaisilta koska ei jaa kellekään) [2]
+				
+			
+			-Given that unlike today’s P2P file-sharing networks, there is no notion of a “community” from the content distribution perspective
+				-The tit-for-tat incentive ensures availability of the content as long as peers are requesting it.
+				
+			-BitTorrentin ongelmat
+				-Tosin kuin muissa p2p, ei intensiivejä jatkaa jakamista kun on saanut ladattua loppuun
+					-This practice is in contrast to the majority of P2P file-sharing networks where files are often made available even long after the completion of the download
+					-Tästä johtuen siis content ei ole välttämättä aina saatavilla
+						-Jos halutaan välttyä tältä tilanteelta, CP:n täytyy hankkia resursseja minimiylläpitoon
+							-Tässkin tapauksessa tosin tarvitut resurssit ovat minimaalisia perinteiseen contentin jakamiseen verrattuna
+			
+			-[2]: R. Bhagwan, S. Savage, and G. M. Voelker. Understanding availability. In International Workshop on Peer to Peer Systems, 2003.
+			-[28]: Bittorrent Protocol Specification v1.0. http://wiki.theory.org/BitTorrentSpecification.
+			
+		-Tutkimus
+			-First, we study BitTorrent traffic from payload packet traces collected at a 20,000 user access network. 
+				-These traces provide the view of file availability and potential savings from an edge-network view at small time scales. 
+			
+			-In addition, we analyze the tracker log for the RedHat v9.0 distribution that spans five months and offers a global perspective to the same problem at larger time scales.
+			
+	-3 P2P Content Distribution: the view from an edge network
+		-In this section, we first look into the overhead of content distribution through BitTorrent as experienced by an edge network. 
+		-We then quantify the savings that could be gained in the same scenario if locality was exploited. 
+		-We conclude by examining the implications of locality-aware mechanisms on the user experience.
+		
+		-Tutkimus
+			-Tarkasteltiin kolmena eri päivänä uloskulkevia paketteja yliopiston verkon access linkillä 24,6h, 33,6h ja 28,6h kerrallaan
+				-Verkko palvelee n. 20 000 käyttäjää, tutkijoiden mukaan verrattavissa pieneen ISP:n verkkoon
+				-P2P-packetit eriteltiin muista packeteista
+				-Huomattiin että P2P on n. 1/3 verkon trafficista, ja total trafficista 13-15% on bittorrent floweista johtuvaa
+					-Siis merkittävä osa verkkoliikenteestä
+					
+		-(Kyseenalaiseksi minulle jäi kuinka he erottelivat muun p2p liikenteen, kun he kuivalevat miten he erottiat bittorrent packetit muista)
+			
+					
+	-3.1 Methodology
+		-Have: The Have message advertises that the senderhas downloaded a piece and the piece is now available for upload.
+		
+	-3.2 Hit Ratios
+		-We quantify locality in terms of hit ratios. 
+			-The hit ratio(analogous to caching hit ratio) refers to content that has already been downloaded and is present locally within our monitored ISP.
+			
+		-Tutkijat tarkastelivat lokaliteettia ns. osuma-prosentin avulla
+			-Osuma-prosentti viittaa contenttiin joka on ladattu ulkopuolelta ja olisi täten siis jo valmiiksi tarjolla verkon sisällä
+			-(Ladatut tiedostot (ja niiden pienemmät osat) saadaan selville koska BitTorrent mainostaa muille vertaisille että kyseinen vertianen on ladannut tämän chunkin)
+				-(Tämä viestipacket sitten napataan access linkillä ja voidaan sitten verrata muihin napattuihin packetteihin onko kyseistä chunkkia/pieceä/mikä onkaan jo aiemmin 
+				ladattu verkossa)
+		
+		-File hit ratio:
+			-Eli vissiin kuinka iso verkon total downloadeista on saman tiedoston downloadin duplikaatteja
+			-14%, 10.4%, 18.2%
+			
+		-Byte hit ratio
+			-File hit ration kaavassa file user populaatio kerrottuna tiedostokoolla
+			-12%, 9.6%, 13%
+			
+		-Piece hit ratio
+			-Total number of hits divided by the total number of downloaded pieces
+			-6%, 6%, 11.8%
+			
+		-Tutkijoiden mukaan saatut prosentit eivät ole mitenkään triviaaleja
+			-Etenkin kun ottaa huomioon tarkkailusessioiden lyhyt aika (~1pv) ja verkon pienuus
+			
+		-Requested files in the network are short-lived in accordance with previous findings in other P2P networks [25].
+			-Only three files existed in both the April and May traces, while the January and April traces had only one file in common.
+			-Short-lived files imply that a P2P caching solution would not require large amounts of space and that if P2P nodes were to make their files available for a short period
+			of time after the download is over, nodes could enjoy most of the possible sharing benefits.
+			
+	-3.3 Peer Overlap in Time
+		-User overlappia mitattiin tarkastelemalla tiedostoja joita vähintään kaksi vertaista downloadisivat/uploasivat tarkastellun verkon sisällä
+			-Lokaliteetti ja cachaus eivät vaikuttaisi jos vain yksi tyyppi pyytäisi kyseisiä tiedostoja (koska verkon sisällä ei olisi ketään tarjoamaan niitä)
+			
+		-Tutkimuksissa havaittiin, että 10.5%, 8.7% ja 11.1% tiedostoista oli sellaisia joita vähintään kaksi verkonsisäistä käyttäjää samanaikaisesti latasi/tarjosi
+			-Tarkastelusessioissa 30-70% kokonaisesta tarkasteluajasta esiintyi peer overlappia
+				-Approximately 60% of the time multiple active users coexist and could cooperate in the distribution of the content. (Figure 1)
+				-Overall, there exists at least one file with at least two active users 25%, 42% and 60% of the time for the January, April and May traces.
+					-Lisäksi tutkimus ei ottanut huomioon ennen tarkastelusessioita alkaneita (mutta sen aikana jatkuneita) BitTorrent-sessioita, joten ne voisivat kasvattaa prosentteja 
+					yhä n. 5-10% verran
+				
+				-Locality could be exploited for 50% of the files where users coincide (we consider time overlap of at least 10 minutes to regard peers as simultaneous).
+					-Moreover, we observe at least three simultaneous peers for roughly 15% of the files.
+						-(Oli jopa 6 simultaneous userin tiedosto)
+					
+	-3.4 Potential Savings on ISP bandwith
+		-Tutkijat estimoiat potentaalisia säästöjä verkon ulkopuolelta lataamiseen
+			-Kaksi skenaariota:
+				-a) cachaus skenaario, kaikki lokaalit piecet ovat available kun kerran ladattu ottamatta huomioon mikäli vertaista joka omaa kyseisen piecen on tällä hetkellä online 
+				vai ei
+				-b) peer-assisted skenaario, ainoastaan aktiivisten (lataa ja/tai jakaa, määritelty tekstissä) käyttäjien omaavat piecet otetaan huomioon
+					-(Eli jos piece on verkossa mutta sitä jakava käyttäjä ei ole online, se täytyy ladata ulkopuolelta)
+					
+			-a)-skenaarion mukaisista local pieceistä 70-90% ladataan verkon ulkopuolelta
+				-b)-skenaarion tapauksessa prosentit ovat 50-90%
+				
+				
+	-3.5 Performance Implications for the User
+		-Lokaliteetti mahdollistaa myös käyttäjille hyötyä
+			-First, edge networks may feature much wider bottlenecks than the global internet
+			-In addition, the number of hops between peers is likely to be smaller and the associated propagation delays shorter, if the traffic stays within the ISP
+		
+		-Tutkijat simuloivat packettitutkimuksen 3 suosituimman tiedoston pohjalta että lokaliteetti ei vaikuttaisi tai parantaisi vertaisten latausaikoja
+			-Yhdessäkään tapauksessa lokaliteetti ei nostanut vertaisen latausaikaa	
+			-70% hyötyivät lokaliteeteista
+			-Lokaliteetin tuoma hyöty oli jokaiselle yksittäiselle vertaiselle 0-150%
+				-24% vertaisista hyötyi yli 50%
+				
+			-30% ei hyötynyt (mutta ei myöskään kokenut haittaa)
+				-Johtuu siitä että kyseiselle tiedostolle ei löytynyt vertaisia verkon sisältä joten sitä piti ladata verkon ulkopuolelta
+				
+		-Tutkijat myötäntävät että simulaation käyttämä otos oli pieni (kirjoita tyyliin "huomioitavaa on, että tutkijoiden käyttämä otoskoko oli varsin pieni" yms.)
+			-Mutta koska suuremmat verkot sisältävät todennäköisemmin suuremman määrän samanaikaisia aktiivisia käyttäjiä, lokaliteetin tuomat hyödyt saattavat olla vielä isompia
+			
+			
+	-Synopsizing our analysis of locality in our packet level traces we observe the following:
+		• File, byte and piece hit ratios range from 6%-18% ina day, implying that approximately one in ten files is downloaded more than once within the ISP in a day.
+		• Files are short-lived in the network with only a minimum number of files being requested across months.
+		• Active users coincide at least 30% of the time and could potentially cooperate in a locality-aware P2P system.
+		• At least 20% of the downloaded content existed locally in active users, while a minimum of 40% existed locally in both active and nonactive users in two of our traces.
+		• Peer download rates increase and download completion times per peer decrease for at least 70% of the clients in an idealized peer-assisted scenario.
+			
+	-4. Impact of peer-assisted content distribution
+		-Osiossa tarkastellaan peer-assisted content distributionin impaktia ISP:hin ja content providereihin laajemmalla skaalalla
+		-Tarkastellaan Redhat v.9.0 jakamisen BitTorrent tracker logia
+			-(RedHat ilmeisesti jokin linux-pohjainen käyttis)
+			
+	-4.1 Tracker log description and content distribution scenarios
+		-Tutkimus
+			-Tracker log sisältää informaatiota 5 kuukauden ajalta
+				-Informaatiota yksittäisten vertaisten 1.855 GT:n Redhat v. 9.0 image-tiedoston lataamisesta
+					-Vertaiset lähettävät säännöllisesti raportteja trackerille
+					
+			-Vertaiset identifioidaan ja ryhmitellään omiin ISP:hinsä.
+				-After identifying the individual peers inside the network we group IP addresses into ISPs using the ASFinder module from the Coral Reef suite [12]. 
+				-For the mapping we use BGP tables from RouteViews collected in May and August 2003
+			
+		-Having a global view of where peers are located inside the network we study the impact of the following content distribution scenarios:
+			-1. Server/Server farm/CDN
+				-Perinteisen client/server -mallin mukaan
+				-Every peer request corresponds to a transfer across the ISP’s Internet link.
+				
+			-2. Geneerinen P2P-järjestelmä
+				-Huom. Ei BitTorrent
+				-Vertaiset arvotaan satunnaisesti
+					-Kuitenkin vain jos ovat samanaikaisesti online.
+					
+			-3.& 4. BitTorrentin kaltainen P2P-järjestelmä
+				-Vertaiset säännöllisesti päivittävät peer-listojaan
+				-The upload bands are based on a per-IP maximum upload throughput as observed throughout the log (scenario 3)
+					-or on peer instantaneous upload throughputs (scenario 4)
+					
+			-5. Peer-assisted sisällön jako järjestelmää joka käyttää lokaliteettia hyväkseen
+				-Vertainen joka pyytää sisältöä uudelleenohjataan verkon sisällä sijaitsevalle toiselle vertaiselle joka pystyy tätä sisältöä tarjoamaan
+				
+			-6. Hajautettu cachaus-arkkitehtuuri joka muistuttaa täydellistä sisällön jakamisverkkoa jolla on välimuisti jokaisen verkon access linkissä
+				-Oletetaan että välimuistilla on loputtomasti tilaa
+					-Mistä seuraa että vain yksi kopio ladatusta sisällöstä per ISP
+					
+				-Välimuisti palvelee verkon sisäisiä käyttäjiä jotka pyytävät kyseistö sisältöä
+					-Täten vain sisällön ensimmäinen lataus täytyy tehdä verkon ulkopuolelta
+					
+				-Välimuisti vastaa täydellistä teoreettista tilannetta, missä ISP-verkon sisällä sijaitsevat vertaiset ovat kokoajan online
+				
+	-4.2 Evaluation of content distribution scenarios
+		-Arvioidaan jokaisen skenaarion kustannukset ja hyödyt
+			-First, we provide the evaluation metrics and a brief overview of our findings, and then present extensive results for each case.
+			
+	-4.2.1 Metrics and Overview
+		-Hyötyjä ja kustannuksia tarkastellaan liikenteen voluumin pohjalta sisällöntarjoajalle sekä ISPille
+		
+		-ISPn kustannusten kvantifiomiseen, tutkijat mittasivat total ingress/egress bandwith consumed
+			-Kuten myös 95th percentile of traffic in hourly intervals as observed on their access links
+			
+			-Kyseiset mittapuut ovat ISP:ille merkittäviä, sillä ne tyypillisesti kääntyvät rahallisiksi kustannuksiksi
+			
+		-Sisällöntarjoajien kustannuksia mitataan total traffic served mukaan, mikä correspondaa bandwith vaatimuksiin joita tarjoajan tulisi täyttää jokaisessa tapauksessa
+			-Kuten ISP:n kustannuste kanssa, mitataan myös 95th percentile of total traffic served per hourly interval
+			
+		-Tutkijoiden löydökset voidaan luokitella seuraavasti:
+			• Peer-assisted content distribution reduces ISP downlink bandwidth by a factor of two.
+			• A P2P locality case only requires 1.5 times the peak capacity required by a perfect caching algorithm.
+			• ISPs are required to upload just over only one copy of the content satisfying at the same time a large number of local peers with a local-aware solution.
+			• ISP savings in the peer-assisted scenario increase roughly linearly to the logarithm of active users.
+			• The overhead of a peer-assisted approach in terms of peak load as defined by the 95th percentile, is minimal and in some cases even less than the respective
+			overhead of a caching solution.
+			
+			-(locality aware ratkaisu voisi olla siis hyvinkin riittävä ratkaisu)
+			
+			-Loput tästä sektiosta (4.2.x) käsittelevät kyseisiä havaintoja
+			
+	-4.2.2 Impact on Downloaded Traffic
+		-Peer-assisted distribution skeema voi säästää ISP:n downlink bandwithia vain jos verkon sisällä sijaitsee useampi vertainen joka lataa samaa tiedostoa
+		-Table 3 sisältää keskiarvon kaikesta ladatusta datasta sekä 95th percentile kaikesta ladatusta datasta (eli siis vissiin verkon ulkopuolelta ladatusta datasta)
+			-Skenaario 2 ei tuonut juurikaan säästöjä verrattuna skenaario 1 
+				-Myös 3 ja 4 eivät tuo merkittäviä säästöjä
+				-2-4 säästöt muutaman prosentin luokkaa
+				
+			-5 ja 6 tuovat hyvin merkittäviä säästöjä
+				-5: 52.5%, 52.7%, 22.3%, 20.2%
+				-6: 91.6%, 91.7%, 42.9%, 43.2%
+				
+				-6. skenaariossa sisältö ladataan vain kerran
+				
+			-(Onko tää ladattu data oikeasti total, vai total p2p ladattu data)
+				-(Luvut viittaavat total p2p)
+			
+		-P2P-ratkaisut ovat parhaimmillaan kun kysyntä on korkea
+			-Koska suuri määrä vertaisia mahdollistaa increasing opportunities for cooperation
+				-Toisaalta kun kysyntä on pieni, BitTorrent ja muut P2P ratkaisut surkastuvat client/serverin tasolle
+				
+	-4.2.3 Impact on Uploaded Traffic			
+		-Koska vertaiset toimivat ikään kuin palvelimina P2P:ssa, seuraa siitä egress liikenteen kasvu ISP:lle
+			-Which may considerably impact their bandwith cost
+				-This imposed cost is evident in table 4, where simple P2P content distribution results in high upstream bandwidth requirements compared to the traditional client 
+				server model (or the caching infrastructure) where local users do not serve content.
+				
+		-Table 4 sisältää taas taulukon lähetetystä datasta, tulokset ovat samaa luokkaa
+			-Cache ratkaisussa dataa ei lähetetty ollenkaan
+			
+		-Lokaliteetti pitää siis suurimman osan liikenteestä verkon sisällä
+			-Uloskulkeva liikenne vähenee by a factor of 6
+				-In fact most ISPs only need to upload slightly over one copy of the file in order to satisfy a large number of internal users
+				
+		-3. ja 4. tauluja tarkastellessa voidaan huomata että tarvittava peak upload capacity on paljon pienempi kuin download capacty (lokaliteetin tapauksessa)
+			-(Ei-lokaliteetti P2P-ratkaisuissa upload on hieman isompi kuin download)
+			
+	-4.2.4 Impact vs. ISP size
+		-Tarkastellaan miten peer-assisted content distribution vaikuttaa ISPhin riippuen niiden koosta
+			-Tarkasteltu aktiivisten vertaisten kautta (indikoi suurinpiirtein ISP verkon kokoa)
+			
+		-Figure 6(a) näyttää että säästöt peer-assisted locality aware ratkaisusta nousevat lähes lineaarisesti with the logarithm of the number of active users
+			-Pienet ISP eivät hyödy niin paljoa, mutta keskikokoiset ja suuret hyötyvät
+				-Edut ISP:lle jolla on enemmän kuin 30 aktiivista vertaista ovat korkeammat kuin 60%
+					-95th percentilen mukaan edut ovat vieläkin korkeammat
+					
+	-4.2.5 P2P Locality Aware vs. Proxy Caches
+		-Tarkastellaan kuinka optimaalinen locality aware peer assisted vs cachet
+		-Erot voivat olla suuria pienemmillä ISPeillä
+			-Mutta suuremmilla erot pienenevät
+				-Kun samanaikaisten vertaisten määrä on n. 10^1 luokkaa
+				
+	-4.2.6 Impact of locality on the content provider
+		-Estimoidakseen dataa jonka sisällöntarjoaja tarjoaa peer-assisted tapauksessa, tutkijat olettavat että sisältöpyynnöt joita ISP ei pysty tyydyttämään pitää content providerin
+		tyydyttää
+			-Tämä on yläraja bandwithin määrälle jota tarvitaan content providerilta, sillä murto osa pyynnöistä tyydyttäisi muissa ispeissa sijaitsevat vertaiset
+			
+		-taulukko 5
+			-Locality aware tuo yli 50% säästöt
+			-Cachet yli 90%
+			
+	-5 locality algorithms and their performance
+		-Esitellään kaksi simppeliä peer-assisted content distribution mekanismia
+			-Lokaliteetin implementoi joko ISP tai sisällöntarjoaja
+			
+		-ISPt voivat tarjota lokaliteetin asettamalla proxy-trackerin verkkojensa reunalle
+			-(Eli access linkille? Vai jonnekin muualle?)
+			-Nämä proxy trackerit sitten kaappaavat vertaisten viestit ja uudelleenohjaavat ne muille mahdollisille aktiivisille vertaisille verkon sisällä
+			-Tämä vastaisi toisen kokeen 5. skenaariota
+			-Tälläsiä infrastruktuuriratkaisuja ei ole kuitenkaan aina mahdollista tehdä/ylläpitää
+			
+		-Sisällöntarjoajan implementoimat lokaliteettialgoritmit
+			-Voidaan mm. implementoida bittorrent trackereihin, jotka ottavat lokaliteetin huomioon
+				-Simple prefix rules
+				-Domain names
+				-More sophisticated hierarchical prefix matching rules
+				-Network-aware clustering [13]
+					-[13]: B. Krishnamurthy and J.Wang. On network-aware clustering of web clients. In SIGCOMM, 2000.
+					
+				-Routing table lookups
+				
+				-Kaksi viimeistä johtaisivat skenaario 6:n kaltaiseen performanssiin
+				
+			-Tableissa 6 ja 7 verrattu algoritmeja proxy-tracker skenaarioon
+			
+			
+	-7 Discussions
+		-Our analysis thus far has presented a detailed description of the cost and benefits of locality-aware peer-assisted content distribution. 
+			-However, we would like to stress here a number of implications based on our findings.
+			
+		-Global vs local benefits
+			-Globaalit säästöt vaikuttavat merkittäviltä
+			-Lokaalit säästöt ovat pienempiä
+			
+			-Globaalin ja lokaalin säästöjen erojen syitä
+				-Tarkkailtun verkon pienuus
+				-Lokaali testi tehtiin kolmena eri päivänä, kun taas globaali testi oli 6 kuukauden jakso
+					-(Tarkista kuukausien määrä)
+				
+				-Lokaalissa testissä tarkkailtiin useita tiedostoja kun globaalissa taas yhtä
+				
+		-Peer assisted vs. existing content distributions
+			-Analyysi ei suggestaa että pitäisi luopua CDN yms
+			-P2P on omat ongelmansa
+				-Tiedoston saatavuus pienellä populaatiolla
+				-NATista johtuvat end-to-end yhteyksien vaikeudet
+				-Security, reliability and service guaranteessit täytyy myös hoitaa kunnolla
+				
+			-Peer-assisted skeemat on kyllä ihan hyödyllisiä suplementteja näille muille ratkaisuille
+				
+		-Impact on peer-assisted content distribution on internal ISP traffic
+			-Vaikka PACD näyttää houkuttelevalta, täytyy huomauttaa että egress-liikenteen vähentäminen voi tuoda tarpeen liikenteen re-engineeringille ISPlle koska sisäinen 
+			liikenne lisääntyy
+			-Increased upload traffic may prove especially important for those ISPs that depend on other carriers to deliver last-mile traffic
+				-In fact, for such ISPs, utilizing their transit egress capacity might result in a more cost-effective solution rather than re-routing traffic internally
+					-Caching, on the contrary, fits naturally with the traditional asymmetric architecture of today’s ISPs, where the downstream channel
+					is more heavily provisioned relative to the upstream, driven by the assumption that customers download more than what they upload.
+					
+	-8 Conclusions
+		-Nykyiset P2P-järjestelmät luovat tarpeetonta ruuhkaa sekä down- että upstream (isp ulkupuolelle)
+		-BitTorrent ei ota lokaliteettia huomioon
+		-Vaikka BitTorrentissa käyttäjät tyypillisesti lähettävät vain kuin lataavat, se ei vaikuta merkittävästi BitTorrentin kaltaisen ratkaisun hyötyihin
+			-Käyttäjät jotka pyytävät samoja tiedostoja saman ISPn sisällä overlappaavat 30%-70% ajasta 
+				-Täten he voisivat tehokkaasti auttaa toisiaan lokaliteetlin olemassaollessa
+				-Ja jos käyttäjät jatkavat jakamista, lokaliteetti-algoritmin tuoma hyöty olisi extra 20-40% ISPn lataamien tavujen kannalta
+				
+		-PACD tuo suuri upstream kapasiteetti kuluja transit linkeille
+			-suunnilleen tuplaisi bandwith vaatimukset
+			-Yksinkertaisetkin lokaliteetti mekanismit voisivat korjata tätä 
+			
+			-Strategies such as those used by BitTorrent trying to match users with similar capacities provide little locality benefits.
+			
+		-Peer-assisted locality ratkaisun hyödyt nousevat with the logarithm of the number of active users
+		-Peer-assisted locality-aware ratkaisu kuitenkin luo 5x enemmän liikennettä ISP:n linkin kautta kuin täydellinen cache ratkaisu
+			-Kuitenkin in absolute terms tämä olisi vain pieni osa client/server mallin tuomasta liikenteestä
+			
+		-Vaikka nykyiset PACD ratkaisut ovat ISP-unfriendly, tämä ei kuitenkaan ole fundementaalinen rajoite, ja pienet korjaukset voisivat tuoda merkittäviä reduce of cost kaikille 
+		osapuolille
+			-Such simple modifications to peer-assisted protocols can provide a cost-effective solution that can be exploited by content providers to scale and accelerate the 
+			delivery of content to millions of users without pushing ISPs towards regulating or blocking such traffic.
+		
+		
+Can ISPs and P2P Users Cooperate for Improved Performance?
+	Huom!
+		-AS ei ole yksittäinen käyttäjä, vaan verkko
+			-Autonominen järjestelmä (AS, Autonomous System) tarkoittaa Internetin TCP/IP-reititysprotokollissa käytettävää yksittäisen toimijan (esimerkiksi verkko-operaattorin) 
+			verkkokokonaisuutta. (Wikipedia)
+			-Autonomisen järjestelmän omistaja vastaa tiettyjen IP-osoitteiden liikenteen reitityksestä perille. (Wikipedia)
+			-Autonomisten järjestelmien on tunnettava toisensa ja niiden on käytettävä erityisesti autonomisten järjestelmien väliseen reititykseen suunniteltua reititysprotokollaa 
+			(Internetin runkoverkossa yleensä BGP-protokollaa) IP-osoitteistaan kertomiseen.  (Wikipedia)
+			
+	Abstract
+		-P2P-systeemit, jotka toteutetaan päällysverkkoina alustana olevan internet-verkon päälle, contributeevat suuren osan internetin verkkoliikenteestä.
+		-P2P-käyttäjät toisaalta tuovat rahaa ISPille, mutta toisaalta he aiheuttavat ispeille liikenteen engineering haasteita.
+			-Tämä johtuu siitä että P2P systeemit joko implementoivat oman reitityksensä päällysverkkona tai käyttävät P2P reititys-alustaa [1]
+				-Molemmat ovat itsenäisiä Internetin omasta reitityksestä
+					-Mikä taas aiheuttaa haittaa ISPn traffic engineering capabiliteille
+				
+				-[1] A. Nakao, L. Peterson, and A. Bavier, “A Routing Underlay for Overlay Networks,” in SIGCOMM, 2003.
+					-Abstractin perusteella näyttäisi sisältävän samanlaista tavaraa mitä feldman et al.in paperi
+					-While a routing underlay as proposed by Nakao et al. [1] can reduce the work duplications it cannot by itself overcome the interaction problems.
+				
+		-P2P-käyttäjät haluavat ladata haluamansa sisällön nopeasti
+			-P2P-systeemeillä ei ole kuitenkaan keinoa päästä suoraan käsiksi internetin tarjoamaan alusverkkoon
+				-Täten ne joutuvat joko estimoimaan internetin eri reittien performanssia tai sitten jättää sen huomioimatta rakentaessaan päällystopologiaa
+				-Tilanne on siis ongelmallinen sekä ISP:ille että käyttäjille
+				
+		-Paperi ehdottaa ja evaluoi ns. oraakkelia
+			-P2P käyttäjät antavat oraakkelille vertaislistan, jonka perusteella oraakkeli uudelleenohjaa käyttäjän pyynnön lähemmälle vertaiselle mikäli mahdollista
+				-Tämä voi johtaa käyttäjälle parempaan performanssiin
+				-ISP voi käyttää tätä hallitaakseen verkkoliikennettä paremmin
+					-e.g. pitää liikenteen mahdollisimman paljon verkon sisäisenä, tai vaihtoehtoisesti ohjata se haluamaansa reitille pois sen verkosta
+						-Parantunut network utilization johtaa myös muiden ISPn asiakkaiden kokemuksen paranemiseen (ulosmenevä / ulkoa tuleva verkkoliikenne on pullonkaula)
+						
+	1. Introduction
+		-P2P systeemit tuottavat yli 50% kaikesta verkkoliikenteestä
+			-[3, 4, 5]
+				-[3] T. Karagiannis, A. Broido, N. Brownlee, kc claffy, and M. Faloutsos, “Is P2P dying or just hiding?,” in GLOBECOM, 2004.
+				-[4] Light Reading, “Controlling P2P Traffic,” http://www.lightreading.com/document.asp?site=lightreading&doc_id=44435&page_number=3.
+				-[5] R. Steinmetz and K. Wehrle, P2P Systems and Applications, Springer Lecture Notes in CS, 2005.
+			
+			-Skype myös P2P
+			
+		-P2P tuo lisää rahaa ISPille, koska monet käyttäjät ostavat parempia yhteyksiä juuri sen takia [6]
+			-[6] T. Mennecke, “DSL Broadband Providers Perform Balancing Act,” http://www.slyck.com/news.php?story=973.
+		
+		-P2P tuo kuitenkin myös ISPille verkonhallintaan liittyviä ongelmia [4, 7]
+			-[7] R. Keralapura, N. Taft, C. Chuah, and G. Iannaccone, “Can ISPs Take the Heat from Overlay Networks?,” in HotNets, 2004.
+			-P2P usein starvee bandwidthia muilta applikaatioilta, kuten esim. web-selaimilta [8], ja often swamps the ISP network
+				-[8] G. Shen, Y. Wang, Y. Xiong, B. Zhao, and Z. Zhang, “HPTP: Relieving the Tension between ISPs and P2P,” in IPTPS, 2007.
+				-Tämä johtuu siitä että monet P2P systeemit luovat sovellustasolla päällysverkkoja reititykseen, joka on laajalti riippumaton Internetin omasta reitityksestä ja
+				topologiasta [9]
+					-[9] V. Aggarwal, S. Bender, A. Feldmann, and A. Wichmann, “Methodology for Estimating Network Distances of Gnutella Neighbors,” in GI Jahrestagung - Informatik 2004, 2004.
+				
+		-Unstructured P2P verkot usein rakentavat overlay topologiansa asettamalla solmujen naapurussuhteet mielivaltaisesti [5]
+			-Tämä voi johtaa tilanteeseen jossa solmu Frankfurtissa lataa suuren tiedoston Sydneyssä sijaitsevalta solmulta, vaikka sama tiedosto olisi saatavilla berliinissä
+			-Unstructured vs structured: (wikipedia)
+				-Rakenteettomassa vertaisverkossa jäsenet muodostavat yhteydet toisiinsa mielivaltaisesti. 
+					-Jos verkon jäsen ilmoittaa hakevansa tiettyä dataa, hakupyyntö etenee sokeasti ketjussa eteenpäin. 
+					-Tämä on verraten tehotonta, sillä pyyntö ei todennäköisesti pääse perille haettavan datan ollessa kaukana, useiden linkkien päässä. 
+					-Hakupyyntöjen laajamittainen välittäminen myös kuormittaa verkkoa. 
+					-Tällaisia verkkoja ovat esimerkiksi Gnutella ja FastTrack.
+					
+				-Rakenteellisessa vertaisverkossa on käytössä menetelmä, jossa verkon jäsenillä on tietoisuus kaiken jaetun datan sijainnista. 
+					-Näin saapuva haku voidaan ohjata oikeaan suuntaan. 
+					-Ylivoimaisesti yleisin tekniikka on hajautettu tiiviste (DHT, Distributed Hash Table). 
+						-DHT:ta hyödyntäviä rakenteellisia protokollia ovat esimerkiksi Chord, Pastry, Tapestry, CAN ja Tulip. 
+			
+		-On osoitettu että P2P kulkevat usein verkkojen välisten rajojen läpi [9, 10]
+			-[10] T. Karagiannis, P. Rodriguez, and K. Papagiannaki, “Should ISPs fear Peer-Assisted Content Distribution?,” in IMC, 2005.
+			-Ei ole optimaalista, sillä suuri osa internetin pullonkauloista sijaitsevat access linkeillä ja ISP:iden välisillä reiteillä, mutta ei ISP:iden backboneilla [11]
+				-[11] A. Akella, S. Seshan, and A. Shaikh, “An Empirical Evaluation of Wide-Area Internet Bottlenecks,” in ACM IMC, 2003.
+				
+			-On myös osoitettu, että haluttu sisältö on usein saatavilla käyttäjien lähettyvillä [10, 12]
+				-[12]: A. Rasti, D. Stutzbach, and R. Rejaie, “On the Long-term Evolution of the Two-Tier Gnutella Overlay,” in Global Internet, 2006.
+				-Johtuen sisällön kielestä ja geographical spheres of interest
+				
+		-Koska P2P käyttäjä haluaa saada sisältönsä nopeasti, tutkijat uskovat että P2P-liikenteen lokaliteetin kasvattamisesta hyötyvät sekä käyttäjät että ISPt
+		-Internetin reititys
+			-Internet on kokoelma autonomisia järjestelmiä (AS)
+			-Packetit lähetetään eteenpäin per-prefix basis
+				-Reitinvalintaa rajoittaa ASsien väliset sopimukset ja ASn sisäinen reititysmenettely (usually shortest path routing based on a fixed per link cost) [13]
+					-[13] S. Halabi, Internet Routing Architectures, Cisco Press, 2000.
+					
+		-P2P reititys
+			-Muodostavat päällystopologian ja implementoivat oman reitityksensä [14]
+				-[14] D. Andersen, H. Balakrishnan, M. Kaashoek, and R. Morris, “Resilient Overlay Networks,” in SOSP, 2001.
+				-Ei tehdä per-prefix basis vaan query tai key basis
+				
+			-Rakenteettomissa P2P-verkoissa queryt levitetään, e.g. via flooding [15] or random walks.
+				-[15]: “Gnutella v0.6 RFC,” http://www.the-gdf.org/.
+				-Rakenteelliset P2P-verkot käyttävät usein DHT-pohjaista reititystä löytääkseen dataa [5]
+				
+			-Vastaukset (otaksun että queryihin) lähetetään joko suoraan alusverkon reitityksen kautta
+				-Tai sitten päällysverkon kautta by retracing the query path[15]
+				
+			-Reitittämällä päällystopologian kautta, p2p-systeemit toivovat käyttävänsä reittejä joilla on parempi performanssi mitä alusverkkona toimiva internet tarjoaisi [14, 16]
+				-[16]: S. Savage, A. Collins, and E. Hoffman, “The End-to-End Effects of Internet Path Selection,” in SIGCOMM, 1999.
+				-Vaikka tälläisellä reitityksellä voidaan saada väliaikaisia performanssihyötyjä, tämä kuitenkin saattaa heikentää valitun reitin saatavilla-olevaa kaistaa
+				koska siihen lisättiin liikennettä (suuria tiedostoja joita P2P-verkoissa usein jaetaan)
+					-Tästä aiheutuu haittaa ISP:lle, joka joutuu uudelleenohjaamaan liikennettä muualle jotta muut sovellukset saavat tarpeeksi kaistaa.
+						-Tämä voi siis johtaa sykliin, jossa p2p taas sitten vastaa näihin muutoksiin, joihin isp vastaa, jne..
+						
+				-Toisin sanoen, P2P system uudelleenkeksivät ja uudelleenimplementoivat reititysjärjestelmän, jonka dynamicsien pitäisi pystyä vuorovaikuttamaan internetin dynamicsien 
+				kanssa [7, 17]
+					-[17] S. Seetharaman and M. Ammar, “On the Interaction between Dynamic Routing in the Native and Overlay Layers,” in INFOCOM, 2006.
+				
+				
+				-(P2P-reitityksestä aiheutuu siis haittaa myös internetin omaan reititykseen)
+			
+			-While a routing underlay as proposed by Nakao et al. [1] can reduce the work duplications it cannot by itself overcome the interaction problems.
+			
+		-Identifioidut drawbackit
+			-ISPllä on rajalliset keinot hallita verkkoliikennettä, joten p2p reititys aiheuttaa potentiaalisesti lisäkuluja ISPlle kun ne saavat paljon verkkojen välistä liikennettä
+			(interomain traffic)
+				-As well as for its inability to do traffic engineering on its internal network
+			
+			-P2P systeemeillä on rajalliset keinot luoda optimaalinen päällystopologia ja sen kautta tarjota käyttäjilleen optimaalista performanssia
+				-Koska systeemeillä ei ole prior knowledge internetin alustopologiasta
+					-Täten p2p systeemien täytyy joko estimoida sitä tai jättää se kokonaan huomioimatta
+					
+			-Eri P2P järjestelmien täytyy mitata reitin performanssi itsenäisesti
+				-(oraakkeli siis pienentäisi taakkaa P2P-järjestelmiltä)
+				
+		-On ehdotuksia että P2P-verkkojen pitäsi suosia naapureita (jotka ovat lähellä korkean throughputin tai pienen latenssin perusteella) [18, 19, 20] tai saman AS:n sisällä 
+		[10, 21] rakentaessaan päällystopologiaansa.
+			-[18]: S. Ratnasamy, M. Handley, R. Karp, and S. Shenker, “Topologically aware overlay construction and server selection,” in INFOCOM, 2002.
+			-[19]: K. Shanahan and M. Freedman, “Locality Prediction for Oblivious Clients,” in IPTPS, 2005.
+			-[20]: M. Adler, R. Kumar, K. Ross, D. Rubenstein, T. Suel, and D. Yao, “Optimal Selection of Peers for P2P Downloading and Streaming,” in INFOCOM, 2005.
+				-Kulkee myös nimellä Optimal peer selection for P2P downloading and streaming
+				
+			-[21]: Bindal et.al., “Improving Traffic Locality in BitTorrent via Biased Neighbor Selection,” in IEEE ICDCS, 2006.
+			
+			-Jotkut kuten Brocade[22] systeemi ehdottavat että rakennetaan päällysverkko structured P2P systeemin päälle joka hyväksikäyttää tietoa alla olevasta network characteristics
+				-[22]: B. Zhao, Y. Duan, L. Huang, A. Joseph, and J. Kubiatowicz, “Brocade: Landmark Routing on Overlay Networks,” in IPTPS, 2002.
+				
+			-Toinen systeemi [8] ehdottaa välimuistin käyttöä
+			
+		-Paperi ehdottaa oraakkelin käyttöä ratkaisuna
+			-ISPn tarjoama palvelu P2P systeemeille
+			-Koska on ISPn tarjoama, sillä on suora pääsy internetin alusverkon informaatioon
+				-Joten sen ei tarvitse mitata sitä erikseen
+				-ISP tietää esim. onko asiakkaalla laajakaista, dial-up vai moderni yhteys
+					-Myös linkin delays
+					
+			-Kaksinkertainen hyöty ISPlle
+				-Keino vaikuttaa P2P-reititykseen ja täten helpottaa verkkoliikenteen hallintaa
+				-P2P systeemien ei tarvitse mitata verkkoliikennettä matkan pituuden päättelemiseen
+					-(Miten tää on ISP:tä helpottava?)
+						-(Varmaan että gnutella yms. unstructured ei tarvitse lähettää niin paljoa queryjä)
+						
+						
+	-1.1 An oracle service
+		-Miten rakenteettomat p2p systeemit ylläpitävät topologiaansa
+			-Uudet P2P-solmut yleensä hankkivat listan P2P-verkon jäsenistä seuraavin keinoin
+				-Tunnettu web-sivu
+				-Config-tiedosto
+				-Tai jokin history mekanismi [2, 5]
+					-[2]: “Slyck,” http://www.slyck.com/.
+					
+			-Sitten tästä listasta solmut valitsevat näistä osajoukon potentaalisia naapureita
+				-Satunnaisesti[15] tai sitten jonkinlaisen performance measurementin mukaan [18]
+				
+		-Sen sijaan että P2P-solmut valitsisivat itse omat naapurinsa, ISP:n oraakkeli tarjoaa palvelun, joka asettaa potentiaaliset naapurit paremmuusjärjestykseen
+			-Läheisyyden mukaan, tarkemmat kriteerit paprussa
+			-P2P ei ole kuitenkaan pakko hyväksyä oraakkelin ehdotusta
+			
+		-Hyödyt P2P-solmuille
+			-1. Ei tarvitse mitata reitin performanssia itse
+			-2. Voivat hyötykäyttää ISPn tarkkaa tietoa internetistä
+			-3. Voivat olettaa parantunutta performanssia pienen latenssin ja korkean throughputin kautta, sillä pullonkauloja (access linkit ja ispiden väliset linkit) pystytään 
+			välttämäään
+			
+			-P2P verkot hyötyvät myös liikenteen lokalisoitumisesta, ainakin bittorrentin tapauksessa [21]
+	
+		-IST hyötyvät että voivat oraakkelin avulla hallita verkkoliikennettä
+			-Täten ne pystyvät takaamaan stabiilin palvelun muille palveluille ja turvata reiluuden
+			-Hyötyvät myös rahallisesti kun voivat vähentää verkon ulkopuolista liikennettä
+			
+		-Oraakkelin riskit
+			-Tarjoaa tarkkaa tietoa IPN topologiasta ja verkon performanssista
+				-Oraakkelin ei tarvitse kuitenkaan tarjota muuta tietoa kuin vain potentiaalisten naapureiden paremmuusjärjestyys, ei se tarjoaisi tietoa mitä ei muutenkaan voitaisi 
+				saada ISP-verkkoon tehtävillä mittauksilla [23]
+					-[23] N. Spring, R. Mahajan, and D. Wetherall, “Measuring ISP Topologies with Rocketfuel,” in SIGCOMM, 2002.
+					
+			-Hyödyt päihittävät riskit
+			
+		-Oraakkeli on avoin KAIKILLE päällysverkoille, ei pelkästään P2P-verkoille (mites että kelpaako rakenteellisille p2p-verkoille)
+			-Ei tarvitse asentaa omaa oraakkelia jokaiselle eri P2P-verkolle erikseen
+			-Koska avoin, myös muut kuin tiedostonjakosovellukset voivat hyötykäyttää oraakkelia
+				-Ei siis implikaatiota, että oraakkeli olisi kytköksissä tiedostonjako-systeemeihin
+					-This should limit the desirability of the oracle logs to, e.g., the music industry.
+					
+			-Moreover the P2P system could permute, e.g., the last byte of the IP addresses it is interested in or use an anonymization service for querying the oracle.
+				
+		-Paperilla tarkempia speksejä miten oraakkelin voisi implementoida osiossa 'Realizing an oracle service'
+		-Overview of paper
+			-Tarvitaan mittareita joilla vastaväite että oraakkeli haittaisi päällysverkon structural properties
+				-We propose metrics for evaluating the impact of using the oracle on the overlay as well as the underlay topology in Section 2 in addition to discussing how to derive 
+				realistic topologies.
+				
+			-Koska oraakkelia ei olla implementoitu, täytyy käyttää testlab facilities tai simulaatioita
+				-Graafisimulaatiolla voidaan tutkia suuria topologioita
+				-Packetti tason simulaatioiden avulla voidaan implementoida p2p systeemi ja rajoittaa verkon kompleksisuutta
+				-Testlab facilityn avulla voidaan pyörittää oikeaa p2p systeemikoodia joten sitä ei tavitse enää mallintaa
+					-Taas täytyy vähentää verkon kompleksisuutta
+					
+			-Kappaleen 3 tutkimus
+				-Graafisimulaation ja mitattujen internet topologioiden avulla osoitetaan että P2P päällysverkot säilyttävät graafin ominaisuudet (kun implementoidaan oraakkeli?)
+					-Kuten
+						-Pieni diameter
+						-Pieni mean path length
+						-Solmun aste
+						
+					-Nyt tosin tiheästi yhdistetyt ala-graafit ovat local to the ISP
+					
+			-Kappaleen 4 tutkimus
+				-Tutkitaan biased naapurinvalinnan impaktia oikeaan P2P verkkoon simuloimalla Gnutellan protokollaa
+					-Tämä auttaa evaluoimaan churnin vaikutusta p2p-systeemeissä ja tarkastelemaan oraakkelin impaktia skaalautuvuuteen ja traffi content lokalisaatioon
+					
+				-Tultiin tulokseen
+					-Gnutella topologiat säilyttävät graafien ominaisuudet 
+					-ISP kykenee nyt vaikuttamaan päällysverkon topologiaan
+					-Gnutellan verkon skaalautuvuus ja performannssi kasvavat merkittävästi
+					
+			-Kappaleen 5 tutkimus
+				-Näytetään testlabista että muokattu versio gnutellasta pystyy hyötymään oraakkelista
+				
+	-2. Evaluation Methodology
+		-2.1 Metrics
+			-2.1.1 Degree
+				-Aste
+				-Solmun aste = Number of outgoing connections
+					-Eli naapureiden määrä
+					-Ideaalisesti jokaisella solmulla tulisi olla paljon yhteyksiä AS:n sisäisiin vertaisiin
+					
+			-2.1.2 Hop count diameter
+				-The hop count diameter D of H is the maximum over all pairs p,q € P of the minimum length of a path (in terms of number of edges) from p to q in H.
+				-Tulisi olla mahd. pieni
+				-However, even though the hop count diameter may be small, the AS diameter (i.e., the distance between two P2P nodes when taking the underlying AS-graph G with cost 
+				function c into account) can be very large.
+				
+			-2.1.3 AS diamater
+				-The AS diameter of H is defined as the maximum over all pairs p,q € P of the minimum cost of a path from p to q in P, where the cost of a path is defined as the sum 
+				of the cost of its edges.
+				-Tulisi olla mahdollisimman pieni
+				
+			-2.1.4 Flow conductance
+				-Ideally, we would like to have a network that is well-connected so that it can withstand many faults and can route traffic with low congestion
+					-Esim. jos on puun muotoinen verkko, niin jos sen latvasolmu katoaa, kaatuu koko verkko
+					
+		-Summary
+			-We propose measures that are useful for P2P systems and our results demonstrate that it is possible to have a highly local topology with an AS diameter and a flow 
+			conductance that is comparable to the best non-local topologies.
+				-Lokaliteettin perustuva topologia on yhtä hyvä graafiominaisuuksiltaan kuin parhaat epä-lokaalit topologiat
+				
+		-2.2 Simulation topologies
+			-Simulaation tulokset riippuvat vahvasti käytetyistä topologioista
+				-Tutkijat käyttivät siis simulaatioidensa perustana sen hetkistä Internetin AS topologiaa [31, 32]
+					-Sen voi juontaa BGP reititysinformaatiosta
+					
+				-Tarkemmat speksit käytetystä topologiasta paperissa
+				
+	-3. Overlay / Underlay Graph Properties
+		-Evaluoidaan miten oraakkeli muuttaa P2P päällysverkon topologian graafi-ominaisuuksia
+			-Myöhemmin osioissa 4 ja 5 tutkitaan
+				-Kahden reitityssysteemin vuorovaikutusta
+				-Churnin impaktia topologiaan
+				-Oraakkelin hyödyt queryjen tyydyttämiseen
+				
+		-Tässä sektiossa käytetään yleistä graafisimulaatiota
+			-Mahdollistaa suurien topologioiden tutkimisen
+			-Tarkemmat speksit paperilla
+			
+		-We establish P2P neighbor relationships by randomly picking one of the P2P nodes and let it establish a neighborship either
+			-unbiased: to a single randomly chosen P2P node or
+			-biased: to one from a list of candidates.
+				-We experiment with different sizes of the oracle's choice list
+			
+			-Unbiased vastaa P2P protokollaa jossa on mielivaltainen naapureidenvalinta
+			-Biased vastaa P2P solmua joka antaa oraakkelille listan potentiaalisista naapureista, joista oraakkeli auttaa valitsemaan optimaalisen naapurin
+			
+		-We experimented with establishing from1000 upto 40,000 neighbor relationships in total
+			-(Eli total määrä naapuruussuhteita, ei että yksittäisellä solmulla olisi noin paljon naapureita)
+			
+		-We run four experiments for each of the five AS graphs where the oracle is used for each neighbor relationship with candidate lists of length 1, 10, 50, 100, 200, 375, 
+		resulting in 120 experiments. 
+			-Note that a list length of 1 corresponds to the unbiased case. 
+			
+		-The results we obtained are as follows
+			-Structural properties
+				-Päällysgraafit pysyivät connected
+					-On periaatteessa mahdollista että heavy biasin takia graafi hajoaa erillään oleviksi pienemmiksi graafeiksi jotka ovat hyvin connected sisäisesti
+					
+				-Solmujen keskimääräinen aste ei muuttunut paljoa
+					-9.138 unbiased
+					-8.8 biased
+					
+					-Pieni muutos implikoi että päällysgraafin rakenteelliset ominaisuudet eivät muutu merkittävästi
+					
+				-Diameterin ja mean path lengthin pituus ei kasva
+					-Päällysgraafin hop count diameter pysyy 7-8
+					-AS alusgraafin AS diameter pysyy 5 hopissa
+					-Overlay graafin keskimääräinen path length ei nouse merkittävästi
+						-Nousee alle 4.1 (unbiased):ista yli 4.5
+					
+				-Voidaan siis tulla tulokseen että neighbour bias ei vaikuta negatiivisesti päällysverkon rakenteellisiin ominaisuuksiin
+				
+			-Locality in topology
+				-Lokaliteetti päällysverkoissa nousee merkittävsti as captured by the average AS-distance of P2P neighbours
+					-yli 2.0 - 0.8
+					
+				-Pienemmän AS distanssin pitäisi vastata pienempää latenssia
+					-Tätä implikoi myös ASn sisäisten P2P-naapuriyhteysten määrä
+						-Alle 2k - 14k
+						
+				-Ilman oraakkelia vain 4% reunoista ovat lokaaleja
+					-10 kandidaattilistan oraakkeli seitsenkertaistaa lokaliteetin
+					-200 suuruinen lista yli puolet reunoista pysyy ASn sisällä (59%)
+					-Vaikutukset ovat vielä suurempia pienemmissä verkoissa
+					
+				-Tulokset demonstroivat miten oraakkeli pystyy pitämään liikenteen verkon sisällä
+					-Myös indikoi hyötyä käyttäjille, sillä ASn sisäisestä liikenteestä löytyy epätodennäköisemmin pullonkauloja
+					
+			-Flow conductance
+				-Pystyykö verkko säilyttämään kykynsä route traffic with low congestion
+				-Tutkijat pystyvät estimoimaan flow conductancea vain pienemmillä verkoilla, sillä sen laskemisen suoritusaika on luokkaa O(n^4)
+				-Biased flow conductance on pienempi kuin unbiased
+					-0,3 ja 0.25 vs. 0.505 ja 0.533
+						-Suurempi flow conductance on parempi
+						
+					-Tutkijat huomauttavat että lokaalit subgraafit osoittavat suurempaa flow conductancea
+						-(Eli lokaali flow conductance on parempi biasedilla, ja globaali flow conductance ei kärsi liikaa)
+						
+				-Biased graafien lokaliteetti  50% (10 solmulle) ja 80% (18 solmulle)
+					-Verrattuna 20% ubiased
+					
+	-4 Simulations with an actual P2P system
+		-Edellisessä sektiossa huomattiin, että biased neighbour selection vaikuttaa lupaavilta geneeristen päällysverkkojen graafiominaisuuksien pohjalta
+			-Myös niiden korrelaatio alusgraafin kanssa
+			
+		-Nyt tutkitaan miten oikea p2p-tiedostonjakojärjestelmä hyötyy oraakkelista pakettitason verkkosimulaation avulla
+			-Pohjana käytetään Gnutellaa
+				-Rakenteeton P2P
+				
+	-4.1 Gnutella and SSFNET
+		-Gnutella koostuu agenteista joita kutsutaan serventeiksi (ei servant)
