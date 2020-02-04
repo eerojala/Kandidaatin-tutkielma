@@ -1,0 +1,204 @@
+P2P yleisesti
+    -Käytetään suurien tiedostojen jakamiseen
+    -Käyttäjät jakavat resurssejaan
+        -Varastointi
+        -Laskentateho
+        -Laajakaista
+
+    -P2P-liikenne vastaa suurta osaa kaikesta verkkoliikenteestä
+        -Yli 50% toisen paperin viittausten mukaan
+    
+    -Vertaisverkon kapasiteetti kasvaa vertaisten lisääntyessä
+        -Skaalautuu paremmin kuin monet perinteiset client/server ratkaisut
+
+    -Tiedostoa jaetaan aluksi ahkerasti, ajan kuluessa vertaiset hiipuvat jolloin tarjonnasta voi syntyä ongelma
+        -Monet vertaiset usein jakavat vain kun lataavat, poistuvat vertaisverkosta saatuaan tiedoston ladattua
+            -Etenkin jos jakamista ei insentivoida ollenkaan
+
+    -Esimerkkejä P2P-tiedostonjakamisjärjestelmistä
+        -BitTorrent
+        -Gnutella
+
+    -Myös muita käyttötarkoituksia, esim internetpuhelimet kuten Skype
+
+P2P ja sisällönjakaja
+    -Ei vaadi sisällönjakajalta suurempia infrastruktuurihankintoja, kuten server farm tai CDN
+        -Jakaa tarvittavan kaistan ja laskentatehon käyttäjien kesken
+    
+    -Kun tiedosto saadaan tiedosto kerran levitykseen, voivat vertaisverkon jäsenet hoitaa lopun
+    -Voi joutua tarjoamaan vähintään yhden vertaisen
+        -Paljon halvempaa tosin kuin client/server ratkaisut
+
+    -Ei tarvitse huolehtia skaalautuvuudesta
+        -Vertaisverkko tekee sen itsestään kasvaessaan
+    
+    -Kestää paremmin DoS-hyökkäyksiä ja flash crowdeja
+        -Näissä tapauksissa takaaa sisällön saatavuuden
+
+-P2P ja käyttäjä
+    -Suurien tiedostojen lataaminen usein nopeampaa kuin client/server
+    -Mikäli ei paljon vertaisia tarjolla ja/tai niiden yhteydet huonoja, performanssi heikkenee client/server tasolle
+        -Pahimmassa tapauksessa ei yhtään vertaista tarjolla, jolloin tiedostoa ei pystytä lataamaan
+    
+P2P ja palveluntarjoaja
+    -P2P yleinen syy miksi käyttäjät ostavat parempia yhteyksiä
+        -> Rahaa ISPlle
+
+    -P2P tarjoaa helpotuksia käyttäjille ja sisällönjakajille
+        -ISPn kustannuksella
+
+    -P2P tuottaa ISP:lle hankaluuksia 
+        -Vaikeampaa hallita sisäistä verkkoliikennettä
+        -(tuplaa kaistavaatimukset)
+		-Paljon ulkoa tulevaa ja menevää verkkoliikennettä
+		-Kallista ISP:lle
+            
+    
+    -(Lisäksi P2P:n lisääntyessä sisällöntarjoajat eivät osta server farmeja yms., joten ISPt eivät saa niistä tuottoa)
+    
+    -Verkkoliikenteen painopiste siirtyy ennustettavasta palvelimista verkon reunalle käyttäjien koneisiin
+-Tehden verkoliikenteestä vähemmän ennustettavaa 
+
+    -P2P sovellukset usein luovat sovelluskerroksessa uuden päällysverkon Internetin tarjoaman alusverkonpäälle, ja reitittävät paketteja mielivaltaisesti erikseen Internetin omasta reitityksestä
+        -P2P-verkot ovat päällysverkkoja
+-Iso osa verkkoliikenteestä johtuu P2P
+
+-Rajalliset keinot: Eivät pääse käsiksi suoraan Internetin alusverkkoon
+    -Joutuvat joko estimoimaan nopeuksia tai jättämään internetin kokonaan huomioimatta
+-Ei välttämättä siis paras mahdollinen yhteys vertaisten välille
+    
+        -Mahdollinen tilanne: tiedosto löytyisi verkon sisältä, mutta P2P-sovellus lataakin tiedoston kauempaa
+    -Tehotonta
+ 
+
+    -Käyttäjät ja ISP:t voisivat siis hyötyä mikäli P2P ottaisi paikallisuuden paremmin huomioon
+
+Hyödyt yhteistyölle
+    -Liikenne pysyy verkon sisällä
+        -ISP:n helpompi hallita sisäistä liikennettä
+            -Estetään P2P-liikenteen haittaamasta muita sovelluksia, reilumpaa
+
+        -Säästyy rahaa kun liikenne ulos/sisään verkonulkopuolella vähentyy
+    
+-Pullonkaulat sijaitsevat usein juuri verkkojen sisään-/ulostulolinkeillä ja ISP-verkkojen välisillä reiteillä
+    -Käyttäjät voivat hyötyä paremmista latausajoista
+    -Lisäksi mm. sisällön kielestä ja ihmisten kiinnostuksista eri puolilla maailmaa johtuen usein paikallisuus ilmenee myös sisällön kysynnässä 
+
+
+Should internet service providers fear peer-assisted content distribution?-paperin tutkimukset - Ensimmäinen tutkimus
+-(Tutkijat uskovat että BitTorrent on paras P2P-ratkaisu)
+        -Halpa sisällönjakajille
+        -Kestää flash crowdeja
+        -Pystyy tarjoamaan nopean latausnopeuden käyttäjille
+        -Tit-for-tat takaa korkeamman saatavuuden
+    
+-Ensimmäisessä osassa tarkastelivat 20k käyttäjän access-linkkiä
+    -Access link = Käytävälinkki?
+        -Linkki palveluntarjoajan verkon ulkopuolelle
+-Huom, myös vain tarkastelun aikana alkaneet P2P-sessiot huomiotiin
+    -Eli ennen tarkastelua alkaneet vertaissessiot jätetiin huomioimatta
+
+-Saadut tulokset ovat täten siis oikeasti hieman alakanttiin
+    
+    -Tarkkailivat kolmena eri kuukautena yli 24h session ajan access-linkillä verkkoliikennettä
+        -24,6h, 33,6h ja 28,6h
+
+    -Erottelivat BitTorrent-paketit muusta liikenteestä, keräsivät tilastoja
+-Laskivat tulosten perusteella kuinka uloskulkeva liikenne muuttuisi mikäli BitTorrent hyödyntäisi paikallisuutta
+        
+    -Pohtivat paikallisuutta myös käyttäjän näkökulmasta
+    -Tarkastellaan lokalisaatiota paikallisemmesta näkökulmasta
+
+Should internet service providers fear peer-assisted content distribution?-paperin tutkimukset - Toinen tutkimus
+-Toisessa osassa tarkastelivat jaettavan tiedoston BitTorrent-trackeria 6kk ajan
+    -RedHat v.9.0 image-tiedosto
+    -Jaottelivat käyttäjät IPn perusteella eri palveluntarjoajan alle
+    -Saivat näin selville miten vertaiset sijoittuivat , jonka perustella pystyivät luomaan verkon
+    -Pohtivat taas kahta samaa lokaliteettiskenaariota mitä edellisessäkin tutkimuksessa
+        -Mukana myös vertailukohteina muita skenaarioita
+        
+        -Trackerin ja rakennetun verkon perusteella laskivat jokaiselle skenaariolle kuinka paljon dataa kulki sisään ja pois jokaisen ISP ala-verkon access linkin läpi sekä kuinka paljon dataa jokainen vertainen tarjosi
+            -Myös 95th percentile liikenteen kokonaismäärästä per tunti molempien tapausten kohdalle
+
+    -Tulosten perusteella
+
+    -Tarkastellaan lokalisaatiota globaalimmasta näkökulmasta
+        -Yksittäisen ala-verkon sijasta useampia, ja käytetty aikaväli pidempi
+
+Should internet service providers fear peer-assisted content distribution?-paperin tutkimusten tulokset - Ensimmäinen tutkimus
+    -P2P-paketit olivat n ⅓ verkon kokonaisliikenteestä
+        -BitTorrent pelkästään oli n. 13%-15% verkon kokonaisliikenteestä
+        -P2P oli siis merkittävä osa verkon liikenteestä
+
+    -Yksittäisiä tiedostoja ladataan lyhyemmillä aikaväleillä, ja haluttujen tiedostojen kokonaismäärä ei ole kovinkaan suuri
+            -Tämän tiedon perusteella tutkijat toteavat että mahdolliset välimuistiratkaisut eivät vaatisi välttämättä kovinkaan paljoa tilaa
+
+    
+-Verkon sisällä löytyy aktiivisia käyttäjiä jotka lataavat/lähettävät samaa tiedostoa 30% ajasta
+-Ainakin 20%  kaikestaadatusta sisällöstä löytyisi valmiiksi verkon sisältä toisilta aktiivisilta käyttäjillä. 
+-Prosentti kasvaisi vielä toisella 20% mikäli otettaisiin huomioon myös ne käyttäjät jotka eivät tällä hetkellä ole aktiivisia vertaisverkossa
+-Eli eivät lataa/lähetä sisältöä        
+
+-Noin 10% tiedostoista ladattiin useammin kuin kerran verkon ulkopuolelta
+        -Käyttäjät olisivat siis voineet ladata tiedostot ensimmäisen kerran jälkeen täysin verkon sisältä
+
+    -Vertaisten latausajat lyhensivät ainakin 70% mikäli lokalisaatiota käytettäisiin
+
+    -ISP ja käyttäjät voisivat siis selvästikin hyötyä lokalisaatiosta:
+
+
+
+Should internet service providers fear peer-assisted content distribution?-paperin tutkimusten tulokset - Toinen tutkimus
+    -Lokaliteettin perustuva P2P ei juurikaan eroaisi teoreettisesta välimuisti-skenaariosta
+        -Vertaile ratkaisuja
+        -(Välimuisti voisi olla sen puolesta parempi ratkaisu, sillä yleisesti käyttäjillä latausnopeus on moninkertaisesti suurempi kuin lähetysnopeus)
+    
+    -Lokaliteettiin perustuva P2P-järjestelmä puolittaisi ala-verkon ulkopuolelta ladatun datan
+        -Lisäksi se vaatisi ISP:ltä vain puolitoistakertaisen kapasiteetin verrattuna välimuistiskenaarioon
+-Lokaliteetti p2p voidaan tehdä sovellusten puolelta, joten helpompi toteuttaa kuin välimuistit
+ 
+    -Lokaliteettin perustuvalla P2P ISPt joutuvat viemään keskimäärin hieman yli yhden kokonaisen kopion tiedostosta verkon ulkopuolelle, pitäen suurimman osan liikenteestä verkon sisällä ja pystyen tyydyttämään käyttäjien tarpeet
+
+-Lokaliteettin perutuvalla P2P ISPn säästöt kasvavat logaritmisesti aktiivisten käyttäjien kasvaessa
+
+-Verkkoliikenteen ollessa ruuhkaisimmillaan skenaarioiden välillä ei ole overheadissa juurikaan eroja, ja lokaliteettiratkaisulla se saattaa olla jopa pienempi
+    -Kun verkkoliikenne on väljempää overheadia on välimuistikskenaariolla vähemmän
+
+
+Tutkijoiden loppupohdinnat
+    -Vaikka tulokset näyttävät lupaavilta, lokalisoinnin implementointi ei ole täysin triviaalia
+    -Liikenteen kasaantuminen verkon sisälle ja ulosmenevän liikenteen väheneminen vaatisi varmastikin muutoksia olemassa oleviin liikenteen hallinta mekanismeihin
+    -Lokaali P2P:llä liikenne verkon ulkopuolinen liikenne 5x kuin välimuistiratkaisulla
+        -Olisi kuitenkin pieni verrattuna client/server ratkaisuihin
+
+    -Vaikka monet P2P-ratkaisut eivät ota ISPitä huomioon, ei tämä ole mikään fundementaalinen rajoite, vaan pienet muutokset voisivat merkittävästi helpottaa ISP ja tuoda hyötyjä käyttäjille
+
+
+
+Oraakkeli
+    -Tutkijat ehdottovat oraakkelin käyttöönottoa
+    -ISPn tarjoama
+    -Jokaisella ISPn verkolla 1 kpl
+    -P2P-käyttäjät lähettävät oraakkelille listan vertaisehdokkaista
+    -Oraakkeli sitten asettaa vertaiset paremmusjärjestykseen ja palauttaa ne käyttäjälle
+        -Oraakkelilla pääsy alusverkkon informaatioon, tekee päätökset sen perusteella
+    
+    -Palauttaa vain vertaisia paremmuusjärjestyksessä
+        -Ei siis palauta mitään sellaista tietoa jota voitaisiin väärinkäyttää tai muutenkaan estimoida
+        -Ei myöskään tallenna tiedostoja
+            -Usein P2P-verkoissa levitetään tekijänoikeuksia rikkovaa materiaalia, joten ei kyseenalaista
+
+    -Oraakkeli ei olisi myöskään vain p2p-tiedostonjakoa varten, vaan kaikille päällysverkoille
+        (-Vähentää kiinnostusta mm. musiikkiyhtiöiltä)
+        -(ei siis tarvita jokaiselle p2p ja muille päällysverkoille omaa oraakkelia)
+
+    -Huom! Oraakkeli huolehtii vain vertaisia valittaessa
+        -Ei silloin kun valitaan kenen vertaisen kanssa ladataan/lähetetään, ainakaan gnutellan tapauksessa
+        -Kommunikointiviestit kuitenkin iso osa P2P-liikennettä, hyvä alkuaskel
+
+    -Hyödyttäisi ISP ja käyttäjien lisäksi myös itse P2P sovelluksia
+        -Ei tarvitse enää estimoida verkkoa, voidaan jättää se ISPn hoidettavaksi, joka muutenkin pystyy tekemään homman paremmin
+        -Kun P2P ei tarvitse estimoida verkon performanssia, vähentää se myös liikennettä
+            -esim Gnutellan pingpongit ja queryt
+
+    -Paperin tukimukset keskittyvät osoittamaan että oraakkeli ei heikennä päällysverkkojen rakennetta ja kuinka se kasvattaisi lokaliteettia, hyödyttäen palveuntarjoajia sekä käyttäjiä

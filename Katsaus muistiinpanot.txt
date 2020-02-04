@@ -7,6 +7,11 @@ Ongelmaa ei aiheuta pelkästään p2p, vaan ylipäätänsä päällysverkot, jot
 
 -Client/server on helpommin ennustettavemmissa kuin p2p?
 
+-Iso osa P2P liikenteestä on vertaisten välistä kommunikointia
+	-Handshakea yms.
+	-Ei siis varsinaista tiedoston lataamista
+	-Oraakkelia ei käytetty tiedostonjakoon, mutta hyvä alkuaskel pelkkä vertaisten valinta!
+
 
 Suluissa omat huomiot
 
@@ -16,6 +21,7 @@ Epäselväksi jäänyttä
 			-Tutkimuksen mukaan lataajat kuitenkin hyötyivät lähempänä sijaitsevista vertaisista ja yksikään vertainen ei kärsinyt locality awarenessista
 			
 		-Ehkä johtuu myös tit-for-tatista, liittyen ehkäpä ylempään
+		-Jos ISPT tarjoaisi parempia upload-nopeuksia, ehkä bittorrent yms etsisi vertaiset lähempää?
 		
 	-P2P vs. Peer-assisted
 		-Viitaako tässä tekstissä peer-assisted nimenomaan skenaario 5 mukaiseen järjestelmään
@@ -29,6 +35,8 @@ Epäselväksi jäänyttä
 		-Selvitä miten tracker ja dht toimivat keskenään
 		
 	-Feldmannin et al oraakkeliratkaisu vissiin vaan rakenteettomille p2p-järjestelmille
+	-Jos AS-sisäiset yhteykset niin iso osa, niin miksi kuitenkin niin pieni osa tiedostonjaosta on AS sisäistä?
+		-Sektio 4. koe
 
 Huom! Suurin osa käännetty melko suoraan, koita ilmaista omin sanoin kirjoitelmassa
 
@@ -42,6 +50,7 @@ Käännöksiä
 	-ISP: (Internet-)Palveluntarjoaja
 	-Locality: Lokaliteetti / Paikallisuus
 	-Online: Verkossa / Kytkettynä verkkoon
+	-Overhead: Data or steps of computation that is only used to facilitate the computations in the system and is not directly related to the actual program code or data being processed.
 	-Overlay: Päällys-
 	-Performance: Suorituskyky / Tehokkuus
 	-Provision: Tarjonta
@@ -520,7 +529,7 @@ Can ISPs and P2P Users Cooperate for Improved Performance?
 				-Tilanne on siis ongelmallinen sekä ISP:ille että käyttäjille
 				
 		-Paperi ehdottaa ja evaluoi ns. oraakkelia
-			-P2P käyttäjät antavat oraakkelille vertaislistan, jonka perusteella oraakkeli uudelleenohjaa käyttäjän pyynnön lähemmälle vertaiselle mikäli mahdollista
+			-P2P käyttäjät antavat oraakkelille vertaislistan, ja oraakkeli asettaa vertaiset paremmuusjärjestykseen
 				-Tämä voi johtaa käyttäjälle parempaan performanssiin
 				-ISP voi käyttää tätä hallitaakseen verkkoliikennettä paremmin
 					-e.g. pitää liikenteen mahdollisimman paljon verkon sisäisenä, tai vaihtoehtoisesti ohjata se haluamaansa reitille pois sen verkosta
@@ -839,3 +848,220 @@ Can ISPs and P2P Users Cooperate for Improved Performance?
 				
 	-4.1 Gnutella and SSFNET
 		-Gnutella koostuu agenteista joita kutsutaan serventeiksi (ei servant)
+			-Can initiate, as well as serve requests for resources
+		
+		-Kun käynnistetään, servent etsii muita vertaisia joihin yhdistää lähettämällä ping-viestejä
+			-Ping-viesteihin vastataan pong-viesteillä, jotka sisältävät osoitten ja shared resource informations
+			
+		-The search queries are flooded within the Gnutella network using Querymessages, and answered by QueryHitmessages
+		-Due to scalability problems, new versions of Gnutella take advantage of a hierarchical design in which some servents are elevated to ultrapeers, while others become leaf 
+		nodes.
+			-Each leaf node connects to a small number of ultrapeers, while each ultrapeer maintains a large number of neighbors, both ultrapeers and leafs
+		
+		-Tarkempia gnutella speksejä paprulla
+		-We have coded the Gnutella protocol within the packet level network simulator SSFNet [40]. The Scalable Simulation Framework (SSF) [36] is an open standard for simulating 
+		large and complex networks.
+		-We modify the neighbor selection procedure of Gnutella to take advantage of the oracle [41]. 
+			-Normally, when a Gnutella node connects to the network, it gets a list of popular Gnutella node addresses in itsHostcache [42], which is a locally maintained Gnutella 
+			hosts list, typically containing a few hundred IP addresses.
+			-The node chooses a random subset of the Hostcache, and initiates Gnutella peerings with these selected nodes. 
+			-We modify this procedure so that the Gnutella node sends the contents of its Hostcache (list of IP addresses) to the oracle, which then picks a node within the querying 
+			node’s AS if it exists, or a random node otherwise
+			-The node then establishes a Gnutella peering with this oracle-preferred node. 
+			-This way, we influence the neighborhood selection of Gnutella network, to choose a peer within the AS if it exists. 
+			-Moreover when a Gnutella node receives query results for its search requests, it again consults the oracle to select the nearest node from whom it then downloads the file 
+			content.
+			
+	-4.2 Simulation Setup
+		-Tarkkoja speksejä
+		
+	-4.3 Results
+		-We first analyze the Gnutella network graph according to the metrics explained in Section 2, followed by an evaluation of some Gnutella specific metrics like scalability of 
+		network, number of messages exchanged, localization of file content exchange and visualization of topology.
+		
+		-3 eri koetta 5 eri topologialle
+			-Kokeissa eri hostcache koot ja oracle/ilman
+				-Cache 1000, ei oraakkelia
+				-Cache 100, oraakkeli
+				-Cache 1000, oraakkeli
+				
+			-In other words, the above three cases correspond to experiments with oracle list size of 1, 100, and 1000 respectively.
+			
+		-Kuvaajat simuloidun verkon rakenteesta (Figure 2)
+			-Oraakkelin kanssa muodostaa selkeärakenteisen verkon jossa on selkeät alaverkot
+				-Suurin osa naapuruussuhteista ASn sisäisiä
+				
+			-Ilman oraakkelia verkko on satunnainen sekamelska
+			
+		-Graph connectivity
+			-Verkko pysyy yhtenäisenä
+				-Eli kaikkien solmujen välille löytyy yhteys
+				
+			-Biased neighbour selection ei vaikuta siis verkon yhtenäisyyteen
+			
+		-Mean Node Degree
+			-Ultrapeereillä on paljon suurempi aste kuin lehtisolmuilla
+			-Lehtisolmujen ja ultravertaisten aste laskee hieman, mutta ei niin paljoa että se rikkoisi gnutellaverkon rakennetta
+			
+		-Mean AS distance
+			-The AS distance is obtained as follows. 
+				We map each Gnutella node’s IP address to its parent AS, and for each overlay edge, we find the network distance in AS hops between the two end-nodes
+				
+			-Vähenee
+			-100 oraakkelilla pysyy suurimman osan ajasta alle 1, eli keskimäärin lähes kaikki naapuruussuhteet ovat AS sisäisiä
+				-1000 oraakkelilla pysyy koko ajan alle 1
+				
+			-Tämä olisi suuri helpotus ISPille, kun ASn sisäinen liikenne ei tuota ylimääräisiä maksuja 
+				-Liikennettä joka ei kulje ASn ulkopuolelle on helpompi hallita
+				
+			-Lisäksi P2P liikenne ei tällöin törmää inter-ISP pullonkauloihin
+			
+		Intra AS P2P connections
+			-Ilman oraakkelia AS sisäiset yhtekset alle 20%
+			-Lehtisolmut
+				-Ilman: 14.6%
+				-100: 47.88%
+				-1000: 82.22%
+			
+			-Ultravertaiset
+				-Ilman: 14.54%
+				-100: 38.04%
+				-1000: 74.95%
+				
+			-Lehtisolmuilla nousee enemmän
+				-Tämä kätevämpää näin päin, sillä lehtisolmuilla usein heikompi yhteys
+				-Ultapeereillä parempi yhteys joten hyödyllisempää että niiden kautta menee suurempi osa yhteyksistä ASn ulkopuolelle
+					-Yhteykset ulkopuolelle ovat kyllä tärkeitä, sillä sieltä suurin osa tiedostoista loppujen lopuksi alunperin saadaan ASn sisälle
+						-(Myös auttaa konduktanssia, kun yhteys ulkopuolelle ei ole vain yhden linkin varassa)
+					
+		-KAIKEN KAIKKIIAAN GNUTELLASIMULAATIOIDEN TULOKSET VASTAAVAT JOTAKUINKIN GENEERISEN GRAAFISIMULAATION TULOKSIA
+		
+		-Scalability of Gnutella
+			-Mitatakseen skaalautuvuutta mitataan Gnutella-viestien määrää
+				-Ping
+				-Pong
+				-Queryhit
+				
+			-Negotiation liikenne vastaa isosta osasta P2P-liikenteestä, kuten myös Gnutellassa
+			-Note that the number of unique messages generated is about the same in all the three cases.
+				-However, when a Ping or Query is generated by a node, and flooded to its n neighbors, the message is counted n times. 
+				-Hence, the table shows the total number of messages exchanged between Gnutella nodes.
+				-(Eli viestien määrä ei muutu, mutta vastaanottojen määrä muuttuu)
+				
+			-Ping
+				-Ilman: 7.6m
+				-1000: 4m
+				
+			-Pong
+				-Ilman: 75.5m
+				-1000: 39m
+				
+			-Query ja Queryhit hyötyvät samoin
+			
+			-This reduction of Ping/Pong messages by a factor of 2, and search queries by a factor of almost 3 proves that the scalability of Gnutella network improves significantly 
+			with biased neighborhood selection.
+			
+			-Syitä että miksi viestien määrä vähenee
+				-Vaikka solmujen aste ei muutu juurikaan, oraakkeli auttaa tehokkaan topologian rakentamisessa
+					-As the nodes form a dense cluster within an AS with very few inter-AS connections, caching of messages ensures that messages are flooded within sub-networks very 
+					efficiently, by traversing lesser overlay hops, which is reflected in Table 1
+					-Eli informaatiota levitetään vähemmillä message hops, pienemällä viiveellä ja vähennetyllä network overheadilla
+					
+		-Localization of content exchange
+			-Negotiation liikenne etenee Gnutellaverkkoa pitkin
+				-Mutta varsinainen tiedostonjako tapahtuu verkon ulkopuolella HTTPn kautta
+				-Kun Gnutellasolmu saa useita QueryHittejä, se valitsee solmun satunnaisesti ja aloittaa HTTP-session sen kanssa tiedoston lataamiseks
+			
+			-Koska tiedostot ovat usein suuria, on hyödyllistä myös lokalisoida tiedoston lataamiseen liittyvä liikenne
+			-Simulaatiossa oraakkelia käytettiin vain naapuruussuhteiden valitsemiseen
+				-Oraakkelia ei siis konsultoitu kun solmut valitsivat vertaista queryhit-listasta
+					
+			-Paperissa nyt analysoidaan kuinka paljon tiedoston jaosta tapahtui lokaalisti, ja kuinka paljon se paranisi mikäli oraakkelia voisi käyttää queryhit valitsemiseen
+			-AS sisäinen tiedostojen jako ilman oraakkelilta konsultoimista queryhiteissä
+				-Ilman: 6.5%
+				-100: 7.3%
+				-1000: 10.02%
+					-(Jos AS-sisäiset yhteykset niin iso osa, niin miksi kuitenkin niin pieni osa tiedostonjaosta on AS sisäistä?)
+					
+			-AS sisäinen tiedostojen jako oraakkelilta konsultoidessa
+				-Nyt 40.57% tiedostonsiirrosta tapahtuu AS sisällä
+				-In other words, 34% of file content, which is otherwise available at a node within the querying node’s AS, was previously downloaded from a node outside the querying 
+				node’s AS.
+				
+			-This leads us to conclude that consulting the oracle for neighborhood selection, during bootstrapping stage as well as file-exchange stage, leads to significant increase 
+			in localization of P2P traffic.
+	
+	-5. Testlab Experiments
+		-Nyt oikeasti muokataan Gnutellaan käyttämään oraakkelia ja käytetään sitä oikeassa hallitussa testiympäristössä
+			-After extensive simulations on general overlay graphs and Gnutella system, we now confirm these results by modifying P2P clients, namely Gnutella, to take advantage of 
+			the oracle service in a controled setting, a Testlab.
+			
+		-45 eri gnutellasolmua
+		-2 eri tiedostonjakoskenaariota
+			-1: Jokainen solmu jakaa 6 eri tiedostoa
+			-2: Jokainen ultravertainen jakaa 12 eri tiedostoa
+				-Puolet lehtisolmuista 6 eri tiedostoa
+				-Loput lehtisolmuista ei jaa yhtäkään tiedostoa
+				
+			-Yhteensä siis 270 uniikkia tiedostoa
+			
+		-2 koesarjaa
+			-Toisella oraakkeli, toisella ei
+			
+		-Tarkemmat speksit paperilla
+		
+		-Lasketaan vastaanotettujen query ja queryhit viestien määrä, ja analysoidaan johtiko biased naapuruusvalinta tilanteisiin jossa tiedostoa ei löytnyt joka taas löytyi 
+		unbiasedilla
+			-Kaikki queryt jotka tyydytettiin unbiasedilla, tyydytettiin myös biasedilla
+			
+		-Kuten simulaatioilla ennustettiin, biased neighbour valinnalla query- ja queryhit-viestien määrä vähenee, ja viestit pääsääntöisesti pysyvät ASn sisällä
+			-Vähenemiset luokkaa 60% queryille ja 12% queryhiteille
+			
+			
+	-6. Summary and Future work
+		-Oraakkelin avulla P2P ja ISPt voisivat tehdä yhteistyötä, jolloin molempien performanssi paranisi
+			-P2P sovellukset voisivat querytä oraakkelia etsiessään naapuriyhteyksiä tai keneltä ladata tiedostoa
+				-Oraakkeli sitten asettaisi ehdokkaat paremmuusjärjestykseen
+				
+		-Tutkimukset osoittivat että oraakkelia käyttämällä päällysverkot onnistuivat säilyttämään hyvän graafin ominaisuudet
+			-Small diameter
+			-Small mean path lengths
+			-Node degree
+			
+			-Ja samalla myös kasvattamaan merkittävästi lokaliteettia
+				-Lesser mean AS distance
+				-Larger number of intra-AS peerings
+				
+			-Even the ability of the network to route arbitrary traffic patterns with low congestion, while reduced, is still reasonable
+				-(Päällysverkon?)
+				
+		´-Ylläolevat tulokset, kuten myös tulokset paremmasta skaalautuvuudesta ja network performance (isp vai overlay?), saatiin 
+			-Graafipohjaisilla simulaatioilla
+			-Packettitason oikean p2p-järjestelmän (gnutella) simuloinnilla
+			-Muokatun P2P-clientin suoritus testiympäristössä
+			
+			
+		-We are in the process of experimenting with the oracle scheme in Planetlab to increase the scale of our experiments and to test the interactions of the modified P2P clients 
+		with unmodified ones. 
+			-We have realized the oracle as a Web server, which relies on a dynamic database and are in the process of installing Gnutella and Bittorrent clients on Planetlab nodes
+				-(Tekivätkö he tästä paperin?)
+				
+		-Mitä enemmän P2P-liikennettä lokalisoidaan, sitä enemmän on kaistaa saatavilla koska it is no longer capped by peering links [10].
+			-Tämä voi johtaa usage increaseen, joka taas voi myös tuoda lisäongelmia verkkoliikenteen hallinnalle
+			-Mutta tähänkin tilanteeseen oraakkelista on apua, sillä se voi ottaa huomioon isp:n topologian ja sen pullonkaulat huomioon kun se asettaa p2p-vertaisehdokkaat 
+			paremmuusjärjestykseen
+			
+		-In a next step we plan to design simple, provably good, and experimentally well-behaved distributed algorithms for P2P neighborhood selection that take full advantage of 
+		such an oracle
+			-We want to experiment with recent revelations of user behaviour and file sharing distributions (e.g. [38, 39]) in SSFNet, and also wish to compare the performance of 
+			oracle with latency-based protocols for neighbor selection
+				-[38] A. Gish, Y. Shavitt, and T. Tankel, “Geographical Statistics and Characteristics of P2P Query Strings,” in IPTPS, 2007.
+				-[39] D. Stutzbach and R. Rejaie, “Understanding Churn in P2P Networks,” in IMC, 2006.
+				
+		-Yksi tärkeä ongelma jota tutkijat aikovat tutkia on trade-off lokaliteetin ja ruuhkautumisen välillä
+			-Jos strict lokalisaatiota enforcetaan, voi olla tilanteita joissa vertaisten välille syntyy suurta ruuhkaa
+				-Täten tarvitaan joustavia ratkaisuja, jotka hakevat tiedostoja kauempaa mikäli ruuhkaa esiintyy matkalla lähempiin vertaisiin
+					-This will eventually enable us to develop a theoretical model to investigate the question, what is the optimal level of locality for an overlay system.
+					
+		Poese, Ingmar, et al. "Improving content delivery using provider-aided distance information." Proceedings of the 10th ACM SIGCOMM conference on Internet measurement. 2010.
+			-Jatkopaperi tälle
