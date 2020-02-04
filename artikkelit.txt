@@ -655,10 +655,12 @@ p2p:n aiheutttama taakka isp:lle (löytyy jos etsii google scholarista related w
 			-Is more P2P always bad for ISPs? An analysis of P2P and ISP business models 2014
 			
 		-jotka esittävät vasta-argumentteja esitettyihin ratkaisuihin
+		
 		-jotka eivät esitä ratkaisuja vaan keskittyvät pelkkään analyysiin p2p:n aiheuttamista haitoista ISP:ille
 			-Can  ISPs Take the Heat from Overlay Networks
 				-Pätee p2p
-	
+		
+			-
 
 
 
