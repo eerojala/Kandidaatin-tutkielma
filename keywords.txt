@@ -1,0 +1,14 @@
+Scopus:
+	Engineering uncontrolled terms
+		BitTorrent
+		Inter-domain traffic
+		Locality-awareness
+		P2P network
+		Peer selection
+	
+	Engineering controlled terms
+		Internet service providers
+		Internet service providers (ISP)
+		
+	Engineering main heading
+		Peer to peer networks

@@ -1,0 +1,145 @@
+P2P esittely
+	Miten toimii
+		Yleisesti (suht pieni prio)
+			Peer-Assisted File Distribution: The Minimum Distribution Time
+			Peer-to-peer systems
+				https://dl.acm.org/doi/fullHtml/10.1145/1831407.1831427?casa_token=MuBGy9enxuEAAAAA:wdW2P0lf8tqJfkfDDFZCKSSpnFv9gMbVnU9UCKP4Li_1Jh4J2STkfKljwqtlZSEYzOx2ICjUMC53Yg
+		
+		BitTorrent (pieni prio)
+			Toiminta
+				Incentives build robustness in bittorrent (BitTorrentin tekijän paperi)
+				Bittorrent documentation: Protocol, 2005. http://www.bittorrent.com/protocol.html.
+				
+			Performanssi 
+			
+			Elikaari 
+				The bittorrent p2p file-sharing system: Measurements and analysiss
+				Measuremsnts, analysis and modeling of bittorrent-like systems
+				Dissecting bittorrent: Five months in a torrent’s lifetime
+				
+	Hyödyt
+	
+	Haitat
+	
+P2P aiheuttamat ongelmat P2P
+	Liikenteenhallinnan hankaloittaminen
+		Can ISPs Take the Heat from Overlay Networks
+			-Linkkien ruuhkauttaminen
+			-Verkkoliikenteen oskillaatio
+				-Päällysverkon ja ISPn verkonhallinnan syklinen reagointi
+				-Kahden päällysverkon race condition
+				
+			-Useamman verkon kattava päällysverkko 
+	
+	ISPn verkon ulkopuolisen liikenteen lisääminen (tulee kalliimmaksi)
+		P2P aiheuttaa ulkopuolista liikennettä
+		
+		P2P-liikenteen suuri määrä
+			The bittorrent p2p file-sharing system: Measurements and analysis (tarkista vielä artsa, huom. vanhentunutta tietoa)
+		
+		Ulkopuolinen liikenne maksaa
+			The Evolution of the U.S. Internet Peering Ecosystem (white paper)
+				Regional Tier 1 ISPs are at the top of the hierarchy and don’t have to pay transit fees (since by definition they have access to the entire Internet Region solely through 
+				peering relationships with the other Tier 1 ISPs). All other ISPs operating in the region are required to purchase transit from one or more of the Regional Tier 1 ISPs 
+				(or indirectly from their downstream ISPs) in order to reach all destinations in the Internet Region. 
+			
+	ISPn keinot hallita ongelmia
+		P2P rajoittaminen
+			Keinot joilla havaitsee P2P liikenteen
+			
+			Throttling
+			
+			Maksut
+			
+			Implementaatiot (pieni prio, älä keskity liikaa aluksi)
+				C. S. Incorporated. Network based application recognition
+				P-Cube. P-cube: Ip service control. http://www.pcube.net/indexold.shtml
+				Packeteer. Packetshaper. http://www.packeteer.com/prodsol/products/packetshaper.cfm.
+				Sandvine. Sandvine: Intelligent broadband network management www.sandvine.com
+			
+		Miksi ei toimi
+			P2P keksivät miten kiertää estoja
+			
+			Pääasiassa onnistuu vain hidastamaan p2p-liikennettä, ei poista ulkoliikenne ongelmaa
+
+Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
+	-P2P rajalliset keinot toimia yksin
+	-ISPn menetelmt haitallisia P2P 
+	
+	Potentiaali paikallisuudelle
+		Should internet service providers fear peer-assisted content distribution
+	
+	Ratkaisumallit
+		Yhteistyö
+			Potentiaali
+				Should internet service providers fear peer-assisted content distribution?
+				
+			Painotettu vertaisten valinta
+				Muutokset Clientteihin tai Trackereihin (huom nykyään vissiin käytetään DHT eikä trackereitä BitTorrent kai? dunno onko näin, esim. priva tracker)
+					Can ISPs and P2P users cooperate for improved performance?
+					Taming the Torrent
+				
+			Middlewaret
+				-ISPt ja P2P sovellukset pystyvät tekemään yhteistyötä reitityksessä
+				P4P: Provider Portal for Applications
+				Can ISPs and P2P users cooperate for improved performance?
+	
+		ISP
+			Välimuisti
+				Potentiaali
+					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+					Should internet service providers fear peer-assisted content distribution?
+				
+				Vaatimukset
+					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+						-Korkea upload
+						-Suuri tila
+						
+					Should internet service providers fear peer-assisted content distribution
+						-Tämän mukaan ei välttämättä tarvitsisi olla niin suuri
+				
+				Implementaatiot
+					CacheLogic. Cachelogic - advanced solutions for peer-topeer networks. http://www.cachelogic.com (ei enää toiminnassa)
+				
+			Gateway peer
+				Should internet service providers fear peer-assisted content distribution
+				
+				Hyödyt
+					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+						-Voi yhdistää BPS kanssa
+					
+				Haitat
+					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+						-Haittaa päällysverkon eheyttä jos ei ole backuppeja (oma mutuilu)
+						-Heikosti skaalautuva
+						-Vaati paljon tehoa
+						
+				
+				
+		P2P
+			Clienttejä jotka ottavat paikallisuuden huomioon
+				Taming the Torrent
+			
+			Keinot kuitenkin rajalliset
+		
+			
+Vastaväitteet
+	Pitfalls for ISP-friendly P2P design
+	Can P2P-Users Benefit from Locality-Awareness?
+	
+	Onko loppujen lopuksi hyödyllinen
+		-Ei aina paikallisia vertaisia
+		-Kaikki ulkopuoliset verkot eivät ole eri ISPlle kuuluvia (voi ottaa kuitenkin huomioon)
+		
+	Haluaako P2P yhteistyötä (ja ISP:lle)
+		Kärsiikö tehokkuus
+			-Jopa Win-Lose tilanne vaikea saavuttaa
+			-Paikalliset yhteydet eivät ole välttämättä ulkopuolisia nopeampia
+			
+		Luottavatko P2P clientit ja sisällönjakajat ISP
+	
+	Jotkut ISPt hyötyvät ulkoliikenteestä (ISP väliset verkot?)
+	Annetaanko riskialtista tietoa verkon ominaisuuksista
+	Tarvittavat rakenteelliset muutokset Internetiin
+	Laillisuus
+					

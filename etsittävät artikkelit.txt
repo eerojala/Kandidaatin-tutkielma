@@ -1,0 +1,11 @@
+Etsi:
+	-P2P keinot välttää ISPn rajoituksia
+	-Tuoreempia paperita
+		-Ei ehkä suoraan viitattavia ellei vastaväitettä/jotain mullistavaa ratkaisua
+		
+	-Onko kulmakiviratkaisuja implementoitu
+		-Ono (on)
+		-Oraakkeli
+		-P4P
+		
+	-Tuoreempaa P2P verkkoliikennestatistiikkaa
