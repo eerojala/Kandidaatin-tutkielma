@@ -3,3 +3,6 @@ Can ISPs take the heat from overlay networks?
 	
 Pitfalls for ISP-friendly P2P design
 	P2P as a CDN: A new service model for file sharing
+	
+Pushing BitTorrent locality to the limit
+	-Tekninen raportti joka käsittelee myös tuloksia joita ei tarkemmin käsitelty itse paperissa

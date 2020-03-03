@@ -1,0 +1,2 @@
+round-robin = kiertovuorottelu
+overhead = yleiskustannukset (selitä tarkemmin kun käytät ekaa kertaa termiä)

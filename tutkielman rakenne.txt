@@ -5,7 +5,9 @@ P2P esittely
 			Peer-to-peer systems
 				https://dl.acm.org/doi/fullHtml/10.1145/1831407.1831427?casa_token=MuBGy9enxuEAAAAA:wdW2P0lf8tqJfkfDDFZCKSSpnFv9gMbVnU9UCKP4Li_1Jh4J2STkfKljwqtlZSEYzOx2ICjUMC53Yg
 		
-		BitTorrent (pieni prio)
+		BitTorrent (tosi pieni prio)
+			-Ehkä ei tarvitse dedikoida omaa sektiota, mutta voi mainita lyhyesti kun oleellista tarkentaas
+				
 			Toiminta
 				Incentives build robustness in bittorrent (BitTorrentin tekijän paperi)
 				Bittorrent documentation: Protocol, 2005. http://www.bittorrent.com/protocol.html.
@@ -17,129 +19,324 @@ P2P esittely
 				Measuremsnts, analysis and modeling of bittorrent-like systems
 				Dissecting bittorrent: Five months in a torrent’s lifetime
 				
-	Hyödyt
-	
-	Haitat
-	
-P2P aiheuttamat ongelmat P2P
-	Liikenteenhallinnan hankaloittaminen
+	Hyödyt & Haitat
+		Should Internet Service Providers Fear Peer-Assisted Content Distribution?
+		Peer-Assisted File Distribution: The Minimum Distribution Time
+		Peer-to-peer systems
+		
+		Hyödyt
+			-Halvempaa sisällöntarjoajille
+				-Kun alkuperäinen sisältö on kerran saatu kokonaan ulos, huolehtivat vertaiset lopun sisällön jakamisesta
+				
+			-Hyvin skaalautuva
+				-Vertaiset jakavat toisilleen sisältöä
+					-Nopeampaa jos enemmän vertaisia
+				
+			-Kestää painetta (DDoS ja Flash crowd)
+				-Sisältö jaettu usealle eri vertaiselle ympäri Internettiä
+				-Saatavuus paranee
+			
+			-Mahdollistaa potentiaalisesti nopeammat latausajat
+				-Usealta eri vertaiselta chunkkien lataus
+				-Usein nopeampaa lataa vertaiselta kuin ruuhkautuneelta yksittäiseltä client/server linkiltä
+			
+		Haitat
+			-Saatavuusongelma
+				-Jos vertaisverkossa ei ole ketään jolta ladata
+					-BitTorrentissa torrenttien vertaisten määrä kutistuu alkuruuhkan jälkeen
+					
+				-Jos vertaisverkossa yksi jolla tosi hidas upload
+					-Hitaampaa tai saman tasoinen kuin client/server
+						-Sisällöntarjoajan kannalta kuitenkin halvempaa tarjota yksi vertainen, vaikka käyttäjälle tilanne ei eroa
+						
+			-Haitat ISPlle
+				-Käsitellään tarkemmin omassa sektiossa
+		
+P2P aiheuttamat ongelmat ISP:ille
+	-Liikenteenhallinnan hankaloittaminen
 		Can ISPs Take the Heat from Overlay Networks
 			-Linkkien ruuhkauttaminen
+			-Liikenteen ennustaminen hankaloituu
 			-Verkkoliikenteen oskillaatio
 				-Päällysverkon ja ISPn verkonhallinnan syklinen reagointi
 				-Kahden päällysverkon race condition
 				
 			-Useamman verkon kattava päällysverkko 
+				-Kaksi tai useampi verkko riippuvaisia toisistaan
+					-> Jos verkko ongelmissa niin tod.näkö toisetkin verkot kokevat samat ongelmat
 	
-	ISPn verkon ulkopuolisen liikenteen lisääminen (tulee kalliimmaksi)
-		P2P aiheuttaa ulkopuolista liikennettä
+	-ISPn verkon ulkopuolisen liikenteen lisääminen (tulee kalliimmaksi)
+		-P2P aiheuttaa ulkopuolista liikennettä
 		
-		P2P-liikenteen suuri määrä
-			The bittorrent p2p file-sharing system: Measurements and analysis (tarkista vielä artsa, huom. vanhentunutta tietoa)
+		-P2P-liikenteen suuri määrä
+			-The bittorrent p2p file-sharing system: Measurements and analysis (tarkista vielä artsa, huom. tietoa vuodelta 2005)
+			
+			-Löytyi tuoreempaa statistiikkaa, ks. viittaukset.txt
 		
-		Ulkopuolinen liikenne maksaa
+		-Ulkopuolinen liikenne maksaa
 			The Evolution of the U.S. Internet Peering Ecosystem (white paper)
 				Regional Tier 1 ISPs are at the top of the hierarchy and don’t have to pay transit fees (since by definition they have access to the entire Internet Region solely through 
 				peering relationships with the other Tier 1 ISPs). All other ISPs operating in the region are required to purchase transit from one or more of the Regional Tier 1 ISPs 
 				(or indirectly from their downstream ISPs) in order to reach all destinations in the Internet Region. 
 			
-	ISPn keinot hallita ongelmia
-		P2P rajoittaminen
-			Keinot joilla havaitsee P2P liikenteen
+	ISPiden tekemä P2P rajoittaminen (pienempi prio alkuun)
+		Liikenteen hidastaminen/estäminen
+			-Tutkitaan paketteja
+				-Estetään esim. BitTorrent-paketit
+					-> P2P-sovellukset salaavat pakettinsa
+					
+			-Estetään liikenne porteilta joita P2P-sovellukset usein käyttävät
+				-> P2P-sovellukset satunnaistavat käyttämänsä portit
+					
+		Maksut
+			-ISPt maksuttavat ekstraa P2P-liikenteestä
+				-> Käyttäjät vaihtavat ISPtä tai käyttävät P2P-menetelmiä joita ISPt eivät havaitse
+		
+		Implementaatiot (Pakettien tarkastelu, ei ehkä käsitellä liian syvällisesti, alkuun lyhyt esittely/mainitseminen)
+			C. S. Incorporated. Network based application recognition
+			P-Cube. P-cube: Ip service control. http://www.pcube.net/indexold.shtml
+			Packeteer. Packetshaper. http://www.packeteer.com/prodsol/products/packetshaper.cfm.
+			Sandvine. Sandvine: Intelligent broadband network management www.sandvine.com
 			
-			Throttling
+		Miksi ei toimi (etsi paperi josta luin nämä, en muista atm)
+			-P2P-sovellukset keksivät miten kiertää estoja
+				-Syntyy "asevarustelukilpa" P2P ja ISP välille
+				-Keinoja mainittu ylläpuolella
 			
-			Maksut
-			
-			Implementaatiot (pieni prio, älä keskity liikaa aluksi)
-				C. S. Incorporated. Network based application recognition
-				P-Cube. P-cube: Ip service control. http://www.pcube.net/indexold.shtml
-				Packeteer. Packetshaper. http://www.packeteer.com/prodsol/products/packetshaper.cfm.
-				Sandvine. Sandvine: Intelligent broadband network management www.sandvine.com
-			
-		Miksi ei toimi
-			P2P keksivät miten kiertää estoja
-			
-			Pääasiassa onnistuu vain hidastamaan p2p-liikennettä, ei poista ulkoliikenne ongelmaa
+			-Pääasiassa onnistuu vain hidastamaan p2p-liikennettä, ei poista ulkoliikenneongelmaa
 
 Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
-	-P2P rajalliset keinot toimia yksin
-	-ISPn menetelmt haitallisia P2P 
-	
-	Potentiaali paikallisuudelle
+	Potentiaali ja hyödyt paikallisuudelle
 		Should internet service providers fear peer-assisted content distribution
+			-Iso osa (2000-luvun) verkkoliikenteestä P2P-liikennettä
+				-Latausliikenne nykyään pienempää, mutta silti suht iso osa
+					-Upload-liikenne yhä suurta
+				
+			-Iso osa ladatusta sisällöstä voitaisiin ladata verkon sisältä
+			-Käyttäjien latausajat voivat parantua jos voidaan ladata sisältöä lähempää (huom. ei aina)
+			
+		Pushing Bittorrent Locality to the Limit
+			-Potentiaalia suurimmille globaaleille torrenteille ja paikallisien intressien/kielien mukaisille torrenteille
+				(Paikalliset intressit ja kieli mainittu myös Should Fear -paperissa)
+				
+			-BitTorrentissa paikallisuutta voidaan puskea yllättävän pitkälle ennen kuin se rupeaa aiheuttamaan torrent-verkon eheyttä (ja täten saatavuutta/latausaikoja)
+				
+		P4P: Provider portal for applications
+			-Jos P2P-sovellukset "käyttäytyvät kiltisti" ja pyrkivät paikallisuuteen, ISP:iden ei tarvitse rajoittaa niitä
+			-Muut kuin P2P-sovellukset hyötyvät kun P2P ei ruuhkauta verkkoa
+				-Ruuhkia ei pitäisi syntyä niin herkästi jos ISPt voivat hallita P2P liikennettä paremmin
+			
 	
-	Ratkaisumallit
-		Yhteistyö
-			Potentiaali
-				Should internet service providers fear peer-assisted content distribution?
-				
-			Painotettu vertaisten valinta
-				Muutokset Clientteihin tai Trackereihin (huom nykyään vissiin käytetään DHT eikä trackereitä BitTorrent kai? dunno onko näin, esim. priva tracker)
-					Can ISPs and P2P users cooperate for improved performance?
-					Taming the Torrent
-				
-			Middlewaret
-				-ISPt ja P2P sovellukset pystyvät tekemään yhteistyötä reitityksessä
-				P4P: Provider Portal for Applications
-				Can ISPs and P2P users cooperate for improved performance?
-	
-		ISP
-			Välimuisti
-				Potentiaali
-					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
-					Should internet service providers fear peer-assisted content distribution?
-				
-				Vaatimukset
-					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
-						-Korkea upload
-						-Suuri tila
-						
-					Should internet service providers fear peer-assisted content distribution
-						-Tämän mukaan ei välttämättä tarvitsisi olla niin suuri
-				
-				Implementaatiot
-					CacheLogic. Cachelogic - advanced solutions for peer-topeer networks. http://www.cachelogic.com (ei enää toiminnassa)
-				
-			Gateway peer
-				Should internet service providers fear peer-assisted content distribution
-				
-				Hyödyt
-					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
-						-Voi yhdistää BPS kanssa
+	Ratkaisut					
+		Painotettu vertaisvalinta (Biased Peer Selection)
+			Improving traffic locality in bittorrent via biased neighbor selection
+				-P2P-sovellukset valitsevat mahdollisimman monta vertaista ISPn/ASn sisältä
+					-Ei kuitenkaan aivan kaikkea, jotta päällysverkon eheys säilyy
 					
-				Haitat
-					Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
-						-Haittaa päällysverkon eheyttä jos ei ole backuppeja (oma mutuilu)
-						-Heikosti skaalautuva
-						-Vaati paljon tehoa
+				-Voitaisiin toteuttaa muutoksilla p2p-sovelluksiin ja/tai niiden seurantapalveliin
+					-Mahdollisesti myös käyttämällä ISPn omia "traffic shaping devices"
+						-(Tyyliin oraakkeli tai P4P)
 						
-				
-				
-		P2P
-			Clienttejä jotka ottavat paikallisuuden huomioon
-				Taming the Torrent
+			Pushing Bittorrent Locality to the Limit
+				-Ehdotetaan kahta strategiaa jota tulisi ottaa huomioon mahdollisissa paikallisuusratkaisuissa
+					-Round robin
+					-Partition merging
+					
+					-Voitaisiin toteuttaa myös yhteistyönä ISPn kanssa, kuten oraakkeli/p4p
+						
+						
+		-Middlewaret
+			-ISPt ja P2P sovellukset pystyvät tekemään yhteistyötä reitityksessä
 			
-			Keinot kuitenkin rajalliset
-		
+			P4P: Provider Portal for Applications
+			Can ISPs and P2P users cooperate for improved performance? (oraakkeli)
 			
-Vastaväitteet
+			-Hyödyt
+				-ISPt pääsevät käsiksi verkon ominaisuuksiin joita vaikea/mahdoton estimoida (Should Fear, Survey)
+					-Poistaa tarpeen estimoinnille ja sen tuomalle overheadille
+					
+				-ISPt tietävät myöskin sopimukset muiden ISPiden kanssa (Survey)
+					-Voidaan ottaa huomioon reitityksessä ulkoliikennekustannuksien minimoimiseksi
+					
+			-Haitat
+				-Vaatii infrastruktuurihankintoja ISPltä
+					-Ja mahdollisesti myös muutoksia P2P-sovelluksilta
+					
+		-P2P-sovellukset jotka itsenäisesti ottavat paikallisuuden huomioon
+			 -Azureus 
+				-Ono-lisäri (Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems)
+					-Hyödynnetään CDN:nien tekemiä estimointeja lataajien sijainneista P2P-sovelluksissa
+					-Eräänlainen painotettu vertaisvalinta
+					
+				-Azureus itsessään ilmeisesti käyttää Vivaldi-menetelmää (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
+					
+			-Hyödyt
+				-P2P-sovellukset ja käyttäjät eivät välttämättä luota ISP (taming the torrent, a survey)
+				-Ei vaadi infrastruktuurihankintoja ISPltä (Should Fear)
+			
+			-Haitat
+				A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+					-Estimoinnilla rajansa
+						-Ovat herkästi virheellisiä
+						-Eivät pysty antamaan kaikkea hyödyllistä tietoa
+						-Ei johda usein optimaalisiin vertaisratkaisuihin
+						-Monet menetelmät perustuvat latenssiin, joka ei yksinään ole riittävä P2P kannalta
+						
+					-Estimointi luo ylimääräistä traffic overheadia
+						
+		-Välimuisti
+			-Potentiaali
+				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+				Should internet service providers fear peer-assisted content distribution?
+					-Päästiin yleisesti parempiin tuloksiin kuin "biased peer selectionilla" (paprun kirjoittamisen aikaan ei käytetty tätä termiä vielä)
+			
+			-Vaatimukset
+				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+					-Korkea upload
+					-Suuri tila
+					
+				Should internet service providers fear peer-assisted content distribution
+					-Tämän mukaan tilan ei välttämättä tarvitsisi olla niin suuri
+			
+			-Implementaatiot
+				CacheLogic. Cachelogic - advanced solutions for peer-to-peer networks. http://www.cachelogic.com (ei enää toiminnassa)
+				
+			-Ongelmat
+				A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+					-Välimuistien täytyy tukea useita eri protokollia (BitTorrent, HTTP)
+					-Laillisuus
+						-Tekijänoikeuksia rikkovan materiaalin säilöminen
+			
+		-Gateway peer (Tähän mennessä en löytänyt tarpeeksi tietoa tarkempaan käsittelyyn)
+			Should internet service providers fear peer-assisted content distribution
+			
+			-ISP asettaa vertaisverkkoihin omat vertaiset, jotka toimivat linkkeinä muihin verkkoihin
+			
+			Hyödyt
+				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+					-Voi yhdistää BPS kanssa
+				
+			Haitat
+				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+					-Haittaa päällysverkon eheyttä jos ei ole backuppeja (oma mutuilu)
+					-Heikosti skaalautuva
+					-Vaati paljon tehoa
+			
+Ongelmat paikallisuusratkaisuille
 	Pitfalls for ISP-friendly P2P design
 	Can P2P-Users Benefit from Locality-Awareness?
+	Pushing BitTorrent Locality to the Limit
+	A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
 	
-	Onko loppujen lopuksi hyödyllinen
-		-Ei aina paikallisia vertaisia
-		-Kaikki ulkopuoliset verkot eivät ole eri ISPlle kuuluvia (voi ottaa kuitenkin huomioon)
-		
-	Haluaako P2P yhteistyötä (ja ISP:lle)
-		Kärsiikö tehokkuus
-			-Jopa Win-Lose tilanne vaikea saavuttaa
-			-Paikalliset yhteydet eivät ole välttämättä ulkopuolisia nopeampia
+	-Onko paikallisuus loppujen lopuksi aina hyödyllinen	
+		-Kaikki torrentit/ASsät eivät hyödy 
+			-Ulkopuolisen liikenteen määrä ei vähene
 			
-		Luottavatko P2P clientit ja sisällönjakajat ISP
-	
-	Jotkut ISPt hyötyvät ulkoliikenteestä (ISP väliset verkot?)
-	Annetaanko riskialtista tietoa verkon ominaisuuksista
-	Tarvittavat rakenteelliset muutokset Internetiin
-	Laillisuus
+			Pushing bittorrent locality to the limit
+				-Pienet torrentit ja ASsät eivät sisällä paljoa vertaisia -> pientä potentiaalia paikallisuudelle
+				
+			Pitfalls for ISP-friendly P2P design
+				-Alkuruuhkan jälkeen torrentit ovat varsin pieniä
+					-Ei enää niin paljoa potentiaalia paikallisuudelle
 					
+	-Antavatko middlewaret riskialtista tietoa pahantahtoisille vertaisille (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
+		-verkon ominaisuuksista
+		-muista vertaisista
+		
+		-Oraakkeli ei kuitenkaan tarjoa riskialtista tietoa (vain vertaiset paremmuusjärjestyksessä)
+			
+	-Middlewarejen rajapintojen tulee tukea useampaa eri P2P-ratkaisua
+		P4P
+			-Sama ongelma kuin välimuistissa
+			-P4P ei alkuperäisen paperin aikaan ainakaan pystynyt tukemaan yleisesti kaikkia p2p-sovelluksia
+		
+		-Oraakkeli kuitenkin ilmeisesti pystyi tukemaan useampaa eri P2P-sovellusta
+		
+	-ISPt voivat antaa vääristeltyä tietoa middlewareille (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
+		-Voidaan suosia liikaa paikallisuutta säästöjen tekemiseksi
+		
+	-Haluaako P2P yhteistyötä
+		Kärsiikö tehokkuus/eheys
+			Pitfalls for ISP-friendly P2P design
+				-Jopa Win-Lose tilanne vaikea saavuttaa
+					-Väitetään että pelkkien sovellusten tekemä painotettu vertaisvalinta (erityisesti ono, jota testattiin artikkelissa) ei ole riittävä
+					
+				-Paikalliset yhteydet eivät ole välttämättä ulkopuolisia nopeampia
+					-Verkkojen reittien nopeuksien heterogeenisyys
+					
+			Can P2P-Users Benefit from Locality-Awareness?
+				-Paikallisuudesta hyötyvät usein lähinnä ISPt, eivätkä niinkään P2P-käyttäjät
+				-Mikäli paikallisuus ei hyödytä käyttäjiä, eivät he käytä sovelluksia jotka hyödyntävät paikallisuutta
+					-> Verkko-ongelmat eivät poistu
+							
+		-Luottavatko käyttäjät ja P2P-sovellukset ISPihin
+			-Käytettääisiinkö middlewareja piraattien identifioimiseen ja rankaisemiseen
+			
+	
+	-Jotkut ISPt hyötyvät ulkoliikenteestä (ISP väliset verkot?)
+		Pitfalls for ISP-friendly P2P design
+		
+	-Ulkopuoliset ASsät voivat kuulua samalle ISPlle
+		-Tällöin ylimääräisiä kustannuksia ei aiheudu ISPlle
+		-Yhteysnopeuksien heterogeenisyydestä johtuen voi olla nopeampaa saada sisältöä saman ISPn eri ASsältä
+		
+		-Voi kuitenkin varmastikin ottaa melko helposti huomioon
+		
+	-Ratkaisuehdotuksia ei olla testattu välttämättä riittävästi
+		-A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+			-Monet menetelmät testattu vain testiympäristössä ja/tai simulaatioilla
+				-Ymmärrettävää tosin, sillä hankala testata käytännössä Internetissä
+			
+		-Ono
+			-Toisessa testissä ei osoittautunut hyödylliseksi (Pitfalls for ISP-friendly P2P design)
+			-Erään paperin mukaan testattiin yhden ISPn skaalalla eikä globaalilla Internet-skaalalla (Pushing Bittorrent Locality to the Limit)
+		
+	-Tarvittavat rakenteelliset muutokset Internetiin (Should Internet Service Providers Fear Peer-Assisted Content Distribution?)
+		-Välimuistit
+		-Middlewaret
+	
+	-Laillisuus
+		-Tekijänoikeuksia rikkovan materiaalin välimuistiin tallettaminen / sen jakamisen edesauttaminen	
+		
+		
+Paperit:
+	Peer-Assisted File Distribution: The Minimum Distribution Time (Ei niin oleellinen paperi, etsi mahdollisesti parempi)
+		Kumar, Rakesh, and Keith W. Ross. "Peer-assisted file distribution: The minimum distribution time." 2006 1st IEEE Workshop on Hot Topics in Web Systems and Technologies. IEEE, 2006.
+	
+	Peer-to-peer systems
+		Rodrigues, Rodrigo, and Peter Druschel. "Peer-to-peer systems." Communications of the ACM 53.10 (2010): 72-82.
+	
+	Should Internet Service Providers Fear Peer-Assisted Content Distribution?
+		Karagiannis, Thomas, Pablo Rodriguez, and Konstantina Papagiannaki. "Should internet service providers fear peer-assisted content distribution?." Proceedings of the 5th ACM SIGCOMM conference on Internet Measurement. 2005.
+		
+	Can ISPs Take the Heat from Overlay Networks
+		Keralapura, Ram, et al. "Can ISPs take the heat from overlay networks." ACM SIGCOMM Workshop on Hot Topics in Networks (HotNets). 2004.
+		
+	The Evolution of the U.S. Internet Peering Ecosystem (White paper, pelkästään sitä varten että voi siteerata jotakin että isp-välinen liikenne voi maksaa, etsi mahdollisesti parempi lähde)
+		Norton, William B. "The evolution of the US Internet peering ecosystem." Equinix white papers (2004).
+		
+		-Kopipastettu sitaatti löytyy jos ctrl+f "hierarchy"
+		
+	Pushing Bittorrent Locality to the Limit
+		Le Blond, Stevens, Arnaud Legout, and Walid Dabbous. "Pushing bittorrent locality to the limit." Computer Networks 55.3 (2011): 541-557.
+		
+	P4P: Provider portal for applications
+		Xie, Haiyong, et al. "P4P: Provider portal for applications." ACM SIGCOMM Computer Communication Review 38.4 (2008): 351-362.
+		
+	Improving traffic locality in bittorrent via biased neighbor selection
+		Bindal, Ruchir, et al. "Improving traffic locality in BitTorrent via biased neighbor selection." 26th IEEE International Conference on Distributed Computing Systems (ICDCS'06). IEEE, 2006.
+		
+	Can ISPs and P2P users cooperate for improved performance?
+		Aggarwal, Vinay, Anja Feldmann, and Christian Scheideler. "Can ISPs and P2P users cooperate for improved performance?." ACM SIGCOMM Computer Communication Review 37.3 (2007): 29-40.
+		
+	Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems
+		Choffnes, David R., and Fabián E. Bustamante. "Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems." ACM SIGCOMM Computer Communication Review 38.4 (2008): 363-374.
+		
+	A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+		Gurbani, Vijay K., et al. "A survey of research on the application-layer traffic optimization problem and the need for layer cooperation." IEEE Communications Magazine 47.8 (2009): 107-112.
+		
+	Pitfalls for ISP-friendly P2P design
+		Piatek, Michael, et al. "Pitfalls for ISP-friendly P2P design." HotNets. 2009.
+		
+	Can P2P-Users Benefit from Locality-Awareness?
+		Lehrieder, Frank, et al. "Can p2p-users benefit from locality-awareness?." 2010 IEEE Tenth International Conference on Peer-to-Peer Computing (P2P). IEEE, 2010.

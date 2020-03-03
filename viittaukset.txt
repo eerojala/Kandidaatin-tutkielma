@@ -747,12 +747,33 @@ Network pricing: can both ISP and P2P benefit?
 
 
 The Performance and Locality Tradeoff inBitTorrent-like P2P File-Sharing Systems
-    The large volumes of P2P traffic in today’s Internet have sig-nificantly changed the Internet traffic pattern and dramaticallyincreased the traffic-relay cost at the ISPs. Such a cost threathas led to ISPs’ packet filtering and rate throttling towardsP2Ptraffic [1], while on the other hand P2P application providersreact  by  encrypting  data  and  communicating  with  dynamicports to prevent from being recognized [2].
+    The large volumes of P2P traffic in today’s Internet have sig-
+	nificantly changed the Internet traffic pattern and dramatically
+	increased the traffic-relay cost at the ISPs. Such a cost threat
+	has led to ISPs’ packet filtering and rate throttling towards
+	P2Ptraffic [1], while on the other hand P2P application providers
+	react  by  encrypting  data  and  communicating  with  dynamic
+	ports to prevent from being recognized [2].
 
-    There have recentlyemerged  hot  arguments  that  such  a  conflict  cannot  lead  todesirable outcomes for both parties. Instead, traffic localizationdesigns  have  been  proposed  that  connect  peers  to  nearby(local) neighbors in terms of delay, routing hop count, etc.,byapproaches  at  either  the  P2P  application  side  [3],  [4]  or  ISPside [5], or based on collaborations between both parties [6]
+    There have recently
+	emerged  hot  arguments  that  such  a  conflict  cannot  lead  to
+	desirable outcomes for both parties. Instead, traffic localization
+	designs  have  been  proposed  that  connect  peers  to  nearby
+	(local) neighbors in terms of delay, routing hop count, etc.,by
+	approaches  at  either  the  P2P  application  side  [3],  [4]  or  ISP
+	side [5], or based on collaborations between both parties [6]
 
-    While such local peer selection is effective in reducing P2Ptraffic across network boundaries, it may unfavorably degradethe downloading performance at peers in a BitTorrent-like file-sharing system [7], as local peers may not necessarily be onesthat  can  supply  large  upload  bandwidths.  In  another  word,  anon-negligible  tradeoff  may  exist  between  the  downloadingperformance and the traffic localization in the system.
-
+    While such local peer selection is effective in reducing P2P
+	traffic across network boundaries, it may unfavorably degrade
+	the downloading performance at peers in a BitTorrent-like 
+	file-sharing system [7], as local peers may not necessarily be ones
+	that  can  supply  large  upload  bandwidths.  In  another  word,  a
+	non-negligible  tradeoff  may  exist  between  the  downloading
+	performance and the traffic localization in the system.
+	
+	Viittaavat artikkelit:
+		Can p2p-users benefit from locality-awareness?
+		
 
     Viitatut artikkelit:
         [1]: ComcastisUsingSandvinetoManageP2PConnections,http://www.dslreports.com/forum/r18323368-Comcast-is-using-Sandvine-to-manage-P2P-Connections (uutisartsa)
@@ -762,3 +783,464 @@ The Performance and Locality Tradeoff inBitTorrent-like P2P File-Sharing Systems
         [5]: Modeling  and  Caching  of  Peer-to-Peer Traffic
         [6]: P4P: Provider for Portal Applications
         [7]: PushingBitTorrent  Locality  to  the  Limit
+		
+Pushing BitTorrent locality to the limit
+	Therefore, even if current P2P content replication
+	solutions significantly reduce content provider costs, they
+	cannot be promoted as a global solution for content replication
+	as they induce huge costs for ISPs. In particular, the
+	current trend for ISPs is to block P2P traffic [2].
+	
+	In
+	particular, whereas all the torrents crawled generated
+	11.6 petabytes of inter-ISP traffic, high locality
+	could have saved up to 40%, i.e., 4.6 petabytes, of
+	inter-ISP traffic. This result is significantly different
+	from the inter-ISP bandwidth savings reported by
+	Xie et al. [3]. Indeed, they reported a reduction of
+	inter-ISP traffic with P4P around 60%, but for a single
+	ISP with a single large torrent. Thus, they did not
+	evaluate the reduction of BitTorrent traffic at the
+	scale of the Internet, but for a single ISP.
+	
+	For instance, a tracker can
+	use information offered by a dedicated infrastructure like
+	the P4P infrastructure [3].
+
+	In this section, we want to estimate the benefits our
+	locality policy would have had on the torrents we crawled.
+	In our crawl, 117,677 torrents and 6643 ASes cannot benefit
+	from a locality policy, because there is at most one peer
+	per AS per torrent. However, we want to show that despite
+	most of the torrents and ASes cannot benefit from a locality
+	policy, the implementation of a locality policy at the scale
+	of the Internet would be highly beneficial.
+	
+	Moreover, the clustering observed by Legout et al. [12]
+	appears only when there is high piece diversity. As soon
+	as piece diversity becomes lower, there is no more clustering
+	even if the efficiency of BitTorrent is preserved
+		-This is
+		this kind of phenomenon we observe with locality. Indeed,
+		even if upload distribution is supposed to foster communications
+		among peers with the same upload capacity, this is
+		by no mean an absolute constraint because, as soon as
+		piece diversity decreases, clusters among peers are broken
+		and any peer can communicate with any other peer [12].
+		
+	P4P [3] is a project whose aim is to provide a lightweight
+	infrastructure to allow cooperation between P2P
+	applications and ISPs. Xie et al. presented small scalel
+	experiments (with between 53 and 160 PlanetLab nodes)
+	on two specific scenarios. They also reported on a field test
+	experiment around 60% of inter-ISP traffic savings with
+	P4P for a single ISP and a single large torrent.
+	
+	Aggarwal et al. [20] present an architecture that is similar
+	by some aspects to P4P. The authors define the notion
+	of oracle that are supplied by ISPs in order to propose a list
+	of neighbors to peers. They perform their evaluation on
+	Gnutella using simulations and small scale experiments
+	with 45 Gnutella nodes.
+	
+	Another approach that requires no dedicated infrastructure
+	is Ono [4]. Ono clusters users based on the assumption
+	that clients redirected to a same CDN server are close. The
+	authors have developed an Ono plugin for the Vuze client.
+	The authors reported measurement results collected from
+	120,000 users of the Ono plugin over a 10 month period.
+	They reported up to 207% performance increase in average
+	peer download completion time. However, the authors did
+	not give an explicit inter-ISP traffic reduction, but showed
+	a reduction of the path length between peers in terms of IP
+	and AS hops.
+	
+	Bindal et al. [21] present the impact of a deterministic
+	locality policy on ISPs’ peering links load and on end-users
+	experience. The authors considered simulations on a scenario
+	with 14 ISPs with 50 peers each, thus a torrent of
+	700 peers.
+	
+	Lin et al. [22] introduce ELP that aims to keep traffic local
+	to ISPs. They provide a model that gives bounds on the
+	inter-ISP traffic, and they validate ELP experimentally on
+	PlanetLab with a maximum of 60 peers.
+	
+	In contrast to previous works like P4P [3] and Ono [4]
+	that provide very valuable results focusing on in the wild
+	measurements or deployments, our work fills a gap by providing
+	a systematic and rigorous evaluation of BitTorrent
+	by doing controlled experiments. Indeed, our work significantly
+	differs from those previous ones, by being the first
+	one to extensively evaluate the impact of key parameters
+	like the number of inter-ISP connections, the torrent size,
+	the distribution of peers per ISP, the inter-ISP bottlenecks,
+	the churn rate, and the peers upload capacity using large
+	scale experiments and real world data. In particular, we
+	considered 214,443 real torrents spread across 9605 ASes
+	(it was a single large torrent and a single AS for the P4P
+	field test [3]) and showed that using only four inter-ISP
+	connections (it was 20% of inter-ISP connections for the
+	P4P field tests) we could reduce the inter-ISP traffic at
+	the scale of the Internet by up to 40%.
+	
+	Piatek et al. [23] discuss pitfalls for an ISP-friendly
+	locality policy and ISPs traffic engineering constraints. In
+	particular, Piatek et al. discuss three main issues: client
+	side only localization might not work, localization might
+	adversely impact robustness and efficiency, ISPs have conflicting
+	interests. The two first issues do not apply to our
+	work as we consider a tracker based locality policy, and
+	as we have designed and evaluated the partition merging
+	strategy to prevent robustness issues. Concerning the last
+	issue on ISPs conflicting interests, it is beyond the scope of
+	this study to evaluate the economical benefit for tier-1
+	ISPs to keep traffic local. Our work shows that if ISPs want
+	to apply a locality policy to BitTorrent traffic, it is doable
+	and it will significantly reduce the traffic on inter-ISP
+	links.
+	
+	Cuevas et al. [24] is by several aspects close to our work.
+	Indeed, the authors also collected a large BitTorrent trace
+	and explored the impact of high locality. However, their
+	work significantly differs by other aspects. The core of their
+	evaluation study is a mathematical model, whereas we
+	performed extensive large scale experiments. They specifically
+	focused on peers upload distribution, whereas we
+	focused on the systematic evaluation of fundamental
+	parameters like torrent size, or inter-ISP bottlenecks. Finally,
+	they do not explore the second question of this work
+	What is, at the scale of the Internet, the reduction of traffic
+	that can be achieved with locality? In summary, our work
+	is complementary to the one of Cuevas et al., as it validates
+	some of the assumptions they made in the modeling of Bit-
+	Torrent locality, in particular the good piece diversity with
+	locality, which is fundamental to observe stratification in
+	their model.
+	
+	Our work is intended to be complimentary to previous
+	works [1,3,4,23] by answering the two fundamental questions:
+	(1) How far can we push BitTorrent locality? (2)
+	What is at the scale of the Internet the reduction of inter-
+	ISP traffic that can be achieved with locality?
+	
+	Viitatut artikkelit
+		[1]: Should internet service providers fear peer-assisted content distribution?
+		[2]: Detecting BitTorrent blocking
+		[3]: P4p: provider portal for applications
+		[4]: Taming the torrent: a practical approach to reducing cross-isp traffic in p2p systems
+		[10]: Incentives to build robustness in Bittorrent
+		[12]: Clustering and sharing incentives in BitTorrent systems
+		[13]: Pushing BitTorrent Locality to the Limit, Technical Report inria-00343822, version 1, 2 December, 2008, INRIA Sophia Antipolis, France, 2008
+		[14]: Rarest first and choke algorithms are enough
+		[19]: Dissecting BitTorrent: five months in a torrent’s lifetime
+		[20]: Can ISPs and p2p users cooperate for improved performance?
+		[21]: Improving traffic locality in BitTorrent via biased neighbor selection
+		[22]: An ISP-friendly file distribution protocol: analysis, design and implementation
+		[23]: Pitfalls for ISP-friendly p2p design
+		[24]: Deep diving into BitTorrent locality
+		
+A Survey of Research on the Application-Layer Traffic Optimization Problem and the Need for Layer Cooperation
+	Most distributed hash tables (DHTs) — the
+	data structure that imposes a specific ordering for
+	P2P overlays — use greedy forwarding algorithms
+	to reach their destination, making locally optimal
+	decisions that may not turn to be globally optimized
+	[1].
+	
+	One way to solve the ALTO problem is to
+	build distributed application-layer services for
+	location and path selection [2–7] in order to
+	enable peers to estimate their position in the
+	network and efficiently select their neighbors.
+		Similar solutions have been embedded into P2P
+		applications such as Azureus.1
+		
+	A slightly different
+	approach is to have the Internet service
+	provider (ISP) take a proactive role in the routing
+	of P2P application traffic; the means by
+	which this can be achieved have been proposed
+	[8–10].
+	
+	There is an intrinsic struggle between
+	the layers — P2P overlay and network underlay
+	— when performing the same service (routing);
+	however, there are strategies to mitigate this
+	dichotomy [11].
+	
+	Francis et al. proposed IDMaps [2], a system
+	where one or more special hosts called tracers are
+	deployed near an autonomous system
+	
+	To aid in scalability beyond that provided
+	by the client-server design of IDMaps, Ng et
+	al. proposed a P2P-based global network positioning
+	(GNP) architecture [3].
+		GNP was a network
+		coordinate system based on absolute coordinates
+		computed from modeling the Internet as a geometric
+		space.
+		
+	Both IDMaps and GNP require fixed network
+	network
+	infrastructure support in the form of tracers
+	or landmark hosts; this often introduces a
+	single point of failure and inhibits scalability. To
+	combat this, new techniques were developed that
+	embedded the network topology in a low-dimensional
+	coordinate space to enable network distance
+	estimation through vector analysis. Costa
+	et al. introduced Practical Internet Coordinates
+	(PIC) [5]. While PIC uses the notion of landmark
+	hosts, it does not require explicit network
+	support to designate specific landmark hosts.
+	
+	Like PIC, Vivaldi [4] proposed a fully distributed
+	network coordinate system without any
+	distinguished hosts.
+			
+	Vivaldi is now used
+	in the popular P2P application Azureus, and
+	studies indicate that it scales well to very large
+	networks [12].
+	
+	Network coordinate systems require the embedding
+	of the Internet topology into a coordinate system.
+	This is not always possible without errors,
+	which impacts the accuracy of distance estimations.
+	In particular, it has proven to be difficult to embed
+	the triangular inequalities found in Internet path
+	distances [12]. Thus, Meridian [6] abandons the
+	generality of network coordinate systems and provides
+	specific distance evaluation services.
+	
+	The Ono project [13] takes a different
+	approach and uses network measurements from
+	a content distribution network (CDN) like Akamai
+	to find nearby peers. Used as a plug-in to
+	the Azureus BitTorrent client, Ono provides 31
+	percent average download rate improvement.
+	
+	One system providing such a service is iPlane
+	[7], which aims at creating an annotated atlas of
+	the Internet that contains information about
+	latency, bandwidth, capacity, and loss rate.
+	
+	The architecture proposed
+	by Xie et al. [8] has been adopted by the DCIA
+	P4P Working Group ,2 an open group established
+	by ISPs, P2P software distributors, and technology
+	researchers with the dual goal of defining mechanisms
+	to accelerate content distribution and optimize
+	utilization of network resources.
+	
+	The P4P architecture is under evaluation
+	through simulations and experiments on the PlanetLab
+	distributed testbed, and field tests with real
+	users. Initial simulations and PlanetLab experimental
+	results indicate that improvements in Bit-
+	Torrent download completion time and link
+	utilization in the range of 50–70 percent are possible.
+	Results observed in field tests conducted
+	with a modified version of the software used by
+	the Pando content delivery network show
+	improvements in download rate of 23 percent and
+	a significant drop in data delivery average hop
+	count (from 5.5 to 0.89) in certain scenarios [8].
+	
+	ISP-Driven Informed Path Selection (IDIPS) Service
+	— The solution proposed by Saucez et al. [10] is
+	essentially a modified version of the oracle-based
+	approach described above, and is intended to provide
+	a network-layer service for finding best source
+	and destination addresses when establishing a connection
+	between two endpoints in multihomed environments
+	(which are common in IPv6 networking).
+	
+	Some features of the network topology are
+	hard to infer through application-level techniques,
+	and it may not be possible to infer them at all.
+	Examples of such features are service provider
+	policies and preferences such as the state and cost
+	associated with interdomain peering and transit
+	links. Another example is the traffic engineering
+	policy of a service provider, which may counteract
+	the routing objective of the overlay network, leading
+	to poor overall performance [11].
+	
+	Undoubtedly, it is hard to foresee
+	how proposed systems will perform in the Internet.
+	Simulations and testbed emulations are in most
+	cases the only options available for benchmarking
+	the performance of a system. However, these have
+	often proven inadequate; in at least one particular
+	case [12], they have only provided rough optimistic
+	approximations of what would be measured in the
+	real world.
+	
+	-Viitatut artikkelit
+		[1]: The Impact of DHT Routing Geometry on Resilience and Proximity
+		[2]: A Global Internet Host Distance Estimation Service (IPmaps)
+		[3]: Predicting Internet Network Distance with Coordinates-Based Approaches
+		[4]: Vivaldi: A Decentralized Network Coordinate System
+		[5]: PIC: Practical Internet Coordinates for Distance Estimation
+		[6]: Meridian: A Lightweight Network Location Service Without Virtual Coordinates
+		[7]: iPlane: An Information Plane for Distributed Services
+		[8]: P4P: Provider Portal for Applications
+		[9]: Can ISPs and P2P Systems Co-Operate for Improved Performance?
+		[10]: Implementation and Preliminary Evaluation of an ISP-Driven Informed Path Selection
+		[11]: Preemptive Strategies to Improve Routing Performance of Native and Overlay Layers
+		[12]: Network Coordinates in the Wild
+		[13]: Taming the Torrent: A Practical Approach to Reducing Cross-ISP Traffic in P2P Systems
+		
+Traffic Localization for P2P-Applications: The ALTO Approach
+	For instance, peers can measure
+	message delay to other peers themselves or exploit existing
+	content distribution networks to infer network layer topology
+	distance [1].
+	
+	One promising approach for P2P traffic localization is
+	to have ISPs or third parties convey information regarding
+	the underlying network topology to P2P-clients through a
+	special service. To this end, the EU FP7 project Napa-Wine
+	[2] is investigating solutions for providing network layer
+	information to peers through such a dedicated service.
+	
+	In
+	addition, the IETF has recently formed a working group
+	for Application-Layer Traffic Optimization (ALTO) [3].
+		This
+		working group has the intention of developing Internet standards
+		which will help P2P-clients choose better neighbors
+		in terms of mapping the overlay topology to the underlying
+		IP network.
+		
+	Specifically, the main goal of the ALTO WG
+	is to design a query-response protocol for an ALTO service
+	which P2P-applications can query for information to achieve
+	better-than-random neighbor peer selection [3] [4] [5].
+	
+	One of the first works to consider locality information
+	provided by the ISP in order to improve P2P-traffic has
+	been [6]. 
+		This work studies regular BitTorrent and shows
+		that it is very inefficient from an ISP’s perspective, i.e.,
+		regular BitTorrent is locality-unaware. To circumvent this,
+		the authors briefly sketch a solution where ISPs intercept
+		P2P-traffic at edge routers and redirect them to P2P-clients
+		within the same ISP. However, they do not investigate such
+		a solution in detail.
+		
+	A more concrete proposal to improve P2P-locality through
+	network layer topology information has been proposed in
+	[7]. The overall idea is simple: Instead of random peer
+	selection, peers are supposed to select all but k peers from
+	their ISP. For instance, if peers have a connectivity degree d
+	(i.e., they are connected to d peers on the overlay layer), d−k
+	neighbours for each peer are supposed to be located within
+	the same ISP while k links exist to peers in different ISPs for
+	each peer.
+		This is called biased neighbour selection. In [7] the authors
+		envision two ways to implement biased neighbour selection:
+		Either by using a modified tracker or by modifying traffic
+		shaping devices which intercept P2P traffic at edge routers
+		of each ISP. Both solutions assume a way (for trackers or
+		traffic shaping devises) to access information regarding ISP
+		locality.
+		
+	A similar approach has been presented in [8]. This approach
+	is more general and in principle enables neighbour
+	selection on other criteria than network locality. The authors
+	propose to have an oracle to be operated by each ISP, which
+	the P2P-clients in the ISP’s network can query to obtain
+	information about the underlying network. The overall idea
+	is that instead of choosing their neighbours randomly, P2P
+	clients can use the ISP oracle in order to choose neighbours
+	with care and insight. More specifically, the oracle ranks a
+	list of potential neighbours based on the ISP’s preferences.
+	Such a list can be obtained by the P2P-client through
+	regular P2P operations and then sent to the oracle for
+	guidance on which peers to prefer. The authors evaluate
+	this sorting oracle approach through simulation as well as
+	actual implementation. Their results demonstrate that this
+	approach can increase locality of P2P-traffic with respect to
+	AS diameter, while not increasing the average hop count or
+	node degree.
+	
+	A decentralized alternative for conveying network layer
+	information to P2P-clients is proposed in [1]. This approach
+	re-uses information provided by content delivery networks
+	(CDNs) to guide peer selection for P2P-applications. This
+	idea is based on the fact that CDNs try to minimise download
+	latency. To achieve this, clients are directed to CDN replica
+	servers via dynamic DNS. It is reasonable to assume that
+	if two clients are sent to the same CDN replica server they
+	are likely to be located close to each other on the network
+	topology. As a metric to express network layer locality
+	between peers based on CDN redirection, using the cosine
+	similarity of the replication server ratio maps between two
+	peers is proposed [1].
+	
+	More recently, [9] investigated what extent of locality
+	is beneficial to P2P-applications in general. Clearly, some
+	degree of inter-ISP links needs to be preserved in order
+	to guarantee robustness and prevent network partitioning
+	in the case of node failure. The authors define locality as
+	the percentage of intra-ISP connections over all connections
+	with respect to the average peer. Their study concludes that
+	compared to the regular BitTorrent protocol up to two orders
+	of magnitude can be saved on inter-ISP traffic if locality is
+	used. Further, they show in a test environment with modified
+	BitTorrent implementations that the capacity of the initial
+	content-seed has strong implications on the potential benefit
+	of employing locality-biased neighbor selection.
+	
+	The P4P [10] research project has developed a framework
+	which ISPs can use to convey network information to P2P
+	applications [10] [11]. The framework of the P4P project
+	is based on two main architectural entities: the itracker
+	and the p-distance. P4P envisions each network provider
+	to operate a so-called itracker. This itracker serves as the
+	portal to be used by P2P applications within this network
+	provider’s network to acquire network layer information.
+	Such an itracker can either communicate with the P2P-client
+	directly or indirectly via a P2P-application tracker. At the
+	heart of the P4P framework lies the notion of the p-distance.
+	An itracker can be queried by P2P applications about
+	the p-distance between peers. This p-distance is computed
+	by the network provider (e.g., based on routing policies,
+	topology information, inter-ISP cost agreements, etc.). For
+	instance, an ISP could compute p-distances in such a way
+	that connections with higher financial costs for the ISP
+	result in a higher p-distance.
+	
+	The P4P framework has been
+	evaluated through simulation and PlanetLab experiments
+	[11]. In addition, several ISPs have conducted field tests
+	[12]. All these studies provide strong indication that the P4P
+	architecture is suitable for improving download speeds for
+	P2P users while decreasing inter-ISP traffic caused by P2Papplications.
+	
+	In summary, research indicates that improved peer selection
+	algorithms based on information provided by an
+	ISP, such as network layer topology or maximum available
+	access bandwidth at a peer, can indeed help in reducing
+	costs for ISPs as well as increase overall download rates
+	for P2P applications1.
+		1A good survey on related work can also be found in [13].
+		
+	[1]: Taming the Torrent: A practical approach to reducing cross-isp traffic in peer-topeer systems
+	[2]: EU FP7 Project NAPA-WINE, http://www.napa-wine.eu.
+	[3]: J. Peterson, V. Gurbani, E. Marocco et al., “ALTO Working Group Charter,” http://www.ietf.org/html.charters/alto-charter.html.
+	[4]: J. Seedorf and E. Burger, “Application-Layer Traffic Optimization (ALTO) Problem Statement,” Internet Engineering Task Force, Internet-Draft draft-ietf-alto-problem-statement- 01, May 2009, work in Progress. [Online]. Available: http://tools.ietf.org/html/draft-ietf-alto-problem-statement
+	[5]: S. Kiesel, L. Popkin, S. Previdi, R. Woundy, and Y. R. Yang, “Application-Layer Traffic Optimization (ALTO) Requirements,” Internet Engineering Task Force, Internet-Draft draft-ietf-alto-reqs-00, Apr. 2009, work in Progress. [Online].  Available: http://tools.ietf.org/html/draft-ietf-alto-reqs
+	[6]: Should Internet Service Providers Fear Peer-Assisted Content Distribution?
+	[7]: Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
+	[8]: Can ISPs and P2P Systems Co-operate for Improved Performance?
+	[9]: Pushing BitTorrent Locality to the Limit
+	[10]: R. Alimi, D. Pasko, L. Popkin, Y. Wang, and Y. Yang, “P4P: Provider Portal for P2P Application,” Internet Engineering Task Force, Internet-Draft draft-p4p-framework-00, Nov. 2008, work in Progress. [Online]. Available: http://www-net.cs.yale.edu/projects/p4p/draft-p4p-framework.txt
+	[11]: P4P: Provider Portal for Applications
+	[12]: C. Griffiths, J. Livingood, and R. Woundy, “Comcast’s ISP Experiences In a Recent P4P Technical Trial,”Internet Engineering Task Force, Internet-Draft draftlivingood-woundy-p4p-experiences-07, May 2009, workin Progress. [Online]. Available: http://tools.ietf.org/html/draft-livingood-woundy-p4p-experiences
+	[13]: A Survey on Research on the Application-Layer Traffic Optimization (ALTO) Problem
+		-Sama papru kun tätä paprua ylläoleva papru tässä tiedostossa

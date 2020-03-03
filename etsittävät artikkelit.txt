@@ -3,9 +3,9 @@ Etsi:
 	-Tuoreempia paperita
 		-Ei ehkä suoraan viitattavia ellei vastaväitettä/jotain mullistavaa ratkaisua
 		
-	-Onko kulmakiviratkaisuja implementoitu
+	-Mitä kaikkia yhteistyöratkaisuja on implementoitu 
 		-Ono (on)
-		-Oraakkeli
-		-P4P
+		-Oraakkeli (?)
+		-P4P (?)
 		
 	-Tuoreempaa P2P verkkoliikennestatistiikkaa

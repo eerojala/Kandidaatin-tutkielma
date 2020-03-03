@@ -277,6 +277,25 @@ Paikallisuus
 		
 		894 viittausta
 		
+		The P4P [10] research project has developed a framework
+		which ISPs can use to convey network information to P2P
+		applications [10] [11]. The framework of the P4P project
+		is based on two main architectural entities: the itracker
+		and the p-distance. P4P envisions each network provider
+		to operate a so-called itracker. This itracker serves as the
+		portal to be used by P2P applications within this network
+		provider’s network to acquire network layer information.
+		Such an itracker can either communicate with the P2P-client
+		directly or indirectly via a P2P-application tracker. At the
+		heart of the P4P framework lies the notion of the p-distance.
+		An itracker can be queried by P2P applications about
+		the p-distance between peers. This p-distance is computed
+		by the network provider (e.g., based on routing policies,
+		topology information, inter-ISP cost agreements, etc.). For
+		instance, an ISP could compute p-distances in such a way
+		that connections with higher financial costs for the ISP
+		result in a higher p-distance. (Traffic Localization for P2P-Applications: The ALTO Approach)
+		
 		Abstract
 			-As peer-to-peer (P2P) emerges as a major paradigm for scalable network application design, it also exposes significant new challenges in achieving efficient and fair 
 			utilization of Internet network resources. 
@@ -431,6 +450,20 @@ Paikallisuus
 		
 		597 viittausta
 		
+		A decentralized alternative for conveying network layer
+		information to P2P-clients is proposed in [1]. This approach
+		re-uses information provided by content delivery networks
+		(CDNs) to guide peer selection for P2P-applications. This
+		idea is based on the fact that CDNs try to minimise download
+		latency. To achieve this, clients are directed to CDN replica
+		servers via dynamic DNS. It is reasonable to assume that
+		if two clients are sent to the same CDN replica server they
+		are likely to be located close to each other on the network
+		topology. As a metric to express network layer locality
+		between peers based on CDN redirection, using the cosine
+		similarity of the replication server ratio maps between two
+		peers is proposed [1]. (Traffic Localization for P2P-Applications: The ALTO Approach)
+		
 		-Artikkelin pointit
 			-P2P ja ISP yhteistyö ei välttämättä todennäköistä
 			-Ehdottavat skaalautuvaa biased peer-selection tekniikkaa joka ei vaadi yhteistyötä ISPltä tai sen asiakkailta
@@ -498,6 +531,23 @@ Paikallisuus
 		Bindal, Ruchir, et al. "Improving traffic locality in BitTorrent via biased neighbor selection." 26th IEEE International Conference on Distributed Computing Systems (ICDCS'06). IEEE, 2006.
 		
 		502 viittausta
+		
+		A more concrete proposal to improve P2P-locality through
+		network layer topology information has been proposed in
+		[7]. The overall idea is simple: Instead of random peer
+		selection, peers are supposed to select all but k peers from
+		their ISP. For instance, if peers have a connectivity degree d
+		(i.e., they are connected to d peers on the overlay layer), d−k
+		neighbours for each peer are supposed to be located within
+		the same ISP while k links exist to peers in different ISPs for
+		each peer.
+			This is called biased neighbour selection. In [7] the authors
+			envision two ways to implement biased neighbour selection:
+			Either by using a modified tracker or by modifying traffic
+			shaping devices which intercept P2P traffic at edge routers
+			of each ISP. Both solutions assume a way (for trackers or
+			traffic shaping devises) to access information regarding ISP
+			locality. (Traffic Localization for P2P-Applications: The ALTO Approach)
 		
 		Artikkelin pointit:
 			-Onko satunnainen vertaisvalinta välttämätöntä BitTorrentin toiminnan kannalta?
@@ -595,9 +645,245 @@ Paikallisuus
 			We are implementing the scheme in a modified BitTorrent
 			client, and also in a HTTP proxy acting as a P2P shaping
 			device.
+			
+	A survey of research on the application-layer traffic optimization problem and the need for layer cooperation ←--------------- KATO TÄÄ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		Gurbani, Vijay K., et al. "A survey of research on the application-layer traffic optimization problem and the need for layer cooperation." IEEE Communications Magazine 47.8 (2009): 107-112.
 
+		IEEE Communications Magazine
+			H-index: 210
+			JUFO-taso: 2
 
+		-46 viittausta
 
+		-Tiivistelmä ongelmasta ja katsaus artikkeleista !!!!!!!!!
+		
+		Abstract
+			A significant part of Internet traffic today is generated
+			by peer-to-peer applications, used traditionally
+			for file sharing, and more recently for real-time
+			communications and live media streaming. Such
+			applications discover a route to each other through
+			an overlay network with little knowledge of the
+			underlying network topology. As a result, they may
+			choose peers based on information deduced from
+			empirical measurements, which can lead to suboptimal
+			choices. We refer to this as the applicationlayer
+			traffic optimization (ALTO) problem and
+			present a survey of existing literature. We summarize
+			and compare existing approaches, identify open
+			research issues, and state the need for layer cooperation
+			as a solution to the ALTO problem.
+			
+		-Paperin pointit
+			-Antaa paikallisuusongelman nimeksi ALTO
+				-Application Layer Traffic Optimization problem
+				
+			-P2P käytetään nykyään myös real-time multimedia communications ja live media streamning
+			-Paprun kirjoittaneet ovat sitä mieltä että kerrosten (application ja network) välinen kommunikointi on paras ratkaisu ongelmaan
+				-Pelkällä sovellustasolla tehtävillä ratkaisuilla on fundamentaaliset rajat mitä niillä kyetään saavuttamaan
+				-Topologia-estimointi menetelmät käyttävät abstratioita verkkotopologiasta jotka kätkevät ominaisuuksia jotka voisivat olla kiinnostavia p2p-sovelluksille
+				-Kun käytetään verkkokoordinaatteja estimoimaan topologia-informaatiota, oletetaan että latenssi määrittää etäisyydet
+					-Tiedostojen jakamiseen pelkkä latenssi ei kuitekaan riitä
+						-Throughput
+						-Data loss
+						-RTT (round-trip-time)
+						
+				-P2P-sovelluste omat topologian estimointi menetelmät eivät useinkaan johda optimaalisiin ratkaisuihin
+				-Joitain verkon ominaisuuksia on vaikea tai mahdoton estimoida
+					-Examples of such features are service provider
+					policies and preferences such as the state and cost
+					associated with interdomain peering and transit
+					links. Another example is the traffic engineering
+					policy of a service provider, which may counteract
+					the routing objective of the overlay network, leading
+					to poor overall performance [11].
+					
+				-Estimoinnit luovat traffic overheadia
+					-Eritoten jos kaikki P2P-sovellukset tekevät estimoinnin itsenäisesti
+						-(eikä esimerkiksi käyttämällä oraakkelia tms.)
+					
+			-Monet topologian estimoinnin menetelmät perustuvat latenssiin, joka yksinään ei välttämättä ole riittävä P2P tapauksessa
+				-Monelle P2P-sovellukselle latenssi ei ole tärkein tekijä
+					-Sovellukset voisivat hyötyä siis runsaammasta informaatiosta
+						-Sophisticated methods of active network probing
+						and passive traffic monitoring are generally very
+						powerful, and can generate network statistics
+						indirectly related to performance measures of
+						interest, such as delay and loss rate on link-level
+						granularity. Extraction of these hidden attributes
+						can be achieved by applying statistical inference
+						techniques developed in the field of inferential
+						network monitoring or network tomography subsequent
+						to sampling of the network state. Thus,
+						network tomography enables the extraction of a
+						richer set of topology information, but at the
+						same time inherently increasing complexity of a
+						potential information plane and introducing estimation
+						errors.
+						
+						-For both active and passive methods,
+						statistical models for the measurement
+						process need to be developed, and the spatial
+						and temporal dependence of the measurements
+						should be assessed. Moreover, measurement
+						methodology and statistical inference strategy
+						must be considered jointly. For a deeper discussion
+						of network tomography and recent developments
+						in the field, we refer the reader to [14].
+						
+				-Muita kriteereitä:
+					-Throughput
+					-Packet loss rate
+			
+			-Ratkaisujen taksonomia
+				-End systems mechanisms for topology estimation
+					-Coordinate-based systems
+						-Network coordinate systems require the embedding
+						of the Internet topology into a coordinate system.
+						This is not always possible without errors,
+						which impacts the accuracy of distance estimations.
+						
+						-GNP
+							-Vasatuksena IDMapsin skaalautuvuusongelmiin
+							-IDMpas ja GNP vaativat verkkoinfrastruktuuria (tracereita/landmark hosts)
+								-this often introduces a single point of failure and inhibits scalability
+								
+						-Vivaldi
+							-Vastauksena IDMapsin ja GNPn ongelmiin
+							-Käytetään ilmeisesti Azureuksessa, ilmeisesti skaalautuu erään paperin mukaan hyvin
+							
+						-PIC
+							-Vastauksena IDMapsin ja GNPn ongelmiin
+						
+					-Path selection services
+						-IDMaps
+							-Ilmeisesti oli skaalautusongelmia
+							
+						-Meridian
+							-Koordinaatti-systeemit herkkiä virheille (ylläoleva teksit), vastauksena tähän
+							
+						-Ono
+							-Taming the torrent
+						
+					-Link-layer Internet maps
+						iPlane
+							-Sophisticated methods of active network probing
+							and passive traffic monitoring are generally very
+							powerful, and can generate network statistics
+							indirectly related to performance measures of
+							interest, such as delay and loss rate on link-level
+							granularity. Extraction of these hidden attributes
+							can be achieved by applying statistical inference
+							techniques developed in the field of inferential
+							network monitoring or network tomography subsequent
+							to sampling of the network state. Thus,
+							network tomography enables the extraction of a
+							richer set of topology information, but at the
+							same time inherently increasing complexity of a
+							potential information plane and introducing estimation
+							errors.
+							
+							-For both active and passive methods,
+							statistical models for the measurement
+							process need to be developed, and the spatial
+							and temporal dependence of the measurements
+							should be assessed. Moreover, measurement
+							methodology and statistical inference strategy
+							must be considered jointly. For a deeper discussion
+							of network tomography and recent developments
+							in the field, we refer the reader to [14].
+							
+							-Atlas joka sisältää tietoa Internetistä, kuten latenssi, bandwith, capacity ja loss rate
+						
+					-Paprussa tauluko menetelmien (ei ono) suhteellisista error-rateista
+						
+				-Operator-provided topological information
+					-techniques where the application-layer
+					works closely with some other layer (e.g., routing)
+					or some entity that has more of a global networking
+					view than the application does in isolation
+					
+					-Poistaa tarpeen p2p-sovelluksilta estimointiin
+						-ISPt / network operaattorit tietävät valmiiksi
+							-Verkkojensa ominaisuudet
+							-the business agreements
+							and routing policies that are used to shape
+							traffic in the physical network
+				
+					-P4P: Provider for portal applications
+						-The architecture proposed
+						by Xie et al. [8] has been adopted by the DCIA
+						P4P Working Group ,2 an open group established
+						by ISPs, P2P software distributors, and technology
+						researchers with the dual goal of defining mechanisms
+						to accelerate content distribution and optimize
+						utilization of network resources.
+						
+					-Oracle-based ISP and P2P cooperation
+					-ISP-driven informed path selection
+
+					-Tarkempia kuvauksia menetelmistä paprussa
+					
+					
+			-Avoimet tutkimusongelmat
+				-Cachaus
+					-Haittapuolet
+						-Protokolla-riippuvaisia (HTTP, BitTorrent)
+						-Tekijänoikeudet
+						
+					-Välimuisti ei haittaa sovellusten omia estimointi-ratkaisuja
+						-Voisi olla mahdollista peräti tehdä yhteistyötä
+							-Sovellukset ottavat huomioon välimuistien olemesssaolon
+					
+				-A resilient protocol
+					-Regardless, such a protocol
+					should adequately express the preferences of a
+					P2P host to the network operator without disclosing
+					information the host may consider private,
+					providing the network operator with enough
+					primitives such that the response sent back to the
+					host does not reveal undue topological information
+					of the operator’s network.
+					
+					-Eli protokolla joka ei paljasta liikaa informaatiosta käyttäjästä tai verkosta
+					
+				-Coordinate estimation or path latencies?
+					-Molemmilla omat vahvuudet ja heikkoudet
+					
+				-Malicious nodes
+					-Oraakkelin suojaus vihamielisiltä vertaisilta
+					
+				-Information integrity
+					-it is still possible that the information returned to
+					applications is deliberately altered; for example,
+					assigning higher priority to cheap (monetary-wise)
+					links instead of neutrally applying proximity criteria
+						-Similarly, what are the consequences if an
+						oracle targets a particular node in another AS by
+						redirecting an inordinate number of querying peers
+						to it, essentially causing a distributed denial-of-service
+						(DDoS) attack on the node? Furthermore,
+						does an oracle broadcast or multicast a response to
+						a query? If so, techniques to protect the confidentiality
+						of the multicast stream will need to be investigated
+						to thwart “free riding” peers.
+						
+				-Simulate or build?
+					-Usein ainoa tapa testata ratkaisuja on simulaatioilla yms. testiympäristöillä
+						-Nämä eivät kuitenkaan ole välttämättä riittäviä osoittamaan toimivuutta
+				
+				-Richness of topology information
+					-Mitä kaikkea tietoa tulisi tarjota
+					
+				-Hybrid solutions
+					-It is conceivable that P2P users
+					may not be comfortable with operator intervention
+					to provide topology information
+					
+					-Vaihtoehtoisia skeemoja jotta ISP ei tarvitse tulla mukaan
+						-Ono hyödyntää Akamai-CDN:nää
+						-Vivaldi, GNP, and PIC use synthetic coordinate systems.
+						-Neutraali kolmanne osapuoli voisi tehdä hybridi-taso-yhteistyö-palvelun (ilman ISPn aktiivista osallistumista)
 
 Vastaväitteet
 	Pitfalls for ISP-friendly P2P design.
@@ -607,7 +893,7 @@ Vastaväitteet
 		
 		Hotnets 2009
 			Proceedings of the xth ACM Workshop on Hot Topics in Networks
-			-Scopuksella H-Index tapahtumissa ollu noin 10 luokaa
+			-Scopuksella H-Index tapahtumissa ollu noin 10 luokkaa
 			-Vissiin ilmeisesti sigcomm workshop?
 			
 		Michael Piatek
@@ -838,65 +1124,292 @@ Vastaväitteet
 		promotion mechanisms and even switching between different
 		schemes in the course of application operation. It is unclear
 		how the entire system behaves under these circumstances.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-HPTP: Relieving the Tension between ISPs and P2P. 2007
-	Shen, Guobin, et al. "HPTP: Relieving the Tension between ISPs and P2P." IPTPS. 2007.
-		International Workshop on Peer-to-Peer Systems 
 		
-	International Workshop on Peer-To-Peer-System
-		-Ei löytynyt H-indexia yms.
 		
-	PAPERI EI SCOPUKSESSA
+	Pushing Bittorrent Locality to the Limit	
+		Le Blond, Stevens, Arnaud Legout, and Walid Dabbous. "Pushing bittorrent locality to the limit." Computer Networks 55.3 (2011): 541-557.
 		
-	Guobin Shen
-		h: 44
-		i10: 93
+		127 viittausta
 		
-		6094 viittausta
-		
-		Zepp Labs, Inc. (nykyään)
-		Microsoft Research Asia, Beijing, P.R.China (tekstin aikaan)
-		
-	
-	
-	
-	114 viittausta
-	
-	Abstract
-		-Measurement-based studies indicate that there is a severe ten-sion between P2P applications and ISPs. 
-		-In this paper, we pro-pose a novel HTTP-based Peer-to-Peer (HPTP) framework torelieve this tension.  
-		-The key idea is to exploit thewidely de-ployed web cache proxiesof ISPs to trick them to cache P2Ptraffic. 
-		-This is achieved via a process we refer to as “HTTPi-fying”:  
-			-we segment (if necessary) large P2P files or streamsinto  smaller  chunks,  encapsulate  and  transport  them  usingthe HTTP protocol so that they are cacheable. 
+		Computer Networks
+			H-Index: 119
+			JUFO-taso: 2
 			
-		-We outline thedesign of several key tools of the proposed HPTP framework– HTTPifying, cache detection and usability test tools, anddescribe a cache-aware tree 
-		construction (CATC) protocol fordelivering P2P streaming traffic as an example to showcasethe HPTP framework.   
-		-Simulation results demonstrate thatHPTP can lead to significant performance improvement. 
-		-Weargue that the HPTP framework will benefit both ISPs andend users (P2P as well as normal web users) by significantlyreducingnetwork overloadcaused by repetitive P2P 
-		traffic.
-		
-	Artikkelin pointti
-		-Hyväksikäytetään ISPiden HTTP-cacheja kapsuloimalla P2P-chunkit HTTP-paketteihin
-			-Simulaatiotestataan
-			-Tulokset vaikuttavat lupaavilta
-				-Hyödyttää sekä ISP että P2P
+		-Ilmeisesti tekninen raportti? (Traffic Localization for P2P-Applications: The ALTO Approach mukaans) 
+			
+		More recently, [9] investigated what extent of locality
+		is beneficial to P2P-applications in general. Clearly, some
+		degree of inter-ISP links needs to be preserved in order
+		to guarantee robustness and prevent network partitioning
+		in the case of node failure. The authors define locality as
+		the percentage of intra-ISP connections over all connections
+		with respect to the average peer. Their study concludes that
+		compared to the regular BitTorrent protocol up to two orders
+		of magnitude can be saved on inter-ISP traffic if locality is
+		used. Further, they show in a test environment with modified
+		BitTorrent implementations that the capacity of the initial
+		content-seed has strong implications on the potential benefit
+		of employing locality-biased neighbor selection. (Traffic Localization for P2P-Applications: The ALTO Approach)
+			
+		Abstract
+			Peer-to-peer (P2P) locality has recently raised a lot of interest in the community. Indeed,
+			whereas P2P content distribution enables financial savings for the content providers, it dramatically
+			increases the traffic on inter-ISP links.
+			To solve this issue, the idea to keep a fraction of the P2P traffic local to each ISP was introduced
+			a few years ago. Since then, P2P solutions exploiting locality have been introduced.
+			However, several fundamental issues on locality still need to be explored. In particular,
+			how far can we push locality, and what is, at the scale of the Internet, the reduction of
+			traffic that can be achieved with locality?
+			In this paper, we perform extensive experiments on a controlled environment with up to
+			10,000 BitTorrent clients to evaluate the impact of high locality on inter-ISP links traffic
+			and peers download completion time.
+			We introduce two simple mechanisms that make high locality possible in challenging
+			scenarios and we show that we save up to several orders of magnitude inter-ISP traffic
+			compared to traditional locality without adversely impacting peers download completion
+			time. In addition, we crawled 214,443 torrents representing 6,113,224 unique peers spread
+			among 9605 ASes. We show that whereas the torrents we crawled generated 11.6 petabytes
+			of inter-ISP traffic, our locality policy implemented for all torrents could have
+			reduced the global inter-ISP traffic by up to 40%
+			
+		Artikkelin pointit
+			-Kuinka pitkälle paikallisuus voidaan viedä ennenkuin se haittaa päällysverkon eheyttä?
+				-Eli jos verkko ei ole tarpeeksi eheä = latausajat kärsivät
 				
-		-Googlen perusteella ei vissiin otettu käyttöön
-			-Mielenkiintoinen ratkaisu tosin
+			-Kuinka paljon liikennettä pystytään vähentämään globaalilla Internet-skaalalla paikallisuuden avulla
+				-Inter-ISP linkkien säästöt
+				-Eli kuinka paljon ISPt pystyvät hyötymään
+			
+			-Kysymyksiä tutkitaan BitTorrent-testeillä
+				-10 000 bittorrent clienttiä hallitussa ympäristössä
+					-Sektiot 4-5
+					
+				-Käyttämällä oikeaa dataa joka kerätty 214,433 torrentista, 6,113,224 uniikista vertaisesta ja 9605 ASstä (verkosta)
+					-Sektio 6
+			
+			-Tulokset
+				-BitTorrentissa paikallisuutta pystytään puskemaan pidemmälle kuin luultiin
+					-Vähentää inter-isp-liikennettä moninkertaisesti				
+					-Vertaisten latausajat pysyvät alhaisina
+					-Finally, we propose new strategies to
+					improve the efficiency and robustness of our locality
+					policy on challenging scenarios defined from real
+					world torrents.
+					
+				-214,433 torrentin skaalalla, ISPt hyötyvät paikallisuudesta paljon
+					-Korkea paikallisuus pystyi säästämään 40% verkkojenvälisestä liikenteestä
+						-P4P tutkimuksessa raportoitiin 60% säästöt, mutta käytetty tutkimusmenetelmä oli eri
+							-P4P tehtiin ISP-skaalalla, tässä paperissa tehtiin Internet-skaalalla
+							
+				-Our main findings are that a small number of inter-ISP
+				connections will dramatically reduce the overhead and
+				keep the slowdown low independently of the torrent size,
+				the number of peers per ISP, the upload capacity of peers,
+				or the churn. We have introduced two new strategies
+				called Round Robin and partition merging that make the
+				use of a small number of inter-ISP connections feasible
+				for real torrents of the Internet.
+					-However, we do not advocate for such small number of
+					inter-ISP connections in real deployments. Indeed, selecting
+					a very small number of inter-ISP connections is a design
+					choice. For BitTorrent client companies, it is not an
+					option to increase the peers slowdown, even by just a
+					few percents, in order to further reduce the load on inter-
+					ISP links, because it will lead to a decrease in the number
+					of users of this BitTorrent client. Conversely, content
+					providers, might want to optimize the inter-ISP traffic in
+					order to convince ISPs to do not block their BitTorrent
+					traffic
+			
+			-Paperin paikallisuusmenetelmä on pikemminkin tarkoittu tutkimuksen käyttöön, eikä niinkään implementoitavaksi ratkaisumalliksi
+				-Kuitenkin identifioivat 2 tärkeää strategiaa joita suositellaan edes harkittavaksi mikäli aikoo tehdä paikallisuusratkaisun
+					-Round robin
+						-Kun valitaan vertaista inter-ISP naapuruussuhteeseen, ensiksi valitaan ISP round robinilla ja ISPn sisältä valitaan satunnaisesti vertainen
+							-Jos valinta tehdään pelkän satunnaisen vertaisen perusteella, suuremmat verkot (jotka sisältävät enemmän vertaisia) saavat enemmän tulevaa
+							liikennettä, mikä nostaa suurten verkkojen Inter-ISP-liikenteen määrää (toteamus vahvistetaan section 6:sessa)
+							-Sektioissa 4 ja 5 oletetaan ISPillä olevan homogeeninen määrä vertaisia, joten tällöin round-robin ja satunnainen valinta ovat ekvivalentteja
+								-Sektiossa 6 testataan round robinia
+								
+					-Partition merging
+						-Jos inter-isp yhteyksiä on vähän, on mahdollista että syntyy tilanne jossa torrentissa esiintyy partitioita
+							-if peers who have inter-ISP connections leave the
+							torrent and no new peer joins the ISP, then this ISP will
+							form a partition.
+						
+						-Vertaiset lähettävät viestin seurantapalvelimelle mikäli naapurivertaiset eivät omaa jotain osaa sisällöstä
+							-Pyytävät uutta inter-isp linkkiä
+							-Yksityiskohtia paprussa
+								-Trackerkin tekee jotain oleellista
+							
+							-Potentiaalinen yökkäyksen kohteena
+								-Testi tehty kuitenkin hallitussa ympäristössä
+								-Paprun mukaan ei pitäisi olla liian vakava ongelma
+								
+							-As this strategy has no impact on our experiments when
+							there is no partition, we present results in Sections 4 and 5
+							without the PM strategy unless explicitly specified, that is
+							when there is a partition and that the PM strategy changes
+							the result. We perform a detailed analysis of the PM strategy
+							in Section 6.
+							
+				-Tracker voisi tehdä yhteistyötä esim p4p kanssa.
+				
+			Second, the dynamics
+			of BitTorrent is subtle and not yet deeply understood. Running
+			simulations with a simplified version of BitTorrent
+			may hide fundamental properties of the system.
+				-Ota tämä huomioon jos paperit testaavat yksinkertaistetuilla BitTorrenteilla
+				
+			-Sektion 5 (ja ehkä 4) tulokset
+				-First, we remind that our main goal in this section was
+				to minimize the overhead. We achieved up to three orders
+				of magnitude reduction in the overhead compared to the
+				BitTorrent policy
+					-There is a price to pay for such a huge reduction,
+					which is an increase by at most 30% in the slowdown.
+						-Tutkijat kuitenkin pitävät tätä kohtuullisena vaihtona
+						
+				-Second, the increase we report on the slowdown is the
+				worst one that can be achieved. Indeed, all our experiments
+				(except the ones presented in Section 5.3) are performed
+				without congestion in the network. However, we
+				have shown in Section 5.3 that in case of congestion, our
+				locality policy can reduce the slowdown compared to the
+				BitTorrent policy. 
+					-Therefore, on a real network, the slowdown
+					with our locality policy is likely to be equivalent or
+					even better than the one of the BitTorrent policy.
+
+
+			-In the remaining of this section,
+			we focus on inter-ASes rather than on inter-ISPs traffic
+			for two reasons. First, the information to perform the mapping
+			between IP addresses and ASes is publicly available,
+			whereas there is no standard way to map IP addresses or
+			ASes to ISPs. Second, ISPs may consist of several ASes.
+			There is no way to find where an ISP wants to keep traffic
+			local
+			
+			-Indeed, Asian torrents
+			are usually large and, due to the geographical locality
+			inherent to such torrents, spread among fewer ASes than
+			an average torrent. Therefore, Asian torrents have a larger
+			potential for locality than other torrents
+
+			-Sektion 6 tulokset
+				-Tarkastellaan Inter-AS eikä Inter-ISP
+				-In Section 5, we performed experiments with a homogeneous
+				number of peers per AS. However, real torrents
+				have an heterogeneous number of peers per AS, which
+				may adversely impact the overhead reduction we observed
+				with a small number of outgoing inter-ISP connections.
+				
+				-Tarkasteltavat torrentit
+					-Suositun englanninkielisen elokuvan torrent
+						-9844 vertaista 1043 AS:sä, suurin AS 386 vertaista
+						
+					-Italiankielisen elokuvan torrent
+						-4819 vertaista 211 AS:sä, suurin AS 2415 vertaista
+						-Vähenmmän total AS kuin englanninkielisessä suositussa elokuvassa
+							-Tukee should fear paperissa esitettyä väitettä että lokaalisuutta esiintyy sisällön kielestä johtuen
+						
+					-Pelin torrent
+						-996 vertaista 345 AS:sä, suurin AS 31 vertaista
+						-Edustaa keskikokoisia torrentteja jolla vähän potentiaalia paikallisuussäästöihin, sillä sen AS:sissä on keskimäärin vähän vertaisia
+						
+				-In this section, we want to estimate the benefits our
+				locality policy would have had on the torrents we crawled.
+				In our crawl, 117,677 torrents and 6643 ASes cannot benefit
+				from a locality policy, because there is at most one peer
+				per AS per torrent. However, we want to show that despite
+				most of the torrents and ASes cannot benefit from a locality
+				policy, the implementation of a locality policy at the scale
+				of the Internet would be highly beneficial.
+					-Huom loput torrentit ja ASsät hyötyivät paikallisuudesta
+						-Total torrents: 214,443
+						-Total AS: 9605 AS
+					
+					-Eli usein ASät eivät hyödy paikallistamisesta'
+						-Ota huomioon paprussa
+					
+				-Fig. 11 lower plot shows that even with a small number
+				of peers per AS, the overhead savings are already high. For
+				instance, with 5 peers per AS, the overhead with our locality
+				policy is 40% lower than the one with the BitTorrent
+				policy.
+				
+				-We see that the cumulative inter-AS traffic with the BitTorrent
+				policy is 11.6 petabytes, and that with 4 outgoing inter-
+				AS connections it is 7.3 petabytes (and 7 petabytes
+				with the PM + RR strategies), which is only 41% larger
+				(35% with PM + RR) than what the ideal policy achieves.
+				
+		-Ottivat Pitfalls-paperin huomioon
+			-Ei kuulemma päde tähän tutkimukseen, sillä
+				-Pitfalls väitti että clientside only paikallisuus ei välttämättä toimi
+					-Tämän paperin ratkaisu on seurantapalvelinpohjainen
+					
+				-Pitfalls väitti että vertaisverkon eheys ei säily
+					-Paperin tekijät ottivat verkon eheyden säilyttämisen huomioon
+
+
+
+
+Tarkista ohjaajalta
+	HPTP: Relieving the Tension between ISPs and P2P. 2007
+		Shen, Guobin, et al. "HPTP: Relieving the Tension between ISPs and P2P." IPTPS. 2007.
+			International Workshop on Peer-to-Peer Systems 
+			
+		International Workshop on Peer-To-Peer-System
+			-Ei löytynyt H-indexia yms.
+			
+		PAPERI EI SCOPUKSESSA
+			
+		Guobin Shen
+			h: 44
+			i10: 93
+			
+			6094 viittausta
+			
+			Zepp Labs, Inc. (nykyään)
+			Microsoft Research Asia, Beijing, P.R.China (tekstin aikaan)
+			
+		
+		
+		
+		114 viittausta
+		
+		Abstract
+			-Measurement-based studies indicate that there is a severe ten-sion between P2P applications and ISPs. 
+			-In this paper, we pro-pose a novel HTTP-based Peer-to-Peer (HPTP) framework torelieve this tension.  
+			-The key idea is to exploit thewidely de-ployed web cache proxiesof ISPs to trick them to cache P2Ptraffic. 
+			-This is achieved via a process we refer to as “HTTPi-fying”:  
+				-we segment (if necessary) large P2P files or streamsinto  smaller  chunks,  encapsulate  and  transport  them  usingthe HTTP protocol so that they are cacheable. 
+				
+			-We outline thedesign of several key tools of the proposed HPTP framework– HTTPifying, cache detection and usability test tools, anddescribe a cache-aware tree 
+			construction (CATC) protocol fordelivering P2P streaming traffic as an example to showcasethe HPTP framework.   
+			-Simulation results demonstrate thatHPTP can lead to significant performance improvement. 
+			-Weargue that the HPTP framework will benefit both ISPs andend users (P2P as well as normal web users) by significantlyreducingnetwork overloadcaused by repetitive P2P 
+			traffic.
+			
+		Artikkelin pointti
+			-Hyväksikäytetään ISPiden HTTP-cacheja kapsuloimalla P2P-chunkit HTTP-paketteihin
+				-Simulaatiotestataan
+				-Tulokset vaikuttavat lupaavilta
+					-Hyödyttää sekä ISP että P2P
+					
+			-Googlen perusteella ei vissiin otettu käyttöön
+				-Mielenkiintoinen ratkaisu tosin
+
+
+
+
+
+
+
+
+
+
+
 	
 	
 	
@@ -925,38 +1438,9 @@ Rodrigues, Rodrigo, and Peter Druschel. "Peer-to-peer systems." Communications o
 
 	
 	
-Pushing Bittorrent Locality to the Limit
-	Le Blond, Stevens, Arnaud Legout, and Walid Dabbous. "Pushing bittorrent locality to the limit." Computer Networks 55.3 (2011): 541-557.
-	
-	127 viittausta
-	
-	Computer Networks
-		H-Index: 119
-		JUFO-taso: 2
-		
-	Abstract
-		Peer-to-peer (P2P) locality has recently raised a lot of interest in the community. Indeed,
-		whereas P2P content distribution enables financial savings for the content providers, it dramatically
-		increases the traffic on inter-ISP links.
-		To solve this issue, the idea to keep a fraction of the P2P traffic local to each ISP was introduced
-		a few years ago. Since then, P2P solutions exploiting locality have been introduced.
-		However, several fundamental issues on locality still need to be explored. In particular,
-		how far can we push locality, and what is, at the scale of the Internet, the reduction of
-		traffic that can be achieved with locality?
-		In this paper, we perform extensive experiments on a controlled environment with up to
-		10,000 BitTorrent clients to evaluate the impact of high locality on inter-ISP links traffic
-		and peers download completion time.
-		We introduce two simple mechanisms that make high locality possible in challenging
-		scenarios and we show that we save up to several orders of magnitude inter-ISP traffic
-		compared to traditional locality without adversely impacting peers download completion
-		time. In addition, we crawled 214,443 torrents representing 6,113,224 unique peers spread
-		among 9605 ASes. We show that whereas the torrents we crawled generated 11.6 petabytes
-		of inter-ISP traffic, our locality policy implemented for all torrents could have
-		reduced the global inter-ISP traffic by up to 40%
-		
-	
 
-
+				
+		
 
 ARE FILE SWAPPING NETWORKS CACHEABLE? CHARACTERIZING P2P TRAFFIC 
 	165 viittausta
@@ -967,6 +1451,68 @@ Traffic localization for P2P-applications: The ALTO approach
 	122 viittausta
 	
 	Seedorf, Jan, Sebastian Kiesel, and Martin Stiemerling. "Traffic localization for P2P-applications: The ALTO approach." 2009 IEEE Ninth International Conference on Peer-to-Peer Computing. IEEE, 2009
+	
+	2009 IEEE Ninth International Conference on Peer-to-Peer Computing. IEEE
+		h-index: 13
+		
+	Jan Seedorf
+		h-index: 10
+		
+		37 (tehdyt paperit) / 291 (viittausten määrät)
+		
+		Hochschule für Technik Stuttgart, Stuttgart, Germany 
+	
+	Sebastian Kiesel
+		h-index: 3
+		
+		4 / 101
+		
+		NEC Deutschland GmbH, Dusseldorf, Germany
+
+	Martin Stiemerling
+		h-index: 7
+		
+		22 / 240
+		
+		Hochschule Darmstadt, Darmstadt, Germany
+	
+	Abstract
+		Today, most P2P applications do not consider
+		locality on the underlying network topology when choosing
+		their neighbors on the P2P routing layer. As a result, participating
+		peers may experience long delays and peers’ ISPs
+		suffer from a large amount of (costly) inter-ISP traffic. One
+		potential solution to mitigate these problems is to have ISPs
+		or third parties convey information regarding the underlying
+		network topology to P2P-clients through a dedicated service.
+		Following this approach, the IETF has recently formed an
+		Application Layer Traffic Optimization (ALTO) working group
+		for standardizing a protocol to enable P2P applications to
+		obtain information regarding network layer topology.
+		This paper comprises the problem space for such an ALTO
+		approach, taking into account recent developments in the
+		IETF ALTO Working Group. In particular, we will describe
+		requirements for an ALTO protocol identified in the IETF,
+		concrete protocols which have been proposed so far, and the
+		overall challenges. In addition, we will discuss related issues
+		such as privacy considerations, the relationship of an ALTO
+		service with existing caching solutions, discovery mechanisms
+		for an ALTO service, and security considerations.
+		
+	Artikkelin pointit
+		-Alussa katsaus ratkaisuista
+		-Kokoavat haasteita ja suunnitteluongelmia ALTO-ratkaisuun
+		-Esittelevät ALTO working groupin ja sen suunnitteleman ratkaisu
+			-Kävin kattommassa niiden sivut, ilmeisesti pelkkiä white-paper tyylisiä vertaisarvioimattomia dokumentteja
+				
+		-Alto-ratkaisu
+			-Palvelu jota P2P-sovellukset voisivat käyttää optimaaliseen vertaisvalintaan
+			-Palvelu lähettää tietoa vertaisille, saa tietoa ISP:ltä
+			
+		-HUOM!!!! Tutkijat eivät ilmeisesti saaneet aikaan mitään konkreettista
+			-Paperista ei ainakaan löytynyt mitään testejä ratkaisulle
+		
+		
 	
 A bottleneck free model for p4p
 	6 viittausta
@@ -1038,6 +1584,24 @@ Deep Diving into BitTorrent Locality
 	
 	-2010
 	-ACM SIGMETRICS Performance Evaluation Review 38.1 
+	
+	Cuevas et al. [24] is by several aspects close to our work.
+	Indeed, the authors also collected a large BitTorrent trace
+	and explored the impact of high locality. However, their
+	work significantly differs by other aspects. The core of their
+	evaluation study is a mathematical model, whereas we
+	performed extensive large scale experiments. They specifically
+	focused on peers upload distribution, whereas we
+	focused on the systematic evaluation of fundamental
+	parameters like torrent size, or inter-ISP bottlenecks. Finally,
+	they do not explore the second question of this work
+	What is, at the scale of the Internet, the reduction of traffic
+	that can be achieved with locality? In summary, our work
+	is complementary to the one of Cuevas et al., as it validates
+	some of the assumptions they made in the modeling of Bit-
+	Torrent locality, in particular the good piece diversity with
+	locality, which is fundamental to observe stratification in
+	their model. (Pushing bittorrent locality to the limit)
 	
 Detecting BitTorrent Blocking
 	131
@@ -1347,13 +1911,8 @@ Towards an ISP-compliant, peer-friendly design for peer-to-peer networks
     -2008
     -There has been research about the rising tension between P2P and ISPs. Peer Coordination Protocol[27] was developed for ISP-compliant P2P systems, which puts a dynamic rate limit on P2P trafficbased on an ISPs’ constraint. (Network pricing: can both ISP and P2P benefit?)
 
-A survey of research on the application-layer traffic optimization problem and the need for layer cooperation ←--------------- KATO TÄÄ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    Gurbani, Vijay K., et al. "A survey of research on the application-layer traffic optimization problem and the need for layer cooperation." IEEE Communications Magazine 47.8 (2009): 107-112.
 
--46 viittausta
-
-    -Tiivistelmä ongelmasta ja katsaus artikkeleista !!!!!!!!!
-
+			
 The Internet-wide impact of P2P traffic localization on ISP profitability
     Seibert, Jeff, et al. "The internet-wide impact of p2p traffic localization on isp profitability." IEEE/ACM Transactions on Networking 20.6 (2012): 1910-1923.
 
@@ -1377,6 +1936,275 @@ BitTorrent Developers Introduce Comcast Busting Encryption (Uutisartsa)
     https://torrentfreak.com/bittorrent-devs-introduce-comcast-busting-encryption-080215/
 
     The large volumes of P2P traffic in today’s Internet have sig-nificantly changed the Internet traffic pattern and dramaticallyincreased the traffic-relay cost at the ISPs. Such a cost threathas led to ISPs’ packet filtering and rate throttling towardsP2Ptraffic [1], while on the other hand P2P application providersreact  by  encrypting  data  and  communicating  with  dynamicports to prevent from being recognized [2]. (The Performance and Locality Tradeoff inBitTorrent-like P2P File-Sharing Systems)
+	
+Clustering and sharing incentives in BitTorrent systems
+	Legout, Arnaud, et al. "Clustering and sharing incentives in bittorrent systems." ACM SIGMETRICS Performance Evaluation Review 35.1 (2007): 301-312.
+	
+	-358 viittausta
+	
+	Abstract
+		Peer-to-peer protocols play an increasingly instrumental role in In-
+		ternet content distribution. It is therefore important to gain a com-
+		plete understanding of how these protocols behave in practice and
+		how their operating parameters affect overall system performance.
+		This paper presents the ﬁrst detailed experimental investigation of
+		the peer selection strategy in the popular BitTorrent protocol. By
+		observing more than 40 nodes in instrumented private torrents, we
+		validate three protocol properties that, though believed to hold,
+		have not been previously demonstrated experimentally: the clus-
+		tering of similar-bandwidth peers, the effectiveness of BitTorrent’s
+		sharing incentives, and the peers’ high uplink utilization. In addi-
+		tion, we observe that BitTorrent’s modiﬁed choking algorithm in
+		seed state provides uniform service to all peers, and that an un-
+		derprovisioned initial seed leads to absence of peer clustering and
+		less effective sharing incentives. Based on our results, we provide
+		guidelines for seed provisioning by content providers, and discuss
+		a tracker protocol extension that addresses an identiﬁed limitation
+		of the protocol.
+		
+	-Moreover, the clustering observed by Legout et al. [12]
+	appears only when there is high piece diversity. As soon
+	as piece diversity becomes lower, there is no more clustering
+	even if the efficiency of BitTorrent is preserved
+		-This is
+		this kind of phenomenon we observe with locality. Indeed,
+		even if upload distribution is supposed to foster communications
+		among peers with the same upload capacity, this is
+		by no mean an absolute constraint because, as soon as
+		piece diversity decreases, clusters among peers are broken
+		and any peer can communicate with any other peer [12].
+		
+		(Pushing bittorrent locality to the limit)
+		
+Rarest first and choke algorithms are enough
+	Legout, Arnaud, Guillaume Urvoy-Keller, and Pietro Michiardi. "Rarest first and choke algorithms are enough." Proceedings of the 6th ACM SIGCOMM conference on Internet measurement. 2006.
+	
+	503 viittausta
+	
+	Abstract
+		The performance of peer-to-peer file replication comes from
+		its piece and peer selection strategies.  Two such strategies
+		have been introduced by the BitTorrent protocol: the rarest
+		first and choke algorithms.   Whereas it is commonly ad-
+		mitted that BitTorrent performs well, recent studies have
+		proposed the replacement of the rarest first and choke algo-
+		rithms in order to improve efficiency and fairness.  In this
+		paper, we use results from real experiments to advocate that
+		the replacement of the rarest first and choke algorithms can-
+		not be justified in the context of peer-to-peer file replication
+		in the Internet.We instrumented a BitTorrent client and ran experiments
+		on real torrents with different characteristics.  Our exper-
+		imental evaluation is peer oriented, instead of tracker ori-
+		ented,  which allows  us to get detailed information  on all
+		exchanged messages and protocol events. We go beyond the
+		mere observation of the good efficiency of both algorithms.
+		We show that the rarest first algorithm guarantees close to
+		ideal diversity of the pieces among peers.  In particular, on
+		our experiments, replacing the rarest first algorithm with
+		source or network coding solutions cannot be justified.  We
+		also show that the choke algorithm in its latest version fos-
+		ters reciprocation and is robust to free riders.  In particu-
+		lar, the choke algorithm is fair and its replacement with a
+		bit level tit-for-tat solution is not appropriate.  Finally, we
+		identify new areas of improvements for efficient peer-to-peer
+		file replication protocols.
+		
+	-Categories and Subject Descriptors:
+		-C.2.2 [Computer-Communication   Networks]:Network  Protocols;   
+		-C.2.4[Computer-Communication Networks]: Distributed Systems 
+		
+	-General Terms:
+		-Measurement, Algorithms, Performance
+		
+	-Keywords:BitTorrent, choke algorithm, rarest first algo-rithm, peer-to-peer
+	
+Dissecting BitTorrent: five months in a torrent’s lifetime
+	Izal, Mikel, et al. "Dissecting bittorrent: Five months in a torrent’s lifetime." International Workshop on Passive and Active Network Measurement. Springer, Berlin, Heidelberg, 2004.
+	
+	-720 viittausta
+	
+	Abstract
+		Popularcontent such assoftwareupdatesis requestedby alargenumber of users.
+		Traditionally, tosatisfya largenumber of requests,lagerserver farmsormirroringareused,
+		bothof which areexpensive. Aninexpensive alternative arepeer-to-peerbasedreplicationsystems,
+		whereuserswhoretrieve the le,actsimultaneouslyasclientsandservers.Inthispaper,
+		we studyBitTorrent, a newandalreadyverypopularpeer-to-peerapplicationthatallowsdistributionof
+		verylargecontentstoalargesetofhosts.OuranalysisofBitTorrent is basedonmeasurementscollected
+		ona  ve monthslongperiod thatinvolvedthousandsofpeers.We assesstheperformanceof 
+		thealgorithmsusedinBitTorrent throughseveralmetrics.OurconclusionsindicatethatBitTorrent 
+		is a realisticandinexpensive alternative totheclassicalserver-basedcontent distribution.
+		
+An ISP-friendly file distribution protocol: analysis, design and implementation
+	Lin, Minghong, John CS Lui, and Dah-Ming Chiu. "An isp-friendly file distribution protocol: analysis, design, and implementation." IEEE Transactions on Parallel and Distributed Systems 21.9 (2009): 1317-1329.
+	
+	-27 viittausta
+	
+	Abstract
+		In  the  past  few  years,  P2P  file  distribution  appli-
+		cations (e.g.,  BitTorrent)  are  becoming so  popular that  they  are
+		the dominating source of Internet traffic. This creates significant
+		problems to  Internet Service  Providers (ISPs), not  only because
+		of  the  added  complexity  in  traffic  engineering,  but  the  increase
+		of traffic, in particular on the cross-ISP links, implies congestion
+		and  a  higher operating  cost.  In  this paper,  we consider  an  
+		ISP-friendly file distribution protocol  which uses the 
+		“exploiting-the-locality principle” (ELP) to reduce the cross-ISP traffic. To show
+		its  benefit,  we  derive  an  upper  and  lower  bound  of  cross-ISP
+		traffic  for  the  protocols  which  rely  on  ELP,  and  show  that  the
+		cross-ISP  traffic  can  be  reduced  significantly  when  the  number
+		of  peers  within  an  ISP  increases.  To  carry  out  realistic  study,
+		we  design  and  implement  our  ISP-friendly  protocol  (which  is
+		compatible  with  the current  BitTorrent  protocol)  and  carryout
+		large  scale  experiments  on  PlanetLab  to  measure  the  reduction
+		of  the  cross  ISP-traffic  and  the  file  downloading  time.  More
+		important, we also show how the proposed ISP-friendly protocol
+		can  handle  the  “black-hole”  security  attack.  This  paper  sheds
+		light  on  the merits  and  design  direction  of  ISP-friendly content
+		distribution protocols.
+		
+	Lin et al. [22] introduce ELP that aims to keep traffic local
+	to ISPs. They provide a model that gives bounds on the
+	inter-ISP traffic, and they validate ELP experimentally on
+	PlanetLab with a maximum of 60 peers. (Pushing bittorrent locality to the limit)
+	
+Preemptive Strategies to Improve Routing Performance of Native and Overlay Layers
+	Seetharaman, Srinivasan, et al. "Preemptive strategies to improve routing performance of native and overlay layers." IEEE INFOCOM 2007-26th IEEE International Conference on Computer Communications. IEEE, 2007.
+	
+	-42 viittausta
+	
+	Abstract
+		Overlay routing is known to cause undesired insta-
+		bility in a network by operating in a selfish manner. The objec-
+		tives  of  overlay  routing,  such as  optimizing  end-to-end 
+		latency,are often in conflict with the objectives of traffic engineering in
+		the  native  layer,  which  is  concerned  about  balancing  load.  In
+		our  work,  we  build  on  past  research  that  has  investigated  the
+		recurring  non-cooperative  interaction  between  overlay  routing
+		and  traffic  engineering,  and  develop  strategies  that  improve
+		the  routing  performance  of  a  particular  layer  with  incomplete
+		information about the other layer. In our strategies, one layer acts
+		as  a leader that predicts the follower’s reaction and undertakes
+		countermeasures to prevent future deterioration in performance.
+		Specifically,  we  propose  two  classes  of  strategies  –friendly or hostile–  
+		for  each layer. By  simulating under  different network
+		characteristics, we show that these preemptive strategies achieve
+		near-optimal performance for the leader and increase the overall
+		stability of the network. Furthermore, we observe that the best
+		performance for a particular layer is achieved only when the goals
+		of the other layer are completely violated, thereby motivating a higher level of selfishness
+		
+	There is an intrinsic struggle between
+	the layers — P2P overlay and network underlay
+	— when performing the same service (routing);
+	however, there are strategies to mitigate this
+	dichotomy [11] (A Survey of Research on the Application-Layer Traffic Optimization Problem and the Need for Layer Cooperation)
+	
+	Some features of the network topology are
+	hard to infer through application-level techniques,
+	and it may not be possible to infer them at all.
+	Examples of such features are service provider
+	policies and preferences such as the state and cost
+	associated with interdomain peering and transit
+	links. Another example is the traffic engineering
+	policy of a service provider, which may counteract
+	the routing objective of the overlay network, leading
+	to poor overall performance [11]. (A Survey of Research on the Application-Layer Traffic Optimization Problem and the Need for Layer Cooperation)
+	
+	
+Implementation and Preliminary Evaluation of an ISP-Driven Informed Path Selection
+	Saucez, Damien, Benoit Donnet, and Olivier Bonaventure. "Implementation and preliminary evaluation of an ISP-driven informed path selection." Proceedings of the 2007 ACM CoNEXT conference. 2007.
+	
+	-15 viittausta
+	
+	ISP-Driven Informed Path Selection (IDIPS) Service
+	— The solution proposed by Saucez et al. [10] is
+	essentially a modified version of the oracle-based
+	approach described above, and is intended to provide
+	a network-layer service for finding best source
+	and destination addresses when establishing a connection
+	between two endpoints in multihomed environments
+	(which are common in IPv6 networking). (A Survey of Research on the Application-Layer Traffic Optimization Problem and the Need for Layer Cooperation)
+		
+Network Coordinates in the Wild
+	Ledlie, Jonathan, Paul Gardner, and Margo I. Seltzer. "Network Coordinates in the Wild." NSDI. Vol. 7. 2007.
+	
+	-330 viittausta
+	
+	Abstract
+		Network coordinates provide a mechanism for select-
+		ing and placing servers efficiently in a large distributed
+		system. This approach works well as long as the coordi-n
+		ates continue to accurately reflect network topology. We
+		conducted a long-term study of a subset of a million-plus
+		node coordinate system and found that it exhibited some
+		of the problems for which network coordinates are fre-
+		quently criticized, for example, inaccuracy and fragility
+		in the presence of violations of the triangle inequality.
+		Fortunately, we show that several simple techniques rem-
+		edy many of these problems. Using the Azureus BitTor-
+		rent network as our testbed, we show that live, large-scale
+		network coordinate systems behave differently than their
+		tame PlanetLab and simulation-based counterparts.  We
+		find higher relative errors, more triangle inequality viola-
+		tions, and higher churn. We present and evaluate a number
+		of techniques that, when applied to Azureus, efficiently
+		produce accurate and stable network coordinates
+		
+	A Survey of Research on the Application-Layer Traffic Optimization Problem and the Need for Layer Cooperation
+		-Vivaldi is now used
+		in the popular P2P application Azureus, and
+		studies indicate that it scales well to very large
+		networks [12].
+		
+		Network coordinate systems require the embedding
+		of the Internet topology into a coordinate system.
+		This is not always possible without errors,
+		which impacts the accuracy of distance estimations.
+		In particular, it has proven to be difficult to embed
+		the triangular inequalities found in Internet path
+		distances [12]. Thus, Meridian [6] abandons the
+		generality of network coordinate systems and provides
+		specific distance evaluation services.
+		
+		Undoubtedly, it is hard to foresee
+		how proposed systems will perform in the Internet.
+		Simulations and testbed emulations are in most
+		cases the only options available for benchmarking
+		the performance of a system. However, these have
+		often proven inadequate; in at least one particular
+		case [12], they have only provided rough optimistic
+		approximations of what would be measured in the
+		real world.
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

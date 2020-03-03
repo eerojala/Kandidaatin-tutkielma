@@ -1,0 +1,92 @@
+-P2Pn kasvu on hidastunut ja peräti vähentynyt
+	-Osasyynä video on demand
+	
+-Haitat ISP
+	-Liikenteen määrä
+	-Mielivaltainen reititys
+	
+-Jotkut ISPt käyttää välimuistiratkaisua
+
+-ISPT throttlaa tai kieltävät kokonaan P2P liikenteen
+	-Vastauksena P2P sovellukset salaavat protokollansa 
+	
+-P4P vissiin vielä kehitetään
+
+-Olemassa hybridi p2p-cdn
+
+-Minimizing the negative impact of P2P traffic has drawn 
+significant attentions of networking researchers, which can be
+generally categorized into three classes: traffic limiting, traffic
+caching and traffic localizing
+
+-Traffic localizing
+attempts to guide peers to get connection with local neighbors.
+Traffic localizing can be organized as peer-driven and ISP-driven. 
+
+	-Peer-driven solutions let peers detect unaware local
+	information by themselves. TopBT [6] assesses distances be-
+	tween peers based on hops of routers obtained from
+	traceroute and pingtools. The weakness of peer-driven solutions is that
+	they can not guarantee the accuracy, so ISP-driven is proposed
+	to get the precise networks information
+	
+	
+Second, the dynamics
+of BitTorrent is subtle and not yet deeply understood. Running
+simulations with a simplified version of BitTorrent
+may hide fundamental properties of the system. (Pushing BitTorrent locality to the limits)
+	-Ota tämä huomioon jos paperit testaavat yksinkertaistetuilla BitTorrenteilla
+	
+ISP peer vissiin sillein että niiden välinen liikenne ei ole maksullista?
+	-However, the peering technology
+	is expensive to upgrade so ISPs are interested in reducing
+	the load on those links. Indeed, the cost to upgrade the
+	capacity of the equipments increases much faster than the
+	capacity. (Pushing BitTorrent locality to the limits)
+	
+AS =/= ISP
+	-ISP koostuu yhdestä tai useammasta AS
+	-IP-osoitteet on mahdollista kartoittaa AS-kohtaisesti, mutta IP tai AS ei voi kartoittaa ISP:hen (Pushing bittorrent locality to the limit)
+	
+Indeed, Asian torrents
+are usually large and, due to the geographical locality
+inherent to such torrents, spread among fewer ASes than
+an average torrent. Therefore, Asian torrents have a larger
+potential for locality than other torrents (Pushing bittorrent locality to the limit)
+
+-Should ISP Fear paperissa esitettiin väite että paikallisuutta esiintyy P2P esim sisällön kielen perusteella
+	-Pushing bittorrent locality to the limit tarkasteltiin italiankielisen elokuvan torrentia, jossa oli suhteelisen vähän eri AS:siä
+	
+-Lokalisuutta esiintyy luonnollisesti bittorrentissa, mikäli ISPn sisäiset vertaiset jakavat samanlaiset upload-nopeudet (Pushing bittorrent locality to the limit)
+	-Viittaavat paperiin "A. Legout, N. Liogkas, E. Kohler, L. Zhang, Clustering and sharing incentives in BitTorrent systems"
+	-However, it is
+	unlikely, due to the distribution of peers within a large
+	number of ISPs, that the tracker will return many peers
+	within a same ISP when there is no locality policy
+		-Jos kuitenkin näin käy, niin vertaisten pitäisi pysyä
+		
+-Monet torrentit ja ASsät eivät hyödy paikallisuudesta, sillä jokaisessa AS:ssä ei välttämättä ole kovinkaan paljoa vertaisia (Pushing bittorrent locality to the limit)
+
+-Pushing BitTorrent Locality to the limit paperin mukaan Ono-paperi ei eksplisiittisesti todennut inter-ISP liikenteen vähenemistä, mutta vertaisten väliset reitit lyheneivät
+IP ja AS hoppien kannalta
+
+
+-The architecture proposed
+by Xie et al. [8] has been adopted by the DCIA
+P4P Working Group ,2 an open group established
+by ISPs, P2P software distributors, and technology
+researchers with the dual goal of defining mechanisms
+to accelerate content distribution and optimize
+utilization of network resources.
+
+Also,
+benefits related to pricing models in users’ contracts may
+make an ALTO service attractive for P2P applications. For
+instance, in the case an operator allows unlimited (flatrate)
+traffic within its own network but puts a cap on external
+traffic per user, it can be very useful for a P2P application
+to know which peers offering a desired resource are located
+with its own ISP. (Traffic Localization for P2P-Applications: The ALTO Approach)
+
+https://tools.ietf.org/id/draft-livingood-woundy-p4p-experiences-00.html
+	-P4P testausta
