@@ -1,0 +1,31 @@
+12.3
+	Katsauksen vertaisarviointi
+	
+	Tarvitseeko johdantoon "tässä tutkielmassa jne..." -osuutta
+	
+	Onko puolikkaat sivut ok
+	
+	Onko nykyinen johdanto ok vai pitäisikö siinä kertoa ehkä yleisemmin ongelmasta ja P2P hyödyt voidaan laittaa toiseen kappaleeseen
+	
+	Voiko viittaukset laittaa virkkeiden loppuun.
+	
+	
+	Käytänkö termiä autonominen systeemi vai aliverkko
+		-Varmista että olen ymmärtänyt ISP verrko ja AS erot ohjaajalta
+	
+	Voiko termiä linkki käyttää, että ei mene reitin (route) kanssa sekaisin
+	
+	Latex
+		Miten saa pakotettua uuden kappaleen alkavan samalta sivulta mihin edellinen päättyi
+			-Vai onko tämä haluttu ominaisuus tutkielmaan ja pitää joko pidentää puolitoistasivuiseksi tai pilkkoa yhdeksi sivuksi
+			
+		Tarvitseeko aine abstractia
+			-Tarvitseeko myös englanninkielistä abstractia
+				-Miten abstractin saa pois ilman että syntyy tyhjää sivua 
+				
+		Miten tyhjän sivun saa pois sisällön ja johdannon väliltä
+
+		Miten sanan saa pakotettua jakautumaan uudelle riville tietystä kohtaa
+			-Onko tämä kannattavampaa kuin sisällön rakenteen muuttaminen
+			
+		

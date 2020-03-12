@@ -908,7 +908,7 @@ Can ISPs and P2P Users Cooperate for Improved Performance?
 				We map each Gnutella node’s IP address to its parent AS, and for each overlay edge, we find the network distance in AS hops between the two end-nodes
 				
 			-Vähenee
-			-100 oraakkelilla pysyy suurimman osan ajasta alle 1, eli keskimäärin lähes kaikki naapuruussuhteet ovat AS sisäisiä
+			-100 (välimuistin koko) oraakkelilla pysyy suurimman osan ajasta alle 1, eli keskimäärin lähes kaikki naapuruussuhteet ovat AS sisäisiä
 				-1000 oraakkelilla pysyy koko ajan alle 1
 				
 			-Tämä olisi suuri helpotus ISPille, kun ASn sisäinen liikenne ei tuota ylimääräisiä maksuja 

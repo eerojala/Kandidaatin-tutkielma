@@ -1,29 +1,47 @@
 Can  ISPs Take the Heat from Overlay Networks?
-	Viitatut artikkelit:
+	Qiu et al. [11] describe the interactions between over-
+	lay networks and ISPs after the routing control mecha-
+	nisms reach the Nash equilibrium point. In this paper,
+	we explore some of the issues that arise due to dynamic
+	interactions in the presence of unexpected or unplanned
+	events such as network failures. We believe that the dy-
+	namic network behavior in the presence of failures (that
+	are common, everyday events for ISPs [7]) is very im-
+	portant for ISPs and needs to be addressed.
+	
+	Within each domain, we emulate an IP-layer inte-
+	rior gateway protocol (IGP) that implements Dijkstra's
+	shortest path algorithm. We generate link failures and
+	model IGP dynamics in response to failures as outlined
+	in [7] and [8].
+	
+	ISPs apply TE mainly in reaction to changes in the
+	topology (due to link failures [6, 10]) or tra±c demands
+	(due to °ash crowd events or BGP failures). In these
+	scenarios, a common way for ISPs to manage the tra±c
+	is by changing the IGP link weights. ISPs make two
+	assumptions while using this technique: (i) tra±c de-
+	mands do not vary signi¯cantly over short timescales,
+	and (ii) changes in the path within a domain do not im-
+	pact tra±c demands. Overlay network routing defeats
+	these assumptions as illustrated below.
+	
+	ISPs employ techniques such as [13] to compute their
+	TM i.e., a matrix that speci¯es the tra±c demand from
+	origin nodes to destination nodes in a network.
+
+
+	Viitatut artikkelit: (vain [11] vaikuttaa tutkielmaanhyödylliseltä)
+		[6] Internet Tra±c Engineering by Optimizing OSPF Weights
+		[7] Feasibility of IP Restoration in a Tier-1 Backbone.
+		[8] A New Approach to Characterize IP Backbone Topologies.
 		[9] A. Nakao, L. Peterson, and A. Bavier. A Routing Underlay for Overlay Networks. In ACM SIGCOMM, Aug. 2003.
+		[10] Link Weight Assignment for Transient Link Failures
 		[11] L. Qiu, Y. Yang, Y. Zhang, and S. Shenker. On Selfish Routing in Internet-Like Environments. In ACM SIGCOMM, 2003.
+		[13] How to Identify and Estimate the Largest Tra±c Matrix Elements in a Dynamic Environment
 		[14] B. Zhao, L. Huang, J. Stribling, A. Joseph, and J. Kubiatowicz. Exploiting Routing Redundancy via Structured Peer-to-Peer Overlays. In ICNP, 2003.
 		
-		BitTorrent enjoys the benefits of a distributed
-		system that is inherently more robust to events such
-		as flash crowds, shown to be challenging even for CDNs
-		with hundreds of servers [10], as well as cheaper in terms
-		of infrastructure cost on the part of the content provider.
-		
-		Content distribution using BitTorrent has been shown to
-		offer outstanding performance in terms of content delivery
-		rates to the clients [22, 9].
-		
-		In detail, the BitTorrent file distribution protocol specifies
-		the functionality of three main entities [28]
-			-Tracker
-			-torrent meta info file
-			-peers
-			
-		Peers are forced to always share
-		the content during their downloads while “free-riders” [2]
-		are indirectly banned from the network
-		
+	
 	Viittaavat Artikkelit:
 		P4P: Provider portal for applications X
 		Can ISPs and P2P users cooperate for improved performance? X
@@ -33,11 +51,112 @@ Can  ISPs Take the Heat from Overlay Networks?
 		Spatial and temporal locality of content in BitTorrent: A measurement study
 		
 Should internet service providers fear peer-assisted content distribution?
+	Peer-assisted solutions are inherently self scalable, in
+	that the bandwidth capacity of the system increases as more
+	nodes arrive: each new node requests service from, but also
+	provides service to, the other nodes. The network can thus
+	spontaneously adapt to the demand by taking advantage
+	of the resources provided by every end-node, thus making
+	it more resilient to “flash crowd” events, which may
+	challenge content distribution networks with hundreds of
+	servers [10].
+		As
+		a P2P protocol, BitTorrent enjoys the benefits of a distributed
+		system that is inherently more robust to events such
+		as flash crowds, shown to be challenging even for CDNs
+		with hundreds of servers [10], as well as cheaper in terms
+		of infrastructure cost on the part of the content provider.
+		
+	Content distribution using BitTorrent has been shown to
+	offer outstanding performance in terms of content delivery
+	rates to the clients [22, 9].
+	
+	In detail, the BitTorrent file distribution protocol specifies
+	the functionality of three main entities [28]
+		The nominal format for all
+		packets can be found in [28].
+	
+	The “tit-for-tat” policy is a distinctive advantage of the
+	BitTorrent system which renders it ideal for a P2P content
+	distribution scheme: Peers are forced to always share
+	the content during their downloads while “free-riders” [2]
+	are indirectly banned from the network.
+	
+	Previous work on BitTorrent has focused on measurements
+	[4, 9], theoretical analysis [22], and improvements [27].
+		Izal et al. analyze the log of a BitTorrent tracker showing
+		the flash-crowd effect of a single file, download speeds,
+		and the amount of time that peers stay after they have completed
+		the download [9]
+		
+		Pouwelse et al. present an extensive
+		analysis of BitTorrent showing availability, peer uptimes,
+		and providing a better understanding of peer interarrival
+		times [21].
+		
+	Apart from BitTorrent, several measurement studies
+	have addressed the issues of availability [2, 3, 8], integrity
+	[29], flash-crowds [4][14], and download performance
+	[1][26][25][3] in other P2P systems.
+		Saroiu et
+		al. use SProbe (sprobe.cs.washington.edu) to measure the
+		bandwidth of Gnutella peers [25].
+		
+		Liang et al. provide
+		an extensive study of the performance of the KaZaA network
+		[15]
+		
+		An analysis of Gnutella traces in terms of resource
+		demand, popularity of particular search terms, overlay
+		topology, and node latency was presented by Nogueira
+		et al. [18].
+		
+		Gnutella data, was also examined by Ripeanu
+		and Foster [23], focusing on node connectivity, overlay
+		topology, and protocol message overhead.
+		
+		A trace analysis
+		of the network traffic from the perspective of traffic characterization
+		and bandwidth provisioning was presented by
+		Sen and Wang [26].
+		
+		Markatos [16] conducted a study of
+		Gnutella protocol traffic aimed at caching query/response
+		traffic to reduce network load.
+		
+	The fact that users in peer-assisted solutions
+	only form a sharing community only while downloading
+	the same file, significantly differentiates them from
+	other existing file-sharing applications and has important
+	implications in the potential benefit of locality-based solutions.
+	For instance, [24] provides an extensive analysis of
+	content delivery systems, including CDN caching, KaZaa,
+	and Gnutella. However, their results do not carry over well
+	to peer-assisted solutions such as BitTorrent where cooperation
+	only happens if clients are active and sharing the
+	same file.
+	
+	Regarding the locality analysis, previous studies have
+	proposed new ways of clustering peers (e.g. [5][19][20])
+	and studied the potential benefits of locality in P2P filesharing
+	systems such as KaZaa and Gnutella [8][24].
+
+	
 	Viitatut Artikkelit:
+		[2]: Understanding availability
 		[4]: Incentives build robustness in Bittorrent
+		[5]: PIC: Practical Internet Coordinates for Distance Estimation
+		[8]: Measurement, modeling, and analysis of a peer-to-peer filesharing workload
+		[9]: Dissecting BitTorrent: Five Months in a Torrent’s Lifetime
+		[10]: Flash Crowds and Denial of Service Attacks: Characterization and Implications for CDNs and Web Sites.
+		[19]: An investigation of geographic mapping techniques for internet hosts
+		[20]: Lighthouses for scalable distributed locations
 		[21]: The Bittorrent P2P File-sharing System: Measurements and Analysis
 		[22]: Modeling and performance analysis of bittorrent-like peer-to-peer network
+		[24]: An Analysis of Internet Content Delivery Systems
 		[25]: A Measurement Study of Peer-to-Peer File Sharing Systems
+		[27]: Slurpie: A cooperative bulk data transfer protocol
+		[28]: Bittorrent Protocol Specification v1.0. http://wiki.theory.org/BitTorrentSpecification.
 		
 	Viittaavat Artikkelit:
 		P4P: Provider portal for applications X
@@ -81,7 +200,6 @@ Can ISPs and P2P Users Cooperate for Improved Performance?
 	Besides,
 	studies have shown that the desired content is often available
 	“in the proximity” of interested users [10, 12].
-	
 	
 	To better understand the origin of the problem of overlay-underlay
 	routing clash, let us consider how routing works in the Internet and
@@ -130,13 +248,24 @@ Can ISPs and P2P Users Cooperate for Improved Performance?
 		[4] Light Reading, “Controlling P2P Traffic,” http://www.lightreading.com/document.asp?site=lightreading&doc_id=44435&page_number=3.
 			"On the other hand, ISPs find that P2P traffic poses a significant traffic engineering challenge [4, 7]."
 			
+		[5] R. Steinmetz and K. Wehrle, P2P Systems and Applications, Springer Lecture Notes in CS, 2005.
+			
+		[6] T. Mennecke, “DSL Broadband Providers Perform Balancing Act,” http://www.slyck.com/news.php?story=973
+			
 		[7] R. Keralapura, N. Taft, C. Chuah, and G. Iannaccone, “Can ISPs Take the Heat from Overlay Networks?,” in HotNets, 2004.
 		[8] G. Shen, Y. Wang, Y. Xiong, B. Zhao, and Z. Zhang, “HPTP: Relieving the Tension between ISPs and P2P,” in IPTPS, 2007.
 			"P2P traffic often starves other applications like Web traffic of bandwidth [8],---"
 			"Yet another system [8] proposes to use caching to relieve the tension between ISPs and P2P systems."
 			
+		[9] V. Aggarwal, S. Bender, A. Feldmann, and A. Wichmann, “Methodology for Estimating Network Distances of Gnutella Neighbors,” in GI Jahrestagung - Informatik 2004, 2004.
+			
 		[10] T. Karagiannis, P. Rodriguez, and K. Papagiannaki, “Should ISPs fear Peer-Assisted Content Distribution?,” in IMC, 2005.
 			"As more of the P2P traffic is localized within an ISP the available bandwidth may increase as it is no longer capped by the peering links [10]."
+			
+		[11] A. Akella, S. Seshan, and A. Shaikh, “An Empirical Evaluation of Wide-Area Internet Bottlenecks,” in ACM IMC, 2003.
+		[12] A. Rasti, D. Stutzbach, and R. Rejaie, “On the Long-term Evolution of the Two-Tier Gnutella Overlay,” in Global Internet, 2006.
+		[13] S. Halabi, Internet Routing Architectures, Cisco Press, 2000. (Kirja)
+		[14] D. Andersen, H. Balakrishnan, M. Kaashoek, and R. Morris, “Resilient Overlay Networks,” in SOSP, 2001.
 			
 		[17] S. Seetharaman and M. Ammar, “On the Interaction between Dynamic Routing in the Native and Overlay Layers,” in INFOCOM, 2006.
 			"In other words, P2P systems reinvent and reimplement a routing system whose dynamics should be able to interact with the dynamics of the Internet routing [7, 17]."
@@ -226,8 +355,7 @@ Pitfalls for ISP-Friendly P2P Design
 		Gummadi. Detecting BitTorrent blocking. In IMC, 2008.   ------------------------------------- kato tää
 		
 		[6] K. P. Gummadi, R. Dunn, S. Saroiu, S. Gribble, H. Levy,
-		and J. Zahorjan. Measurement, Modeling and Analysis of
-		a Peer-to-Peer File-Sharing Workload. In SOSP, 2003.
+		and J. Zahorjan. Measurement, Modeling and Analysis of a Peer-to-Peer File-Sharing Workload. In SOSP, 2003.
 		
 		[8] T. Karagiannis, P. Rodriguez, and K. Papagiannaki.
 		Should Internet Service Providers fear Peer-Assisted
@@ -242,15 +370,16 @@ Pitfalls for ISP-Friendly P2P Design
 		Apr. 2003.
 		
 		[14] Packet Forgery by ISPs: A Report on the Comcast Affair.
-		http://www.eff.org/wp/
-		packet-forgery-isps-report-comcast-affair.
+		http://www.eff.org/wp/packet-forgery-isps-report-comcast-affair.
 		
 		[17] S. Saroiu, K. P. Gummadi, R. Dunn, S. Gribble, and
-		H. Levy. An Analysis of Internet Content Delivery
-		Systems. In OSDI, 2002.
+		H. Levy. An Analysis of Internet Content Delivery Systems. In OSDI, 2002.
 		
-		[18] S. Sen and J. Wang. Analyzing peer-to-peer traffic across
-		large networks. IEEE/ACM Trans. on Netw., 2004.
+		[18] S. Sen and J. Wang. Analyzing peer-to-peer traffic across large networks. IEEE/ACM Trans. on Netw., 2004.
+		
+		[19] H. Wang, R. K. C, C. Dah, M. Chiu, and J. C. S. Lui. 
+		Characterizing the performance and stability issues of the as path prepending method: taxonomy, measurement study and analysis. 
+		In SIGCOMM Asia Workshop, 2005.
 		
 		[20] H. Xie, R. Yang, A. Krishnamurthy, Y. Liu, and
 		A. Silberschatz. P4P: Provider portal for P2P applications.

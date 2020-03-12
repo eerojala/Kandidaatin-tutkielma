@@ -27,8 +27,58 @@ P2P
 				
 			-In this paper, we address fundamental questions like these lying at the core of peer-assisted file distribution.
 			
+	Peer-to-Peer Systems
+		Rodrigues, Rodrigo, and Peter Druschel. "Peer-to-peer systems." Communications of the ACM 53.10 (2010): 72-82.
+		
+		Communications of the ACM
+			H-index: 189
+			JUFO-taso: 3
+		
+		189 viittausta
+		
+		Artikkelin pointit
+			-Määrittelee P2P seuraavat ominaisuudet
+				-Suuren tason hajautus
+				-Itse-organisaatio
+				-Multiple administrative domains
+				
+			-P2P mielenkiintoisia ominaisuuksia
+				-Pieni käyttöönottokynnys
+					-Ei tarvitse infrastruktuurihankintoja
+					
+				-Orgaaninen kasvu
+					-P2P-järjestelmä voi kasvaa mielivaltaisesti, sillä uudet vertaiset tuovat lisää resursseja
+					-Ei tarvitse uusia infrastruktuurihankintoja skaalautumiseen
+					
+				-Vastustuskyky hyökkäyksiin (ja flash crowdeihin)
+					-Jaettu usean käyttäjän kesken, yhden vertaisen kaataminen ei kaada koko verkkoa
+					
+				
+			-P2P-käyttötarkoitukset
+				-Tiedostojen jako
+				-Internet-puhelin
+				-Stramaus
+				-Vapaaehtoislaskenta
+				
+			-P2P ja ISP
+				-P2P syy käyttäjille ostaa parempia yhteyksiä
+				-Internetmaksut usein kiinteitä
+					-Alkuperä: ennen client-server malli dominoivampi
+						-Palvelimien ylläpittäjät maksoivat ISPille käytetun kaistan mukaan
+						-Keskivertokäyttäjä ei ylläpidä palvelinta joita muut käyttävät sisällön lataamiseen
+							-Otaksuttiin että upstream liikennettä ei syntyisi paljon, joten voidaan tarjota kiinteitä hintoja
+				
+				-P2P käyttäjät rupesivat uploadaamaan sisältöä muille
+					-Usein uploadattava data menee ISPn verkon ulkopuolelle, mistä aiheutuu näille maksuja joita se ei voinut siirtää käyttäjille maksettavaksi
+					
+				-Täten ISPt rupesivat estämään/katottamaan P2P-liikennettä
+				-ISP näkee P2P myös kilpailijana
+					-ISPt tarjoavat puhelin liittymiä; P2P puhelinpalvelut kuten skype
+						-IPTV ja P2P IPTV
+		
+			
 Ongelmat
-	Can  ISPs Take the Heat from Overlay Networks? 2004
+	Can ISPs Take the Heat from Overlay Networks? 2004
 		Keralapura, Ram, et al. "Can ISPs take the heat from overlay networks." ACM SIGCOMM Workshop on Hot Topics in Networks (HotNets). 2004.
 		
 		126 viittausta
@@ -80,7 +130,20 @@ Ongelmat
 
 			-Haasteet traffic engineeringille
 				-3.1 Traffic Matrixin estimointi
-					-Matrixia pitää estimoida usein päällysverkkojen reitityksen takia
+					-Liikennematriisi pitää sisällään tiedon verkkoliikenteen määrästä jokaisen kahden solmun välillä
+					-Kaksi eri ongelmaa
+						-Duplikaatio
+							-Päällysverkoissa pakettien lopullinen päämäärä usein salataan, ja ne määrittävät päämääräkseen reitin välisolmut
+								-Jos päällysverkkoliikenne kiertää yhden tai useamman solmun kautta lyhyemmän viiveen yms. takia
+									-ISP ei tiedä lopullista päämäärä, joten päällysverkon reititys vääristää matriisia jakamalla liikenteen usean solmuparin välille, ja alkuperäisen 
+									lähde- ja maalisolmuparin väliseen liikenteeseen ei tapahdu muutoksia vaikka näin pitäisit
+								
+								-Verkkoliikennettä joudutaan täten tiuhasti uudelleenestimoimaan ylläpitääkseen matriisin oikeellisuutta
+								
+						-Shift
+							-Päällysverkot voivat määrittää eri ulostulopisteen verkolle kuin palveluntarjoajat
+								-Aiheuttaa myös muutoksia matriisiin		
+					
 					-There are many °ows whose ultimate destination lies
 					outside the ISPs' domain; the tra±c from these °ows
 					traverses the ISP and thus appears inside the TM. The
@@ -91,10 +154,11 @@ Ongelmat
 					within a single ISP domain could change, resulting in a
 					shift in TM entry.
 					
-					-Eli aiheuttaa TM entry duplikaatiota ja tm entry shiftejä
-					
 				-3.2 Kuorman tasaus (load balancing)
-					-Päällysverkot eivät välitä ISPn omasta kuormantasauksesta
+					-ISP voi priorisoida kahden solmun välisen reitin näiden käytettäväksi
+						-Ohjaa muiden liikenteen kulkemaan muiden solmujen kautta
+						-Päällysverkot eivät välitä ISPn kuormantasauksesta ja reitittävät liikenteen kulkemaan näiden kahden solmun kautta
+							-ISP saa vääristyneen kuvan solmujen välillä kulkevasta omasta liikenteestä
 					
 			-Race conditions in multiple overlay networks
 				-Jos alusverkolla on useampi päällysverkko, niin performanssin heikkeneminen laukaisee niissä kaikissa reitityksen muutoksia
@@ -148,6 +212,11 @@ Ongelmat
 			
 		-Oletus, että ISPt eivät ottaisi P2P liikennettä mitenkään erityisesti huomioon (ei vissiin päde enään, mutta teoreettinen lähtökohta jota voisi tarkastella)
 		-Huom! On workshop (mutta semisti viittauksia)
+		
+		For instance, Keralapura et al. [9]
+		show that P2P systems could have an adverse impact on
+		the stability of traffic engineering techniques currently used
+		by ISPs in the absence of cooperation. (Pitfalls for ISP-Friendly P2P Design)
 	
 Paikallisuus
 	Should internet service providers fear peer-assisted content distribution? 2005
@@ -215,6 +284,35 @@ Paikallisuus
 			in-deed significantly reduce the costs of all parties involvedin the content distribution process. 
 				-Such simple modifica-tions to peer-assisted protocols can provide a cost-effectivesolution that can be exploited by content providers to scaleand accelerate the delivery 
 				of content to millions of userswithout pushing ISPs towards regulating or blocking suchtraffic.
+				
+				
+		Artikkelin pointit
+			-Tutkimusmenetelmät
+				-1. tutkimus: tarkastellaan 20k käyttäjän yliopistoverkon pääsylinkkiä kolmena eri päivänä
+				-2. tutkimus: tarkastellaan yksittäisen bittorrentilla jaettavan tiedoston seurantalokia viiden kuukauden ajan
+				
+			-1. tutkimuksen tulokset
+				-Huom! Skaala on aika pieni, lukumäärältään käyttäjiä tiedostoja yms. on aika vähän (n. ~10 luokkaa)
+					-Lisäksi osa tuloksista (ainakin 1. tutkimuksen) on laskelmoitu eikä testauksen tulosta
+					
+				-Tiedostoja ladataan keskimäärin vain lyhyen aikaan
+					-Potentiaalinen välimuistiratkaisu ei siis veisi välttämättä kovinkaan paljoa tilaa
+					
+				-70-90% ladatusta datasta (pieces) jo verkon sisäpuolella olevasta sisällöstä ladataan turhaan uudelleen ulkopuolelta
+					-Luku on 50-90% jos otetaan huomioon vain aktiiviset käyttäjät
+					-Jos puhutaan kokonaisista tiedostoista niin määrä on n. 1/10 kaikista ladatuista tiedostoista (per päivä)
+					-Kun puhutaan tavuista luvut ovat 20% (paikallisten aktiivisten käyttäjien keskuudesta) ja 40% (kaikkien paikallisten käyttäjien keskuudesta)
+					
+				-Noin 30% ajasta tiedostoille löytyisi verkon sisältä aktiivisia vertaisia
+					
+				-70% käyttäjistä hyötyisi paikallisuudesta nopeammilla latausajoilla
+				
+			-2. tutkimusken tulokset
+				-Vertaisverkkojen käyttö puolittaa ISPn downlink kaistaa
+				-Lokaali vertaisvalinta vaatisi vain 1.5 kertaisen määrän peak kapaisteettia verrattuna välimuistiratkaisuun
+				-Lokaalissa vertaisvalinnassa ISPt joutuisivat keskimäärin lähettämään hieman yli yhden täysinäisen kopion kokonaisesta tiedostosta verkon ulkopuolelle
+				-ISPn säästöt lokaalissa vertaisvalinnassa kasvavat aktiivisten käyttäjien logaritmin mukaan
+				-Lokaalin vertaisvallinan aiheuttama overhead on minimaalinen ja saattaa joissain tapauksissa olla jopa pienempi kuin välimuistiratkaisussa
 		
 		
 	Can ISPs and P2P users cooperate for improved performance?
@@ -259,6 +357,42 @@ Paikallisuus
 				-Thebenefit  to the ISP is twofold:  first,  it can now influence the P2Prouting decisions via the oracle and so regain its ability toperformtraffic engineering  
 				(control  the  traffic flow)  and  second,  theP2Pmeasurement traffic to infer network distances is omitted. 
 				-The P2Pusers benefit as explained below
+				
+		Artikkelin pointit
+			-Oraakkeli
+				-ISP tarjoama palvelu kaikille kaikille päällysverkkosovelluksille, paperissa testataan Gnutellan avulla
+				-Suora pääsy verkon ominaisuuksien tietoihin
+				-Oraakkeli vastaanottaa (kaappaa?) käyttäjien vertaislistan, ja asettaa ne paremmuusjärjestykseen
+					-ISP voi pitää liikenteen verkon sisällä ja myös ehdottaa vertaisia jotka sijaitsevat ispillä joiden kanssa vertaissopimus
+					-Lisäksi voi määrittää sellaisia vertaisia jotka kulkevat halutun pääsylinkin kautta
+					
+			-Oraakkeli avoin kaikille päällysverkkosovelluksille
+				-Koska käy yleisesti kaikille, ei tarvita jokaiselle sovellukselle omaa oraakkelia
+				-Koska ei kytköksissä pelkästään tiedostonjakeluun, pitäisi vähentää tekijänoikeusongelmia
+					-Voisi lisäksi anonymisoida kyselyt oraakkelille varmuuden vuoksi
+					
+			-Ei lähetä riskialtista tietoa, jota pahantahtoiset tekijät voisivat käyttä hyväkseen
+				
+				
+			-Tutkimukset ja tulokset
+				-3. Simuloidaan oraakkelin vaikutusta yksinkertaistettuun geneeriseen päällysverkkosvellukseen oikeihin Internetin topologiatietoihin perustuvilla graafisimulaatiolla
+					-Päällysverkko säilyttää eheytensä
+					-Paikallisuus kasvoi merkittävästi päällysverkossa
+				
+				-4. Simuloidaan SSFNetillä oraakkelin vaikutusta oikeaan P2P-sovellukseen, tässä tapauksessa Gnutellaan.
+					-Päällysverkon eheys säilyy
+					-Gnutella normaalisti valitsee vertaiset satunnaisesti, joten siitä muodostuva verkko on hyvin sekava
+						-Oraakkelin avulla verkko on selkeä ja koostuu paikallisista rypäistä
+							-Paikallisuus siis kasvaa
+							
+					-Keskimääräinen AS etäisyys vähenee vertaisten välillä
+						-Pysyy 1. tienoilla, alle 1 jos on 1000 vertaisen lista käytettävissä
+						
+					-Vähentää gnutellan aiheuttaman overheadin määrää (queryt, pingit yms.)
+					
+				-5 Testataan gnutellaa ja oraakkelia pienessä hallitussa testiympäristössä
+					-45 gnutellasolmua 15 eri koneellas
+					-Overhead vähenee, ja overheadviestit pysyvät pääasiallisesti verkkojen sisällä
 		
 		References
 			[5]  R. Steinmetz and K. Wehrle,P2P Systems and Applications, SpringerLecture Notes in CS, 2005 (kirja)
@@ -479,11 +613,16 @@ Paikallisuus
 						-CDNt estimoivat käyttäjiensä etäisyyksiä
 							-Kato tarkemmat tiedot paperista
 							-(Onko tässä kuitenkin sama fundementaalinen ongelma että CDNllikään ei pääsyä suoraan verkon ominaisuuksien tietoihin)
+							
+					-CDNnät uudelleenohjaavat DNSn kautta käyttäjiä kopiopalvelimille, jotka sijaitsevat paikallisesti tuhansissa eri palveluntarjoajien verkoissa ympäri 
+					maailmaa
+						-Jos käyttäjät uudelleen ohjataan samoille palvelimille, sijaitsevat nämä todennäköisesti lähekkäin
 						
 			-Lisäosa Azureus BitTorrent-clientille
 				-Paperin kirjoittamisen aikaan yli 120 000 käyttäjää
 				-Koska kaikki eivät käyttä Ono-lisäriä, estimoi se myös niidenkin etäisyyksiä
 					-(Pitfalls-paprussa kuitenkin sanottiin että hyötyisi vain jos molemmat vertaiset käyttävät lisäriä?)
+						-Muistaakseni näin ei ollutkaan kun luki väitteen tarkemmin
 				
 			-Tutkijat väittävät että heidän ratkaisunsa
 				-Skaalautuu hyvin
@@ -508,6 +647,34 @@ Paikallisuus
 		
 			-Huolia CDN käyöstä
 				-Paperilla vastataan että ei pitäisi olla syytä huoleen
+				
+			-Testausmenetelmät
+				-Julkaisivat lisäosan lataukseen
+					-Tammikuuhuun 2008 mennessä yli 120 000 lataajaa levittäytyneenä 108 eri maahan
+				
+				-Vertaisvalinnan lisäksi lisäosa tekee verkkomittauksia ja kerää tietoa tiedostonsiirron suorituskyvyistä
+				-Saivat kerättyä tietoa yli 100 000 000 vertaisesta jotka käyttivät yli 100 eri clienttiä ja sijaitsivat yli 10 000 eri ASsissä
+				-Kerättyjen tietojen pohjalta laskivat sitten tulokset
+				
+			-Tutkimustulokset (conclusion-osioista)
+				-Onon ratkaisu skaalautuu hyvin yli 100 000 käyttäjälle
+				-Vähentää BitTorrentin ulkoliikennettä haittaamatta latausnopeuksia ja verkon eheyttä
+					-Latausnopeudet voivat parantua mikäli vertaisilla on tarpeeksi hyvät yhteydet
+					
+				-yli 1/3 ajasta lisäri löytää vertaisten välille reitit jotka eivät kulje edes toisien AS kautta
+				-Onon BPS löytää vertaiset joilla kaksi kertaa pienemmät latenssit kuin satunnaisesti valitut
+					-ja 33% pienempi lossrate (abstract)
+					-Valitut reitit johtavat parempiin latausaikoihin (abstract)
+					
+			-Tutkimustulokset abstractistä
+				-In challenged settings where peers are overloaded
+				in terms of available bandwidth, our approach provides 31%
+				average download-rate improvement; in environments with large
+				available bandwidth, it increases download rates by 207% on
+				average (and improves median rates by 883%).
+				
+			-Tutkimustuloset abstractissä
+				-Onon BPS suosittelee vertaisia joiden mediaani AS etäisyys on 1
 		
 
 		Similar
@@ -574,6 +741,7 @@ Paikallisuus
 				peers), biased neighbor selection results in no degradation
 				in download times, regardless of whether it is
 				deployed by all ISPs or by just one ISP.
+					-Jos alkuperäisellä tiedostonjakalla on tarpeeksi korkea lähetysnopeus, BPS ei hidasta latausnopeuksia
 				
 				• Under biased neighbor selection, the cross-ISP traffic
 				due to downloading of a particular file stays relatively
@@ -581,6 +749,7 @@ Paikallisuus
 				interested in the file increases. In fact, as the number
 				of peers inside an ISP increases, the traffic is reduced
 				slightly.
+					-BPSllä ISPn ulkopuolinen liikenne ei kasva tietyn tiedoston vertaisten lisääntyessä
 				
 				• The “rarest first replication” algorithm is key to the
 				success of biased neighbor selection. It has a “declustering”
@@ -593,6 +762,7 @@ Paikallisuus
 				a block to download from the blocks a neighbor has.
 				Under this scheme, the block which is least replicated
 				among other neighbors is chosen first.
+					-BPS toimii hyvin BitTorrentin rarest first replication -periaatteen kanssa
 				
 				• For a cable modem or DSL ISP, when there are external
 				high bandwidth peers, biased neighbor selection
@@ -600,6 +770,7 @@ Paikallisuus
 				cross-ISP traffic at a minimum level. However, unlike
 				pure bandwidth limiting, the combined scheme does
 				not increase download time.
+					-BPS ja kaistanrajoituksen yhdistelmä ei kasvata latausaikoja mikäli kyseisellä ISPllä on hitaammat yhteydet ja vertaisia on enemmän ulkopuolella
 				
 				• Since each BitTorrent node prefers to upload to neighbors
 				which have been giving data to it at a good rate,
@@ -609,6 +780,8 @@ Paikallisuus
 				by the initial neighbor selection of the peer, and combining
 				bandwidth throttling with biased neighbor selection
 				is much more effective.
+					-Jos BPS yhdistää kaistanrajoituksen kanssa, saadaan tehokkaammin vertaiset pysymään ISPn sisällä
+						-Pelkkä kaistanrajoitus joskus puskee vertaissuhteita verkon sisälle
 					
 				• Allowing only a single peer to connect to the external
 				nodes results in a significant increase in download
@@ -616,6 +789,9 @@ Paikallisuus
 				as gateway peers. Instead, dedicated high-bandwidth
 				nodes should be used, and the approach does not scale
 				to multiple concurrent BitTorrent networks.
+					-Jos vain yhdellä vertaisella on yhteys verkon ulkopuolelle, seuraa siitä nopeammat latausnopeudet muille vertaisille
+						-Tämä yksi vertainen ei kuitenkaan voi olla tavallinen käyttäjä, vaan siihen tarvitaan ISPn dedikoima korkean kaistan solmu
+							-Ei skaalaudu useampaan eri BitTorrent-verkkoon
 				
 				• Using caches inside ISP’s for BitTorrent traffic requires
 				them to have high upload bandwidth to avoid
@@ -623,6 +799,8 @@ Paikallisuus
 				neighbor selection with caches can reduce both the
 				peak and average bandwidth needed, and the addition
 				of bandwidth limiting can cap the peak bandwidth.
+					-ISPn sisäiset välimuistit vaativat paljon lähetyskaistaa jotta latausajat eivät kärsisi
+						-Yhdistämällä välimuistit BPS kanssa tarvittava maksimi kapasiteetti ei ole niin suuri	
 				
 			-Kaksi tapaa implementoida BPS
 				-Trackerien ja clientin muutokset
@@ -1374,8 +1552,6 @@ Tarkista ohjaajalta
 			Microsoft Research Asia, Beijing, P.R.China (tekstin aikaan)
 			
 		
-		
-		
 		114 viittausta
 		
 		Abstract
@@ -1390,6 +1566,13 @@ Tarkista ohjaajalta
 			-Simulation results demonstrate thatHPTP can lead to significant performance improvement. 
 			-Weargue that the HPTP framework will benefit both ISPs andend users (P2P as well as normal web users) by significantlyreducingnetwork overloadcaused by repetitive P2P 
 			traffic.
+			
+		Can ISPs and P2P Users Cooperate for Improved Performance?
+			P2P traffic
+			often starves other applications like Web traffic of bandwidth [8],
+			and swamps the ISP network. 
+			
+			Yet another system [8] proposes to use caching to relieve the tension between ISPs and P2P systems.
 			
 		Artikkelin pointti
 			-Hyväksikäytetään ISPiden HTTP-cacheja kapsuloimalla P2P-chunkit HTTP-paketteihin
@@ -1428,11 +1611,6 @@ IMP: ISP-Managed P2P 2010
 
 
 
-	
-	
-Rodrigues, Rodrigo, and Peter Druschel. "Peer-to-peer systems." Communications of the ACM 53.10 (2010): 72-82.
-	-Kertoo yleisesti P2Psta, ehkä hyvä johdantoon tms.
-	https://dl.acm.org/doi/fullHtml/10.1145/1831407.1831427?casa_token=CCnwiN9CdO8AAAAA:5kUbLpO1IuwZ02QL60Hm7mP4kMtO9-etOHczLJTF58u7uLWL1ZcsmvCU09eamBrD8uCR_bOEkixE
 	
 	
 
@@ -1532,9 +1710,57 @@ Accurate, scalable in-network identification of p2p traffic using application si
 	-Kato tarkemmin sitten kun kirjoittaa P2P havaitsemisesta
 	
 An Analysis of Internet Content Delivery Systems
+	Saroiu, Stefan, et al. "An analysis of internet content delivery systems." ACM SIGOPS Operating Systems Review 36.SI (2002): 315-327.
+	
 	840
 	
 	-2002 artsa, mutta ehkä hyödyllinen näkökulma nähdä kuinka 2000-luvun alussa 
+	
+	Abstract
+		In the span of only a few years, the Internet has experienced
+		an astronomical increase in the use of specialized
+		content delivery systems, such as content delivery networks
+		and peer-to-peer file sharing systems. Therefore, an understanding
+		of content delivery on the lnternet now requires
+		a detailed understanding of how these systems are used in
+		practice.
+		This paper examines content delivery from the point of
+		view of four content delivery systems: HTTP web traffic, the
+		Akamai content delivery network, and Kazaa and Gnutella
+		peer-to-peer file sharing traffic. We collected a trace of all
+		incoming and outgoing network traffic at the University of
+		Washington, a large university with over 60,000 students,
+		faculty, and staff. From this trace, we isolated and characterized
+		traffic belonging to each of these four delivery
+		classes. Our results (1) quanti~, the rapidly increasing importance
+		of new content delivery systems, particularly peerto-
+		peer networks, (2) characterize the behavior of these systems
+		from the perspectives of clients, objects, and servers,
+		and (3) derive implications for caching in these systems.
+		
+	Should internet service providers fear peer-assisted content distribution?
+		The fact that users in peer-assisted solutions
+		only form a sharing community only while downloading
+		the same file, significantly differentiates them from
+		other existing file-sharing applications and has important
+		implications in the potential benefit of locality-based solutions.
+		For instance, [24] provides an extensive analysis of
+		content delivery systems, including CDN caching, KaZaa,
+		and Gnutella. However, their results do not carry over well
+		to peer-assisted solutions such as BitTorrent where cooperation
+		only happens if clients are active and sharing the
+		same file.
+		
+		Regarding the locality analysis, previous studies have
+		proposed new ways of clustering peers (e.g. [5][19][20])
+		and studied the potential benefits of locality in P2P filesharing
+		systems such as KaZaa and Gnutella [8][24].
+		
+	Saroiu et al. [17] and Gummadi
+	et al. [6] examine the Gnutella and Kazaa workloads,
+	document the increasing popularity of P2P systems,
+	study the impact of caching and the potential for bandwidth
+	savings of a locality aware mechanism. (Pitfalls for ISP-Friendly P2P Design)
 
 ARE FILE SWAPPING NETWORKS CACHEABLE?
 	165
@@ -1607,6 +1833,17 @@ Detecting BitTorrent Blocking
 	131
 	
 	-2008
+	
+	Network oblivious sharing increases costs for ISPs. As
+	demand increases on transit links, backbone ISPs are forced
+	to invest in increasing capacity. These costs are passed
+	on to edge ISPs that pay transit costs proportional to the
+	amount of interdomain traffic they generate. Many customer
+	facing ISPs, however, offer flat-rate pricing, forcing
+	them to absorb the costs externalized by P2P file sharing.
+	In response, some ISPs have elected to rate-limit or simply
+	block these “problem” protocols [4, 14], in turn leading
+	developers into an arms race to evade restrictions. (Pitfalls for ISP-Friendly P2P Design)
 	
 Efficiency of Caches for Content Distribution on the Internet
 	28
@@ -1724,7 +1961,15 @@ MultiCache: An overlay architecture for information-centric networking
 On Selfish Routing in Internet-Like Environments
 	343
 	
-	-2003
+	Qiu et al. [11] describe the interactions between over-
+	lay networks and ISPs after the routing control mecha-
+	nisms reach the Nash equilibrium point. In this paper,
+	we explore some of the issues that arise due to dynamic
+	interactions in the presence of unexpected or unplanned
+	events such as network failures. We believe that the dy-
+	namic network behavior in the presence of failures (that
+	are common, everyday events for ISPs [7]) is very im-
+	portant for ISPs and needs to be addressed. (Can  ISPs Take the Heat from Overlay Networks?)
 	
 On the Efficiency of Collaborative Caching in ISP-aware P2P Networks
 	41
@@ -1734,6 +1979,9 @@ On the Efficiency of Collaborative Caching in ISP-aware P2P Networks
 	
 On the Interaction between Dynamic Routing in the Native and Overlay Layers
 	-Scholarista löytyy pelkkä sitaatti
+	
+	"In other words, P2P systems reinvent and reimplement a routing system whose dynamics should be able to interact with the dynamics of the Internet routing [7, 17]."
+		(Can ISPs and P2P Users Cooperate for Improved Performance?)
 	
 Peer-Assisted Content Distribution in Akamai NetSession
 	93
@@ -1851,19 +2099,6 @@ Interaction patterns between p2p content distribution systems and isps
 
     Abstract
         Peer-to-peer (P2P) content distribution sys-tems are a major source of traffic in the Inter-net, but the application layer protocols they useare mostly unaware of the underlying network inaccordance with the layered structure of theInternet’s protocol stack. Nevertheless, the needfor improved network efficiency and the businessinterests of Internet service providers (ISPs) areboth strong drivers toward a cross-layer approachin peer-to-peer protocol design, calling for P2Psystems that would in some way interact with theISPs. Recent research shows that the interaction,which can rely on information provided by bothparties, can be mutually beneficial. In this articlewe first give an overview of the kinds of informa-tion that could potentially be exchanged betweenthe P2P systems and the ISPs, and discuss theirusefulness and the ease of obtaining andexchanging them. We also present a classifica-tion of the possible approaches for interactionbased on the level of involvement of the ISPsand the P2P systems, and we discuss the poten-tial strengths and the weaknesses of theseapproaches.
-
-
-
-Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
-    Gummadi, Krishna P., et al. "Measurement, modeling, and analysis of a peer-to-peer file-sharing workload." Proceedings of the nineteenth ACM symposium on Operating systems principles. 2003.
-
-    1253 viittausta
-
-    (Erään uuden paperin mukaan tässä tutkimuksessa väitettiin että ‘86% of requested contents are downloaded from peers outside the local network even though they were locally available)
-
-
-
-
 
 Behavior-based P2P Traffic Identification using Fuzzy Approach
     -Ei viittauksia
@@ -2034,6 +2269,16 @@ Dissecting BitTorrent: five months in a torrent’s lifetime
 		thealgorithmsusedinBitTorrent throughseveralmetrics.OurconclusionsindicatethatBitTorrent 
 		is a realisticandinexpensive alternative totheclassicalserver-basedcontent distribution.
 		
+	Should internet service providers fear peer-assisted content distribution?
+		Content distribution using BitTorrent has been shown to
+		offer outstanding performance in terms of content delivery
+		rates to the clients [22, 9].
+		
+		Izal et al. analyze the log of a BitTorrent tracker showing
+		the flash-crowd effect of a single file, download speeds,
+		and the amount of time that peers stay after they have completed
+		the download [9]
+		
 An ISP-friendly file distribution protocol: analysis, design and implementation
 	Lin, Minghong, John CS Lui, and Dah-Ming Chiu. "An isp-friendly file distribution protocol: analysis, design, and implementation." IEEE Transactions on Parallel and Distributed Systems 21.9 (2009): 1317-1329.
 	
@@ -2177,10 +2422,295 @@ Network Coordinates in the Wild
 		real world.
 	
 	
+Flash Crowds and Denial of Service Attacks: Characterization and Implications for CDNs and Web Sites
+	Jung, Jaeyeon, Balachander Krishnamurthy, and Michael Rabinovich. "Flash crowds and denial of service attacks: Characterization and implications for CDNs and web sites." Proceedings of the 11th international conference on World Wide Web. 2002.
 	
+	907 viittausta
 	
+	Should internet service providers fear peer-assisted content distribution?
+		Peer-assisted solutions are inherently self scalable, in
+		that the bandwidth capacity of the system increases as more
+		nodes arrive: each new node requests service from, but also
+		provides service to, the other nodes. The network can thus
+		spontaneously adapt to the demand by taking advantage
+		of the resources provided by every end-node, thus making
+		it more resilient to “flash crowd” events, which may
+		challenge content distribution networks with hundreds of
+		servers [10].
+			As
+			a P2P protocol, BitTorrent enjoys the benefits of a distributed
+			system that is inherently more robust to events such
+			as flash crowds, shown to be challenging even for CDNs
+			with hundreds of servers [10], as well as cheaper in terms
+			of infrastructure cost on the part of the content provider.
+			
+	-Ei vissiin käsittele p2p näkökulmasta, vaan CDNnien yms.
+		
+Modeling and performance analysis of bittorrent-like peer-to-peer network
+	Qiu, Dongyu, and Rayadurgam Srikant. "Modeling and performance analysis of BitTorrent-like peer-to-peer networks." ACM SIGCOMM computer communication review 34.4 (2004): 367-378.
 	
+	1659 viittausta
 	
+	Abstract
+		In this paper, we develop simple models to study the per-
+		formance  of  BitTorrent,  a second  generation  peer-
+		to-peer(P2P) application.   We first present a simple fluid model
+		and study the scalability, performance and efficiency of such
+		a file-sharing mechanism. We then consider the built-in in-
+		centive mechanism of BitTorrent and study its effect on net-
+		work performance. We also provide numerical results based
+		on both simulations and real traces obtained from the In-
+		ternet.
+	
+	Content distribution using BitTorrent has been shown to
+	offer outstanding performance in terms of content delivery
+	rates to the clients [22, 9]. (Should internet service providers fear peer-assisted content distribution?)
+	
+Understanding availability
+	Bhagwan, Ranjita, Stefan Savage, and Geoffrey M. Voelker. "Understanding availability." International Workshop on Peer-to-Peer Systems. Springer, Berlin, Heidelberg, 2003.
+	
+	720 viittausta
+	
+	Abstract
+		Thispaperaddressesa  simple,yetfundamentalquestioninthedesignofpeer-to-peersystems:
+		Whatdoesit meanwhenwesay“availability”andhowdoesthisunderstand-ingimpacttheengineeringofpracticalsystems?
+		We  ar-guethatexistingmeasurementsandmodelsdonotcapturethecomplex time-varyingnatureofavailabilityintoday’s
+		peer-to-peerenvironments.Further, weshowthatunfore-seenmethodologicalshortcomingshave dramaticallybiased
+		previousanalysesofthisphenomenon.Asthebasisofourstudy, weempiricallycharacterizetheavailabilityofa 
+		largepeer-to-peersystemovera periodof7 days,analyzethede-pendenceoftheunderlyingavailabilitydistributions,mea-
+		surehostturnoverinthesystem,anddiscusshow thesere-sultsmayaffectthedesignofhigh-availabilitypeer-to-peerservices.
+	
+	The “tit-for-tat” policy is a distinctive advantage of the
+	BitTorrent system which renders it ideal for a P2P content
+	distribution scheme: Peers are forced to always share
+	the content during their downloads while “free-riders” [2]
+	are indirectly banned from the network. (Should internet service providers fear peer-assisted content distribution?)
+	
+The Bittorrent P2P File-sharing System: Measurements and Analysis	
+	Pouwelse, Johan, et al. "The bittorrent p2p file-sharing system: Measurements and analysis." International Workshop on Peer-to-Peer Systems. Springer, Berlin, Heidelberg, 2005.
+	
+	1079 viittausta
+	
+	Pouwelse et al. present an extensive
+	analysis of BitTorrent showing availability, peer uptimes,
+	and providing a better understanding of peer interarrival
+	times [21]. (Should internet service providers fear peer-assisted content distribution?)
+	
+Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload <--------- KATO TÄÄ
+	Gummadi, Krishna P., et al. "Measurement, modeling, and analysis of a peer-to-peer file-sharing workload." Proceedings of the nineteenth ACM symposium on Operating systems principles. 2003.
+	
+	1253 viittausta
+	
+	Abstract
+		Peer-to-peer (P2P) file sharing accounts for an astonishing
+		volume of current Internet traffic.  This paper probes deeply
+		into  modern  P2P  file  sharing  systems  and  the  forces  that
+		drive  them.   By  doing  so  ,we  seek  to  increase  our  under-
+		standing  of  P2P  file  sharing  workloads  and  their  implica-
+		tions  for  future  multimedia  workloads.   Our  research  uses
+		a three-tiered approach.  First ,we analyze a 200-day trace
+		of  over  20  terabytes  of  Kazaa  P2P  traffic  collected  at  the
+		University of Washington.  Second  ,we  develop a model  of
+		multimedia workloads that lets us isolate ,vary ,and explore
+		the impact of key system parameters.  
+		Our model ,which weparameterize with statistics from our trace ,
+		lets us confirmvarious hypotheses about file-sharing behavior observed in
+		the trace.  Third ,we explore the potential impact of locality-
+		awareness in Kazaa.
+		
+		Our results reveal dramatic differences between P2P file
+		sharing  and  Web  traffic.   For  example  ,we  show  how  the
+		immutability  of  Kazaa’s  multimedia  objects  leads  clients
+		to  fetch  objects  at  most  once;  in  contrast  ,a  World-Wide
+		Web client may fetch a popular page (e.g. ,CNN or Google)
+		thousands  of  times.   Moreover  ,we  demonstrate  that:   
+		(1)this “fetch-at-most-once” behavior causes the Kazaa popu-
+		larity distribution to deviate substantially from Zipf curves
+		we  see  for  the  Web  ,and  (2)  this  deviation  has  significant
+		implications for the performance of multimedia file-sharing
+		systems.  Unlike the Web ,whose workload is driven by doc-
+		ument change  ,we demonstrate that clients’ fetch-at-most-once behavior ,
+		the creation of new objects ,and the addition
+		of new clients to the system are the primary forces that drive
+		multimedia  workloads  such  as  Kazaa.   We  also  show  that
+		there is substantial untapped locality in the Kazaa workload.
+		Finally  ,we  quantify  the potential  bandwidth  savings  that
+		locality-aware P2P file-sharing architectures would achieve.
+		
+	(Erään uuden paperin mukaan tässä tutkimuksessa väitettiin että ‘86% of requested contents are downloaded from peers outside the local network even though they were locally 
+	available)
+		
+	Regarding the locality analysis, previous studies have
+	proposed new ways of clustering peers (e.g. [5][19][20])
+	and studied the potential benefits of locality in P2P filesharing
+	systems such as KaZaa and Gnutella [8][24]. (Should internet service providers fear peer-assisted content distribution?)
+	
+	Saroiu et al. [17] and Gummadi
+	et al. [6] examine the Gnutella and Kazaa workloads,
+	document the increasing popularity of P2P systems,
+	study the impact of caching and the potential for bandwidth
+	savings of a locality aware mechanism. (Pitfalls for ISP-Friendly P2P Design)
+	
+DSL Broadband Providers Perform Balancing Act (uutisartsa)
+	http://www.slyck.com/news.php?story=973
+	
+	On the one hand, P2P system applications have resulted
+	in an increase in revenue for ISPs, as they are one of the major
+	reasons cited by Internet users for upgrading their Internet access
+	to broadband [6]. (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+Controlling P2P Traffic (uutisartsa)	
+	http://www.lightreading.com/document.asp?site=lightreading&doc_id=44435&page_number=3.
+	
+	On the other hand, ISPs find that P2P traffic poses a significant traffic engineering challenge [4, 7] (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+Methodology for EstimatingNetwork Distances of Gnutella Neighbors
+	Aggarwal, Vinay, et al. "Methodology for estimating network distances of Gnutella neighbors." Informatik 2004, Informatik verbindet, Band 2, Beiträge der 34. Jahrestagung der Gesellschaft für Informatik eV (GI) (2004).
+	
+	33 viittausta
+	
+	Abstract
+		In this  paper  we ask the  question how  much  does  the neighborhood  se-lection  process  of  a  P2P  protocol  such  as  Gnutella  respect  the  underlying  
+		Internettopology.
+		
+	Can ISPs and P2P Users Cooperate for Improved Performance?
+		P2P traffic
+		often starves other applications like Web traffic of bandwidth [8],
+		and swamps the ISP network. This is because most P2P systems
+		rely on application layer routing based on an overlay topology on
+		top of the Internet, which is largely independent of the Internet routing
+		and topology [9].
+		
+		It has been shown that
+		P2P traffic often crosses network boundaries multiple times [9, 10].
+		This is not necessarily optimal as most network bottlenecks in the
+		Internet are assumed to be either in the access network or on the
+		links between ISPs, but not in the backbones of the ISPs [11].
+	
+An Empirical Evaluation of Wide-Area Internet Bottlenecks
+	Akella, Aditya, Srinivasan Seshan, and Anees Shaikh. "An empirical evaluation of wide-area internet bottlenecks." Proceedings of the 3rd ACM SIGCOMM conference on Internet measurement. 2003.
+	
+	321 viittausta
+	
+	It has been shown that
+	P2P traffic often crosses network boundaries multiple times [9, 10].
+	This is not necessarily optimal as most network bottlenecks in the
+	Internet are assumed to be either in the access network or on the
+	links between ISPs, but not in the backbones of the ISPs [11]. (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+On the Long-term Evolution of the Two-Tier Gnutella Overlay
+	Rasti, Amir H., Daniel Stutzbach, and Reza Rejaie. "On the long-term evolution of the two-tier gnutella overlay." Proceedings IEEE INFOCOM 2006. 25TH IEEE International Conference on Computer Communications. IEEE, 2006.
+	
+	74 viittausta
+	
+	Besides,
+	studies have shown that the desired content is often available
+	“in the proximity” of interested users [10, 12]. (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+Topologically aware overlay construction and server selection
+	Ratnasamy, Sylvia, et al. "Topologically-aware overlay construction and server selection." Proceedings. Twenty-First Annual Joint Conference of the IEEE Computer and Communications Societies. Vol. 3. IEEE, 2002
+	
+	1137 viittausta
+	
+	Abstract
+		A  number  of  large-scale  distributed  Internet  applications
+		could  potentially  benefit from some level  of knowledge about the relative
+		proximity  between its participating  host nodes.  For example,  the perfor-
+		mance of large overlay networks could be improved if the application-level
+		connectivity between the nodes in these networks is congruent with the un-
+		derlying IP-level topology.  Similarly, in the case of replicated web content,
+		client nodes could use topological information in selecting one of multiple
+		available servers.  For such applications, one need not find the optimal so-
+		lution in order to achieve significant practical benefits.  Thus, these appli-
+		cations, and presumably others like them, do not require exact topological
+		information and can instead use sufficiently informative hints about the rel-
+		ative positions of Internet hosts.
+		
+		In  this  paper,  we  present  a binning scheme  whereby  nodes  partition
+		themselves  into  bins such  that  nodes  that  fall  within  a given  bin  are  rel-
+		atively  close  to  one  another  in  terms  of  network  latency.    
+		Our  binningstrategy is simple (requiring minimal support from any measurement  in-
+		frastructure),  scalable (requiring no form of global knowledge, each node
+		only needs knowledge of a small number of well-known landmark nodes)
+		and  completely  distributed  (requiring  no  communication  or  cooperation
+		between the nodes being binned).
+		
+		We apply this binning strategy to the two applications mentioned above:
+		overlay  network  construction  and  server  selection.   We  test  our  binning
+		strategy  and  its  application  using  simulation  and  Internet  measurement
+		traces.  Our results indicate that the performance of these applications can
+		be significantly improved by even the rather coarse-grained knowledge of
+		topology offered by our binning scheme.
+		
+	While we do not know of a P2P network that tries to reverseengineer
+	the Internet topology, there are some proposals that suggest
+	that P2P networks should bias their overlay topology by choosing
+	neighbors that are close in the sense of high throughput or low
+	latency, e.g., [18, 19, 20] or that are within the same AS, e.g., [10,
+	21]. (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+Packet Forgery by ISPs: A Report on the Comcast Affair (uutisartsa)
+	http://www.eff.org/wp/packet-forgery-isps-report-comcast-affair.
+	
+	Network oblivious sharing increases costs for ISPs. As
+	demand increases on transit links, backbone ISPs are forced
+	to invest in increasing capacity. These costs are passed
+	on to edge ISPs that pay transit costs proportional to the
+	amount of interdomain traffic they generate. Many customer
+	facing ISPs, however, offer flat-rate pricing, forcing
+	them to absorb the costs externalized by P2P file sharing.
+	In response, some ISPs have elected to rate-limit or simply
+	block these “problem” protocols [4, 14], in turn leading
+	developers into an arms race to evade restrictions. (Pitfalls for ISP-Friendly P2P Design)
+	
+Analyzing peer-to-peer traffic across large networks
+	Sen, Subhabrata, and Jia Wang. "Analyzing peer-to-peer traffic across large networks." Proceedings of the 2nd ACM SIGCOMM Workshop on Internet measurment. 2002.
+	
+	1287 viittausta
+	
+	Abstract
+		The use of peer-to-peer (P2P) applications is growing
+		dramatically, particularly for sharing large video/audio files and
+		software. In this paper, we analyze P2P traffic by measuring flowlevel
+		information collected at multiple border routers across a large
+		ISP network, and report our investigation of three popular P2P systems—
+		FastTrack, Gnutella, and Direct-Connect. We characterize
+		the P2P trafffic observed at a single ISP and its impact on the
+		underlying network. We observe very skewed distribution in the
+		traffic across the network at different levels of spatial aggregation
+		(IP, prefix, AS). All three P2P systems exhibit significant dynamics
+		at short time scale and particularly at the IP address level. Still,
+		the fraction of P2P traffic contributed by each prefix is more stable
+		than the corresponding distribution of eitherWeb traffic or overall
+		traffic. The high volume and good stability properties of P2P traffic
+		suggests that the P2P workload is a good candidate for being managed
+		via application-specific layer-3 traffic engineering in an ISP’s
+		network.
+	
+	Sen and
+	Wang [18] perform trace analysis of P2P traffic along the
+	border routers of a single ISP and provide data that suggests
+	that application-level traffic engineering might help. (Pitfalls for ISP-Friendly P2P Design)
+	
+Characterizing the Performance and Stability Issues of the AS Path Prepending Method: Taxonomy, Measurement Study and Analysis
+	Wang, Hui, et al. "Characterizing the performance and stability issues of the AS path prepending method: taxonomy, measurement study and analysis." Proceedings of ACM SIGCOMM Asia Workshop. 2005
+	
+	25 viittausta
+	
+	The notion of ISPs manipulating existing protocols to
+	accomplish traffic engineering goals or for strategic benefit
+	has also received attention by researchers.
+		Wang et
+		al. report widespread use of path prepending to influence
+		routing [19]. Mahajan et al. suggest additional protocol
+		mechanisms by which ISPs coordinate their actions to overcome
+		common inefficiencies in interdomain routing [13],
+		but efficient outcomes depend on mutual trust between
+		ISPs. More recently, Goldberg et al. [5] examine the incentives
+		for ISPs to manipulate routing announcements
+		to attract generic revenue-generating traffic and find that
+		ensuring honesty likely requires substantial restriction in
+		policy freedom. (Pitfalls for ISP-Friendly P2P Design)
 	
 	
 	
@@ -2422,6 +2952,22 @@ Tuoreemmat paperit
 			-A collaborative caching schemewith regard to traffic cost and policy concerns of ISPs, and crit-ical performance metrics of P2P applications is desired in thefuture to 
 			unify the targets of both sides.
 		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

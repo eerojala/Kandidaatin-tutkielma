@@ -90,3 +90,8 @@ with its own ISP. (Traffic Localization for P2P-Applications: The ALTO Approach)
 
 https://tools.ietf.org/id/draft-livingood-woundy-p4p-experiences-00.html
 	-P4P testausta
+	
+Should internet service providers fear peer-assisted content distribution?-paperissa viittauksia tutkimuksiin muista p2p-järjestelmistä kuin bittorrent
+	-Myös paperita jotka käsittelevät vertaisten klusterointia (ehkä metodi joita p2p käyttävät etäisyyksien estimointiin tms.)
+	
+Pystyykö P2P-pakettien alkuperäistä lähtökonetta selvittämään?

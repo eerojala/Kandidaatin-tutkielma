@@ -1,0 +1,27 @@
+Ideat:
+	-Kirjoita johdanto uusiksi
+		-Siirrä P2P esittely kappaleeseen 2
+
+
+Johdanto
+	Pidennykset
+		Laita esimerkkejä jokaiselle eri P2P käyttötarkoitukselle
+		Kerro tarkemmin vertaisverkkojen perustoiminnasta
+			laita ehkä havainnollistava kuva
+		
+	Selitä flash crowd tarkemmin
+	
+Kappale 2
+	Pidennykset
+		Kerro tarkemmin palveluntarjoajien tekemästä p2p-liikenteen estosta
+			-Pakettianalysaattorit
+			-Porttien esto
+			
+Kappale 3
+	Pidennykset
+		-Esittele pushing bittorrent locality to the limitin tekniikat
+		-Käsittele välimuistiratkaisua (etsi hyvä implementaatiopaperi)
+		
+
+	
+	
