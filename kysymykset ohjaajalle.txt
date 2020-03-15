@@ -28,4 +28,21 @@
 		Miten sanan saa pakotettua jakautumaan uudelle riville tietystä kohtaa
 			-Onko tämä kannattavampaa kuin sisällön rakenteen muuttaminen
 			
+			
+	Ohjaajan tipsit ja tricksit
+		Kappaleet omille tiedostoille
+			-sitten include/input päätiedostoon
+				-jompi kumpi noista pakotti alkamaan samalta sivulta
+				
+			-Huom ei pakko mutta voi olla keino saada sivumäärää siistittyä
+				
+		Aliverkko =/= AS
+			-Kirjoita vaan autonominen systeemi tai järjestelmä
+			
+		Lyhyt abstract voi olla
 		
+		Sanat saa splitattua seuraavalle riville tyyliin \- (kato overleafista, ohjaaja laitto)
+		
+		Viittausmerkinnät voi olla virkkeiden lopussa
+		
+		Laita CDN:ille suora viittaus

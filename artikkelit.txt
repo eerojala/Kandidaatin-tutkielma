@@ -655,6 +655,49 @@ Paikallisuus
 				-Vertaisvalinnan lisäksi lisäosa tekee verkkomittauksia ja kerää tietoa tiedostonsiirron suorituskyvyistä
 				-Saivat kerättyä tietoa yli 100 000 000 vertaisesta jotka käyttivät yli 100 eri clienttiä ja sijaitsivat yli 10 000 eri ASsissä
 				-Kerättyjen tietojen pohjalta laskivat sitten tulokset
+					-Kerätyt tiedot 6h sessioista (TÄMÄ EHKÄ TÄRKEÄ?)
+						However, because users can terminate data reporting at
+						any time by force-closing their client, it is not sufficient to rely
+						on this information alone. Instead, we use ratio-map information
+						collected over the course of a six-hour interval to determine which
+						peers were recommended by Ono, then examine statistics inside
+						this interval accordingly. We chose this interval because ratio
+						maps are relatively stable at this time scale but tend to change
+						significantly over larger ones. Thus, each point in the following
+						figures represents the average of the statistics recorded from one
+						Ono peer during a six-hour interval.
+				
+				-6.3 Reducing Cross-ISP-Traffic
+					-Verrattiin onon suosittelemia vertaisia vs. bittorrentin suosittelmiin satunnaisiin vertaisiin (huom. nämä menetelmät voivat suositella samoja yksittäisiä vertaisia)
+						-Huom käytetty näkökulma ei ollut globaali!
+						-Ensin tarkasteltiin käyttämällä ranskalaisen sanomalehden verkkosivujen CDNnää Onossa
+					
+					-Tulokset
+						Of course, IP hop counts (greater than 1) do not necessarily tell
+						us whether traffic crosses ISPs. To better estimate the number of
+						ISPs crossed by a particular path, we mapped each IP address in a
+						traceroute measurement to its corresponding AS number.
+						
+						-IP
+							-Onon suosittelemat vertaiset mediaani 6 IP hopin päässä, BitTorrentin 14
+							-20% onon suosittelemista vertaisista vain yhden IP hopin päässä, BitTorrentilla alle 2%
+							
+						-AS
+							-33% vertaisten välisistä reiteistä ovat AS:n sisällä
+							-Onon löytämien vertaisten välisten reittien mediaani AS hop on 1
+								-BitTorrentilla alle 10% valittujen vertaisten välisten reittien mediaani on 1
+								
+				-6.5
+					-In the previous sections, we focused on how Ono reduces cross- ISP traffic without sacrificing download performance when using a single CDN name.
+						-Ono tukee useiden CDNnien käyttämistä
+					
+					-Verrattiin eri CDN käyttävien onojen eroja
+					-CDN:nien välillä on eroja
+						-Paras CDN tarjoaa 10000 replika-palvelinta ympäri maailmaa
+						-Huonoimmalla CDNllä oli vain 20 replika-palvelinta ympäri maailmaa
+						
+					-Tutkimusten mukaan huonoimmatkin CDNnät pystyivät merkittäviin ulkoliikennesäästöihin
+				
 				
 			-Tutkimustulokset (conclusion-osioista)
 				-Onon ratkaisu skaalautuu hyvin yli 100 000 käyttäjälle
@@ -675,6 +718,9 @@ Paikallisuus
 				
 			-Tutkimustuloset abstractissä
 				-Onon BPS suosittelee vertaisia joiden mediaani AS etäisyys on 1
+				
+			-Huom! Tulokset eivät ilmaise eksplisiittistä ulkoliikenteen vähenemisestä
+				-Mittauksena käytetään IP- ja AS-hoppeja (Pushing pittorrent locality to the limit)
 		
 
 		Similar
@@ -1127,11 +1173,126 @@ Vastaväitteet
 			-Lähinnä Onoa vastaan, mutta silti mielenkiintoinen näkökulma
 			
 		-Artikkelin pointit
-			-Client-only ratkaisut eivät auta (ainakaan biased neighbour selection)
-				-Käyttäjien performanssi ei parane ja verkkojen välinen liikenne ei vähene (merkittävästi)
-				-Azureus-clientin Ono-lisäosa erityisesti ei näytä auttavan
-					-Taming the torrent
+			-Paikallisuuden tuomia hyötyjä vaikea saavuttaa
+				-Limited impact
+					-Client-only ratkaisut eivät yleensä paranna performanssia tai vähennä ulkoliikennettä
+						-Torrenteilla usein liian vähän vertaisia
+						-Ono vähentää ulkoliikennettä vähemän kuin 1%
+							To confirm this in the wild, we show that Ono reduces
+							interdomain traffic by less than 1% when connecting to
+							live swarms through a large residential ISP.
+							
+					-Vertaisverkkojen performanssin ja eheyden heikkeneminen
+						-Pelkälle lokalisoinnille optimointi heikentää eheyttä
+							-Ja monelle käyttäjlle myös performanssia
+							-Lokalisointiin perustuvat topologiat muodostavat vähemmän interdomain linkkejä
+							
+						-Paikalliset vertaiset eivät ole aina nopeampia
+							-Verkon heterogeenisyys
+							
+					-Conflicting interest
+						Reducing interdomain traffic reduces
+						costs for some ISPs, while it reduces revenue for
+						others. We present trace data demonstrating that the
+						set of tier-1 ISPs have a strong incentive to strategically
+						manipulate BitTorrent peering relationships, creating
+						longer paths than necessary and potentially setting
+						up an arms race between ISPs.
+						
+			-BitTorrentissa suuri osa total kapasiteetista tulee pienemmältä käyttäjäkunnalta
+				-Käyttäjät eivät ole tasaisesti jakaantuneet globaalisti, vaan sijaitsevat tietyillä alueilla
+					-Tällöin paikallistaminen rypästää nämä käyttäjät tietylle alueelle
+						-Muiden latausajat kärsivät
+
+			-Tier 1 ISPT hyötyvät ulkoliikenteestä
+				-Kuljettavat alemman tason ISPn liikennettä maksua vastaan
+				
+			-ISPt joilla kaupallisia sopimuksia muiden ISP kanssa voivat uudelleenohjata liikennettä näille ISP oraakkelin yms. avulla
+		
+		
+		
+			-Tutkimusmenetelmät
+				Introduction
+					-Suuren mittakaavan mittaukset BitTorrentin käytöstä
+						-Mittaukset kattavat 18370 swarmia (groups of peers downloading the same file) ja 15 miljoonaa uniikkia IPtä
+
+					-By using simultaneous
+					measurements of the Internet topology at scale,
+					we can determine how often data in each swarm would
+					transit the boundaries between ISPs. And indeed, we find
+					that, in an idealized setting, most of the interdomain P2P
+					traffic in our trace is unnecessary.
 					
+				-Tutkijat ovat kiinnostuneita tiedostonjakamisen ja ISPn interaktiosta _Internetin tasolla_
+					-Käyttävät suuren mittakaavan mittauksia
+						-1. Mitkä ISPt ovat osallisena missä swarmissa
+							-Ladataan swarmien .torrent metatiedostot
+								-Saadaan selville 
+									-Total size of the set of files to be downloaded
+										-Providing us with the demand (in bytes) of each user in the swarm
+										
+							-Lähetetään kyselyjä torrenttien trackkereille swarmien jäsenistä
+								-Saatiin selville että 14 380 622 uniikkia IPtä
+							
+						-2. AS reiteistä vertaisten välillä
+							-Käytetään mittauksia IPlane-projektista
+							
+				-3: Testataan simulaatioilla erilaisia paikallisuusskenaarioita yllä olevalle datalle
+				-4: Testataan oikeasti
+					-Mittaussolmu yhdellä ISPllä
+					-Litytään 32 uuteen suorittuun swarmiin ja ladataan tiedostot peräkkäin (huom ei ladata kokonaan vaan ensimmäiset 30 mb)
+					-Jokainen lataus tehtiin neljä kertaa eri lokaalisuusmenetelmällä (kaikki käyttävät Azureus-clienttia)
+						-1. Lyhin AS reitti
+						-2. Minimi latenssi
+						-3. Ono
+						-4. Muokkaamaton BitTorrent (eli ei paikallisuutta)
+					
+						From a measurement node connected via Comcast, a
+						popular US residential cable ISP, we joined a set of 32
+						popular, recently created candidate swarms drawn from
+						a popular BitTorrent aggregation website and performed
+						back-to-back downloads with instrumented BitTorrent clients.
+						
+				-5: Osoitetaan, että paikallisuusklusterointi johtaa monelle heikentyneeseen latausnopeuteen
+					-Mittauksista poimittiin 100 suosituinta swarmia
+					-Simuloivat swarmeille trackkeria joka valitsi 50 satunnaista tai 50 minimum as length vertaista
+					-Asettivat vertaisille kapasiteetin prefix-pohjaisesti
+						-Kapasiteetit pohjautuivat yli 100 000 bittorrent käyttäjien suosituimmista swarmeista bandwith nopeuksiin vuodelta 2006
+						
+					-Laskettiin molemmissa tapauksissa jokaisen käyttäjän vertaisten kapasiteetin
+						-Tuloksena ratio
+							-Jos ratio >1, valittujen vertiasten kapasiteetin keskiarvo kasvoi paikallisuus skenaariolla
+							-Jos ratio <1, keskiarvo pieneni 
+							
+				-Tutkimustulokset
+					-3: Paikallisuus vähentää ulkoliikennettä, suuremmat torrentin enemmän, pienemmät torrentit vähemmän
+					
+					-4
+						-Onon latausajat ja ulkoliikenteen määrä ei vähentynyt merkittävästi vanilla Azureukseen verrattuna
+						-Onon ja Azureuksen latausaikasuhde oli 1.02
+						-Median weighted AS length onolla: 3.99, azureus: 4.02
+						
+						Although these results might seem contradictory
+						given previously published measurements of Ono, the difference
+						is simply one of presentation. While 33% of Onorecommended
+						peers are within a single AS and download
+						rates increase by 31% for recommended paths, Ono’s endto-
+						end benefit is limited by the vanishingly small fraction
+						of peers it recommends as “local”, even when applied to
+						new, popular swarms.
+							-Eli siis 33% onon suosittelemista vertaisista sijaitsee saman AS sisällä, ja suositeltujen vertaisten välillä latausnopeukset paranevat 31%
+								-Ongelmana se, että onon suosittelemia vertaisia ei ole kovinkaan paljoa
+									-Eli siis paikallisuudelle ei ole ensinnäkään aina potentiaalia, tai onon käyttämässä metodissa on puutteita
+									
+						-Tulokset osoittavat että BitTorrent ei ehkä sovellu paikallisuudelle
+							-1. Client-only ratkaisut kärsivat täyden informaation puutteesta samanaikaisista lataajista
+								-Tehokkuuden maksimoiminen riippuu vertaisvallinasta globaalilla tasolla, esim. trackereillä
+								
+							-2. Download and depart heikentää ulkoliikenteen paikallistamista
+							-3. Vaikka paikallisia vertaisia olemassa, client todennäköisemmin suosii kaukaisempia vertaisia joilla nopeammat latausnopeudet
+					
+					-5: Suurimmalla osalla käyttäjistä kapasiteetti oli parempi satunnaisella vertaisvalinnalla
+
 				-Konkreettisia tuloksia bittorrentin tarkastelusta internetissä
 				-Syitä:
 					-While 33% of Onorecommended
@@ -1526,7 +1687,7 @@ Vastaväitteet
 				-Pitfalls väitti että clientside only paikallisuus ei välttämättä toimi
 					-Tämän paperin ratkaisu on seurantapalvelinpohjainen
 					
-				-Pitfalls väitti että vertaisverkon eheys ei säily
+				-Pitfalls väitti että vertaisverkon eheys kärsii
 					-Paperin tekijät ottivat verkon eheyden säilyttämisen huomioon
 
 

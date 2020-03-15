@@ -1,7 +1,6 @@
 P2P esittely
 	Miten toimii
 		Yleisesti (suht pieni prio)
-			Peer-Assisted File Distribution: The Minimum Distribution Time
 			Peer-to-peer systems
 				https://dl.acm.org/doi/fullHtml/10.1145/1831407.1831427?casa_token=MuBGy9enxuEAAAAA:wdW2P0lf8tqJfkfDDFZCKSSpnFv9gMbVnU9UCKP4Li_1Jh4J2STkfKljwqtlZSEYzOx2ICjUMC53Yg
 		
@@ -21,7 +20,6 @@ P2P esittely
 				
 	Hyödyt & Haitat
 		Should Internet Service Providers Fear Peer-Assisted Content Distribution?
-		Peer-Assisted File Distribution: The Minimum Distribution Time
 		Peer-to-peer systems
 		
 		Hyödyt
@@ -294,9 +292,20 @@ Ongelmat paikallisuusratkaisuille
 				-Alkuruuhkan jälkeen torrentit ovat varsin pieniä
 					-Ei enää niin paljoa potentiaalia paikallisuudelle
 					
-	-Antavatko middlewaret riskialtista tietoa pahantahtoisille vertaisille (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
-		-verkon ominaisuuksista
-		-muista vertaisista
+				-BitTorrentissa suuri osa total kapasiteetista tulee pienemmältä käyttäjäkunnalta
+					-Käyttäjät eivät ole tasaisesti jakaantuneet globaalisti, vaan sijaitsevat tietyillä alueilla joilla nopeammin 
+						-Tällöin paikallistaminen rypästää nämä käyttäjät tietylle alueelle
+							-Muiden latausajat kärsivät
+							
+						-(Tutkimuksissa tätä ei välttämättä tule ilmi jos simuloidaan otaksutuilla homogeenisillä verkoilla tai tarkastellaan vaan yhden palveluntarjoajan näkökulmasta)
+					
+				
+					
+					
+	-Antavatko middlewaret riskialtista tietoa pahantahtoisille vertaisille 
+		A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+			-verkon ominaisuuksista
+			-muista vertaisista
 		
 		-Oraakkeli ei kuitenkaan tarjoa riskialtista tietoa (vain vertaiset paremmuusjärjestyksessä)
 			
@@ -307,17 +316,25 @@ Ongelmat paikallisuusratkaisuille
 		
 		-Oraakkeli kuitenkin ilmeisesti pystyi tukemaan useampaa eri P2P-sovellusta
 		
-	-ISPt voivat antaa vääristeltyä tietoa middlewareille (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
-		-Voidaan suosia liikaa paikallisuutta säästöjen tekemiseksi
+	-ISPt voivat antaa vääristeltyä tietoa middlewareille 
+		A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
+			-Voidaan suosia liikaa paikallisuutta säästöjen tekemiseksi
+			
+		Pitfalls
+			-ISPt joilla kaupallisia sopimuksia muiden ISP kanssa voivat uudelleenohjata liikennettä näille ISP oraakkelin yms. avulla
+		
 		
 	-Haluaako P2P yhteistyötä
 		Kärsiikö tehokkuus/eheys
 			Pitfalls for ISP-friendly P2P design
 				-Jopa Win-Lose tilanne vaikea saavuttaa
-					-Väitetään että pelkkien sovellusten tekemä painotettu vertaisvalinta (erityisesti ono, jota testattiin artikkelissa) ei ole riittävä
+					-Väitetään että pelkkien clienttien tekemä painotettu vertaisvalinta (erityisesti ono, jota testattiin artikkelissa) ei ole riittävä
+						-Puuttuu globaali näkökulma muihin lataajiin
+						-Ratkaisu pitäisi tehdä globaalilla tasolla, esim. trackkereilla
 					
 				-Paikalliset yhteydet eivät ole välttämättä ulkopuolisia nopeampia
 					-Verkkojen reittien nopeuksien heterogeenisyys
+	
 					
 			Can P2P-Users Benefit from Locality-Awareness?
 				-Paikallisuudesta hyötyvät usein lähinnä ISPt, eivätkä niinkään P2P-käyttäjät
@@ -349,7 +366,23 @@ Ongelmat paikallisuusratkaisuille
 		Should Internet Service Providers Fear Peer-Assisted Content Distribution?
 			-Nouseva sisäinen lähetysliikenne voi olla jollekin verkoille ongelmallista
 				-Kustannustehokkaampaa viedä liikennettä ulos kun pitää sitä sisällä
-				-Vaatisi suuria verkon rakenteellisia muutoksia
+
+				
+				While locality-aware peer-assisted solutions
+				appear attractive for ISPs, we would like to stress here
+				that decreasing egress traffic may create the need for traffic
+				re-engineering within ISP boundaries to account for the
+				additional internal upload traffic. Increased upload traffic
+				may prove especially important for those ISPs that depend
+				on other carriers to deliver last-mile traffic (e.g., European
+				Tier-2 ISPs). In fact, for such ISPs, utilizing their transit
+				egress capacity might result in a more cost-effective solution
+				rather than re-routing traffic internally. Caching, on
+				the contrary, fits naturally with the traditional asymmetric
+				architecture of today’s ISPs, where the downstream channel
+				is more heavily provisioned relative to the upstream,
+				driven by the assumption that customers download more
+				than what they upload.
 				
 		
 		
@@ -388,6 +421,9 @@ Paperit
 	
 	Should Internet Service Providers Fear Peer-Assisted Content Distribution?
 		Karagiannis, Thomas, Pablo Rodriguez, and Konstantina Papagiannaki. "Should internet service providers fear peer-assisted content distribution?." Proceedings of the 5th ACM SIGCOMM conference on Internet Measurement. 2005.
+		
+	CDN: Content distribution network
+		Peng, Gang. "CDN: Content distribution network." arXiv preprint cs/0411069 (2004).
 		
 	Can ISPs Take the Heat from Overlay Networks
 		Keralapura, Ram, et al. "Can ISPs take the heat from overlay networks." ACM SIGCOMM Workshop on Hot Topics in Networks (HotNets). 2004.
