@@ -78,9 +78,21 @@ P2P aiheuttamat ongelmat ISP:ille
 		-P2P aiheuttaa ulkopuolista liikennettä
 		
 		-P2P-liikenteen suuri määrä
-			-The bittorrent p2p file-sharing system: Measurements and analysis (tarkista vielä artsa, huom. tietoa vuodelta 2005)
+			-Is P2P dying or just hiding? (2002-2004)
+			https://web.archive.org/web/20061018024722/http://www.cachelogic.com/home/pages/studies/2004_03.php (2004)
+				A. Parker. The true picture of peer-to-peer filesharing, 2004. http://www.cachelogic.com/.
 			
-			-Löytyi tuoreempaa statistiikkaa, ks. viittaukset.txt
+			-Sandvine. Global internet phenomena report 2018
+				-BitTorrent
+					-Amerikka
+						-Upsteam: 9.21%
+						
+					-Eurooppa (ja ehkä lähi-itä + afrikka)
+						-Upstream: 31.73%
+						
+					-Aasia-Pacific
+						-Downsteam: 5.11%
+						-Upstream: 19.11%
 		
 		-Ulkopuolinen liikenne maksaa
 			The Evolution of the U.S. Internet Peering Ecosystem (white paper)
@@ -157,10 +169,12 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 					-Mahdollisesti myös käyttämällä ISPn omia "traffic shaping devices"
 						-(Tyyliin oraakkeli tai P4P)
 						
+				-Soveltuu hyvin rarest piece first kanssa
+					-Rarest piece firstiä selitetty artikkelissa Rarest First and Choke Algorithms Are Enough
+						
 			-Tulokset osoittivat että BPS pystyy vähentämään ulkoliikennettä ja pitämään latausajat optimeina 
 				-Kunhan aivain kaikki vertaiset eivät ole verkon sisältä (tarvitaan yhteyksiä muualle pullonkaulojen ja vertaisverkon eheysongelmien välttämiseksi)
-
-						
+		
 			Pushing Bittorrent Locality to the Limit
 				-Ehdotetaan kahta strategiaa jota tulisi ottaa huomioon mahdollisissa paikallisuusratkaisuissa
 					-Round robin
@@ -428,6 +442,13 @@ Paperit
 	Can ISPs Take the Heat from Overlay Networks
 		Keralapura, Ram, et al. "Can ISPs take the heat from overlay networks." ACM SIGCOMM Workshop on Hot Topics in Networks (HotNets). 2004.
 		
+	Is p2p dying or just hiding?
+		Karagiannis, Thomas, et al. "Is p2p dying or just hiding?[p2p traffic measurement]." IEEE Global Telecommunications Conference, 2004. GLOBECOM'04.. Vol. 3. IEEE, 2004.
+		
+		-Tutkimuksessa näkyy P2P-liikenteen osuus muuhun verkkoliikenteeseen
+		
+	Global Internet Phenomena Report - October 2018, Sandvine
+		
 	The Evolution of the U.S. Internet Peering Ecosystem (White paper, pelkästään sitä varten että voi siteerata jotakin että isp-välinen liikenne voi maksaa, etsi mahdollisesti parempi lähde)
 		Norton, William B. "The evolution of the US Internet peering ecosystem." Equinix white papers (2004).
 		
@@ -438,19 +459,32 @@ Paperit
 		
 	P4P: Provider portal for applications
 		Xie, Haiyong, et al. "P4P: Provider portal for applications." ACM SIGCOMM Computer Communication Review 38.4 (2008): 351-362.
+	
+	Can ISPs and P2P users cooperate for improved performance?
+		Aggarwal, Vinay, Anja Feldmann, and Christian Scheideler. "Can ISPs and P2P users cooperate for improved performance?." ACM SIGCOMM Computer Communication Review 37.3 (2007): 29-40.
 		
 	Improving traffic locality in bittorrent via biased neighbor selection
 		Bindal, Ruchir, et al. "Improving traffic locality in BitTorrent via biased neighbor selection." 26th IEEE International Conference on Distributed Computing Systems (ICDCS'06). IEEE, 2006.
 		
-	Can ISPs and P2P users cooperate for improved performance?
-		Aggarwal, Vinay, Anja Feldmann, and Christian Scheideler. "Can ISPs and P2P users cooperate for improved performance?." ACM SIGCOMM Computer Communication Review 37.3 (2007): 29-40.
-		
+	Rarest First and Choke Algorithms Are Enough
+		Legout, Arnaud, Guillaume Urvoy-Keller, and Pietro Michiardi. "Rarest first and choke algorithms are enough." Proceedings of the 6th ACM SIGCOMM conference on Internet measurement. 2006.
+	
 	Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems
 		Choffnes, David R., and Fabián E. Bustamante. "Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems." ACM SIGCOMM Computer Communication Review 38.4 (2008): 363-374.
 		
+	Guidelines for creation, selection, and registration of an Autonomous System (AS) 
+		Hawkinson, John, and Tony Bates. "Guidelines for creation, selection, and registration of an Autonomous System (AS)." (1996).
+	
+		Autonomisen systeemin määritelmä
+	
 	A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
 		Gurbani, Vijay K., et al. "A survey of research on the application-layer traffic optimization problem and the need for layer cooperation." IEEE Communications Magazine 47.8 (2009): 107-112.
 		
+	Peer-to-Peer Architecture Case Study: Gnutella Network
+		Ripeanu, Matei. "Peer-to-peer architecture case study: Gnutella network." Proceedings first international conference on peer-to-peer computing. IEEE, 2001.
+		
+		Gnutella-viite
+	
 	Pitfalls for ISP-friendly P2P design
 		Piatek, Michael, et al. "Pitfalls for ISP-friendly P2P design." HotNets. 2009.
 		
