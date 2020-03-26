@@ -1,3 +1,6 @@
+1.4
+	-Kohdassa vertaisverkkoliikenteen hallitseminen, miten viitataan?
+
 12.3
 	Katsauksen vertaisarviointi
 	

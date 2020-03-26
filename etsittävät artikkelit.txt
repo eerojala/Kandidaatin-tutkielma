@@ -9,3 +9,7 @@ Etsi:
 		-P4P (?)
 		
 	-Tuoreempaa P2P verkkoliikennestatistiikkaa
+		-Löydetty - sandvine 2018 october
+		
+	-Välimuistiratkaisuja
+	-ISP vanhoja keinoja estää P2P liikennettä

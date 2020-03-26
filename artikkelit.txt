@@ -1418,21 +1418,201 @@ Vastaväitteet
 			-Ratkaisuehdotuksiin siis tarvitaan parannuksia
 				-Jos ei paranneta, niin p2p sovellukset kiertävät näitä paikallisuusominaisuuksia (esim. oraakkelia) mm. enkryptauksilal / käyttäjät eivät käytä paikallis-clienttejä
 				
+			-Käyttäjien suostumus ehdottomasti tarvitaan kaikkiin potentiaalisiin paikallisuusratkaisuihin
+				
+			-Tulokset pähkinänkuoressa
+				-1. Nykyisillä paikallisuusratkaisuilla vaikea saavuttaa yleistä win-no lose tilannetta
+				-2. Nykyiset ratkaisut kasvattavat vertaisverkkojen epäreiluutta, ja joskus jopa yleisesti heikentävät jakamisen tehokkuutta (=keskimäärin hitaammat latausnopeudet)
+				
+				
 				
 		-Artsassa suht hyvin selitetty BitTorrentin perusteita (lähteihin perustuens)
 		
-		-Kokeilevat Biased Neighbour Selectionia (BNS) [1] ja biased unchokingia (BU)
-			-BNS:
-				-[1], [3], [8], [9] eri variaatioita BNS:stä
-					-Improving traffic locality in bittorrent via biased neighbor selection
-					-Oraakkeli
-					-P4P
-					-Ono
-			
-			-BU
-				-[4]
-					-Pushing the performance of biased neighbor selection through biased unchoking
+		-Tutkimukset
+			-Testataan BitTorrentilla kahta paikallisuusratkaisua
+				-Biased peer/neighbour selection
+					-Testeissä kysellään trackkerilta paljon suurempaa vertaislistaa (1000) mitä normaali bittorrent pyytää (50)
+					-Otetaan paikallisia naapureita kunnes rBPS:sän max paikalliset naapuriraja (huom. ei kaikki naapurit) saavutetaan, tai paikallisia naapareita ei enää löydy
+						-Vissiin tässä tapauksessa 90% paikallisia naapureita max
+						
+				-Biased peer unchoking
+					-Suositaan paikallisia naapureita
+					
+			-Simulaatio
+				-Yksi swarmi, jossa jaetaan 154.6 mb kokoista videotiedostoa
+				-Swarmi sisältää keskimäärin 100-200 vertaista
+					-Vastaa keskikokoista swarmia
+						According to a measurement study of real BitTorrent
+						swarms [6], these are typical values for medium-sized swarms
+						observed in practice.
+					
+				-Koko simulaatioverkko koostuu 20 ASstä ja yhdestä transit-ASstä
+					-Transit-AS sisältää vain alkuperäisen uploadaajan, joka menee offline 1h jälkeen
+					-ASsät heterogeneisiä, eri määrä käyttäjiä
+						This
+						is motivated by the fact most of the peers participating in a
+						swarm are usually located in a small number of ASes [5],
+						[6].
+					
+					-Yhteysnopeudet myös heterogeenisiä
+						Measurements in [7] show that the peers in a swarm can be
+						clustered according to their access speeds.
+						
+						-Huom! Testaavat myös homogeenisillä nopeuksilla
+						
+			-Koe 1: Homogeeninen vs heterogeeninen skenaariot
+				-A
+					-Vertaiset homogeenisesti jakautuneet homogeenisillä nopeuksilla
+					-Keskimääräiset latausajat eri AS:sien vertaisilla eivät juurikaan eronneet
+					
+				-B
+					-Vertaiset heterogeenisesti jakautuneet heterogeenisillä nopeuksilla
+					-ASsillä kuitenkin suunnilleen samat keskiverto latausnopeudet
+						-AS:n sisäisitä vertaistaisista 50% nopeita, 50% hitaita
 				
+					-Latausajat eroavat
+						-Osa hyötyi paikallisuudesta, osa ei
+						
+					-Kuvaaja
+						-BU:sta pienet AS:sät eivät hyötyneet, mutta suuret hyötyivät paljon
+						-BNS oli jotakuinkin verrattavissa normi bittorrent, välillä parempi, välillä heikompi
+						-BNSBU pienempi pohja kuin BU, mutta myös pienempi katto kuin BU
+						
+					-Ei ole siis yleistä no-lose tilannetta kummallekkaan menetelmälle
+					
+				-C
+					-Vertaiset heterogeenisesti jakautuneet homogeenisillä nopeuksilla
+					-BNS pärjää huonommin suuremmilla verkoilla, miksi?
+						-This effect seems counter-intuitive,
+						but can be explained when considering the composition of
+						the neighbor set of the peers. With BNS, peers in AS 1
+						have a higher number of neighbors than peers in other ASes
+						(Fig. 4(b)) and therefore also more peers which are interested
+						in downloading from them (Fig. 4(c)). The reason is that peers
+						in AS 1 are not only contacted by others peers in AS 1 but
+						also with a high probability by peers in small ASes because
+						BNS fills the neighbor set with random peers if a sufficient
+						number of local peers is not available. As a consequence of
+						the increased number of peers interested in a peer in AS 1,
+						its upload capacity is shared among a larger set of peers and
+						every one of them receives a smaller portion. Finally, peers in
+						AS 1 have a large number of local neighbors and download
+						almost exclusively from them. Hence, a peer in AS 1 receives
+						less upload capacity from the swarm than other peers.
+						
+					-Ulkoliikenne vähenee AS:n koon kasvatessa
+						If such an AS belongs to a Tier2 or Tier3
+						ISP which is charged by either its uploaded or downloaded
+						traffic or the maximum of both, this translates into higher cost
+						savings.
+						
+				-D
+					Vertaiset homogeenisesti jakautuneet heterogeenisillä nopeuksilla
+						-1. Skenaario = Nopeat vertaiset omissa AS, hitaat vertaiset omissa AS
+							-Mukailee realistista tilannetta jossa jotkut ISPt omaavat parempaa teknologiaa
+							
+							-Keskimäärin bittorrentin oma takaa nopeammat latausnopeudet 
+								-Hitaat vertaiset eivät hyödy paikallistamisesta, hidastuvat
+								-Nopeat vertaiset hyötyvät paikallistamisesta
+								
+								-Paikallistaminen lisää epäreiluutta
+									-Mutta toisaalta onko vertaisilla jotka uploadaa nopeasti myös oikeus ladata nopeasti
+									
+								-Nopeiden hyödyt ei näy keskimäärässä niin paljon koska ne myös lähtevät nopeammin pois swarmeista koska saavat ladattua nopeammin
+							
+						-2. Skenaario = Nopeat ja hitaat vertaisesti jakautuneet tasaisesti
+							-Mukailee realistista tilannetta jossa yksittäinen ISP tarjoaa eri nopeuksia
+						
+							-Keskimääräisesti latausnopeudet eivät juurikaan eroa toisistaan eri menetelmillä
+								-hitaat vertaiset
+									-BNS about sama kuin bittorrent
+										-BU ja BUBNS nopeampia
+										
+								-Nopeat vertaiset
+									-BNS ja bittorrent about sama
+										-BU ja BUBNS hitaampia
+										
+							-Toisin kuin hitaat vs nopeat skenaariossa, tässä tapauksessa epäreiluus väheenee
+								-nopeampien käyttäjien kustannuksella
+										
+								-In contrast, the mechanisms including BU lead to shorter
+								download times for slow peers and longer download times
+								for fast ones. This is mainly owed to the fact that the fast
+								peers allocate their optimistic unchoke slots mostly to local
+								neighbors which might have only a slow uplink. This prolongs
+								the process of finding fast but remote peers. Free-riding may be
+								a bit more attractive in those scenarios since the AS affiliation
+								of a peer is considered in the unchoking process in addition
+								to the upload speed of the peer.
+									-For the swarm as a whole, the results can be interpreted as a
+									fairer distribution of the upload capacity. However, the peers
+									that contribute more resources have less incentives to do so
+									if they are not rewarded. We conclude that in this scenario
+									BU and BNSBU lead to more balanced download times while
+									the contrary is true in the scenario “fast vs. slow ASes”.
+									
+								-This
+								shows that the actual bandwidth distribution of peers has a
+								significant impact on the performance of locality-mechanisms
+								experienced by the user
+								
+			-Koe 2: Eri parametrit paikallisuusskenaarioille
+				-Pienempi preferenssi paikallisuudelle tasoittaa keskimääräisiä latausnopeuksia
+					-Ulkoliikenteen säästöjen kustannuksella
+					
+				-Testataan arvoja 0.5 ja 0.9 BU, BNS ja BNSBU
+				
+				-BU
+					-Latausajat keskimäärin pienemmät 0.5
+						-Pienissä AS 0.9 nopeampi
+						
+					-0.5 ulkoliikenne kasvaa pienemmillä AS
+					
+					With lBU = 0.5, i.e.,
+					a less strict preference of local peers, the average download
+					times are more uniform over the individual ASes, especially
+					for BU alone. For the combination of BNS and BU, the
+					negative effect of BNS on the large ASes, described in
+					Sect. IV-C, is offset less with this parameter. Consequently,
+					the mean download times are uniform for the small ASes, but
+					the large ASes are still at a disadvantage.
+					
+					While a lower preference for local peers can lead to more
+					balanced average download times, it also influences the achiev-
+					able traffic savings. Fig. 8(b) shows, again on the example of
+					the downlink traffic of ASes, that the used bandwidth increases
+					with a lower degree of locality-awareness. Thus, the parameter
+					lBU can be used to directly influence the trade-off between
+					unfairness in the swarm and cost savings by traffic reduction.
+					
+				-BNS
+					-Latausajat pienenevät keskimäärin 0.9
+						-Suuremmilla AS vähän paremmat nopeudet
+						
+					-0.5 ulkoliikenne kasvaa pienemmillä AS
+					
+					We
+					observe that the significant increase in the download times for
+					the largest AS vanishes for lBNS = 0.5, i.e., a lesser degree
+					of locality. With BNS alone, the download times are fairly
+					distributed, while the combination of BNS with BU shows the
+					heavy unfairness of the BU mechanism described earlier. This
+					is due to the fact that in this experiment, lBU = 0.9.
+					
+					Again, the better fairness achieved by more conservative
+					parameters for locality-awareness is paid for by reduced
+					savings in inter-AS traffic, cf. Fig. 9(b). In particular, the
+					incoming inter-AS traffic of AS 1 increases by about 30%
+					(for BNS alone) or 25% (for BNSBU) when lBNS = 0.5 is
+					used instead of lBNS = 0.9. Similarly, but not shown here,
+					the outgoing inter-AS traffic increases in comparison with the
+					scenario where lBNS = 0.9.
+					
+				These results show that more conservative parameters might
+				mitigate the negative effects of locality-awareness in terms of
+				unbalanced average download times but reduce simultaneously
+				the amount of inter-AS traffic that can be saved.
+								
 		The main difference
 		of Ono to the approaches described above is that it does not
 		rely on a central entity which guides the inclusion of peers in
@@ -1735,6 +1915,11 @@ Tarkista ohjaajalta
 			
 			Yet another system [8] proposes to use caching to relieve the tension between ISPs and P2P systems.
 			
+		There are several possibilities on how to control the traffic patterns
+		of P2P by ISPs. One proposal is to deploy P2P caching devices
+		to cut down bandwidth consumed by P2P applications (e.g., [8,
+		12, 16, 27, 29, 32, 36]) (P4P: Provider Portal for Applications)
+			
 		Artikkelin pointti
 			-Hyväksikäytetään ISPiden HTTP-cacheja kapsuloimalla P2P-chunkit HTTP-paketteihin
 				-Simulaatiotestataan
@@ -1782,9 +1967,18 @@ IMP: ISP-Managed P2P 2010
 		
 
 ARE FILE SWAPPING NETWORKS CACHEABLE? CHARACTERIZING P2P TRAFFIC 
+	Leibowitz, Nathaniel, et al. "Are file swapping networks cacheable? Characterizing P2P traffic." Proc. of the 7th Int. WWW Caching Workshop. 2002.
+	
 	165 viittausta
 	
-	Leibowitz, Nathaniel, et al. "Are file swapping networks cacheable? Characterizing P2P traffic." Proc. of the 7th Int. WWW Caching Workshop. 2002.
+	Abstract
+		Peer-to-Peer  (P2P)  file-sharing  traffic  on  the  Internet  has  grown to rival that of traditional web surfing (HTTP). This paper  measures  and  analyzes  the  
+		characteristics  of  this  relatively new type of traffic and investigates the feasibility of caching it 
+		
+	There are several possibilities on how to control the traffic patterns
+	of P2P by ISPs. One proposal is to deploy P2P caching devices
+	to cut down bandwidth consumed by P2P applications (e.g., [8,
+	12, 16, 27, 29, 32, 36]) (P4P: Provider Portal for Applications)
 	
 Traffic localization for P2P-applications: The ALTO approach
 	122 viittausta
@@ -1866,9 +2060,14 @@ A Stochastic Analytical Modelling Framework on ISP-P2P Collaborations in Multi-d
 	4 viittausta
 	
 Accurate, scalable in-network identification of p2p traffic using application signatures
+	Sen, Subhabrata, Oliver Spatscheck, and Dongmei Wang. "Accurate, scalable in-network identification of p2p traffic using application signatures." Proceedings of the 13th international conference on World Wide Web. 2004.
+	
 	1144 viittausta
 	
-	-Kato tarkemmin sitten kun kirjoittaa P2P havaitsemisesta
+	A widely used ISP approach is to use traffic shaping devices to
+	rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
+	deep packet inspection or other P2P traffic identification schemes
+	(e.g., [11, 31]) (P4P: Provider Portal for Applications)
 	
 An Analysis of Internet Content Delivery Systems
 	Saroiu, Stefan, et al. "An analysis of internet content delivery systems." ACM SIGOPS Operating Systems Review 36.SI (2002): 315-327.
@@ -1922,6 +2121,11 @@ An Analysis of Internet Content Delivery Systems
 	document the increasing popularity of P2P systems,
 	study the impact of caching and the potential for bandwidth
 	savings of a locality aware mechanism. (Pitfalls for ISP-Friendly P2P Design)
+	
+	There are several possibilities on how to control the traffic patterns
+	of P2P by ISPs. One proposal is to deploy P2P caching devices
+	to cut down bandwidth consumed by P2P applications (e.g., [8,
+	12, 16, 27, 29, 32, 36]) (P4P: Provider Portal for Applications)
 
 ARE FILE SWAPPING NETWORKS CACHEABLE?
 	165
@@ -1948,12 +2152,31 @@ Cache Capacity Allocation for BitTorrent-like Systems to Minimize Inter-ISP Traf
 	-2012
 	
 Cache Replacement Policies Revisited: The Case of P2P Traffic
-	130
+	Wierzbicki, Adam, et al. "Cache replacement policies revisited: The case of P2P traffic." IEEE International Symposium on Cluster Computing and the Grid, 2004. CCGrid 2004.. IEEE, 2004.
 	
-	-2004
-	-Does the experience on caching Web objects research
-	translate directly to P2P file-sharing traffic, in
-	particular FastTrack traffic?
+	130 viittausta
+	
+	Abstract
+		Peer-to-peer (P2P) file-sharing applications
+		generate a large part if not most of today's Internet
+		traffic. The large volume of this traffic (thus the high
+		potential benefits of caching) and the large cache sizes
+		required (thus nontrivial costs associated with
+		caching) only underline that efficient cache
+		replacement policies are important in this case. P2P
+		file-sharing traffic has several characteristics that
+		distinguish it from well studied Web traffic and that
+		require a focused study of efficient cache management
+		policies. This paper uses trace driven simulations to
+		compare traditional cache replacement policies with
+		new policies that try to exploit characteristics of the
+		P2P file-sharing traffic generated by applications
+		using FastTrack protocol.
+		
+	There are several possibilities on how to control the traffic patterns
+	of P2P by ISPs. One proposal is to deploy P2P caching devices
+	to cut down bandwidth consumed by P2P applications (e.g., [8,
+	12, 16, 27, 29, 32, 36]) (P4P: Provider Portal for Applications)
 	
 Cache-to-Cache: Could ISPs Cooperate to Decrease Peer-to-Peer Content Distribution Costs?
 	66
@@ -1990,10 +2213,24 @@ Deep Diving into BitTorrent Locality
 	locality, which is fundamental to observe stratification in
 	their model. (Pushing bittorrent locality to the limit)
 	
-Detecting BitTorrent Blocking
-	131
+Detecting BitTorrent Blocking <------------- KATO TÄÄ
+	Dischinger, Marcel, et al. "Detecting bittorrent blocking." Proceedings of the 8th ACM SIGCOMM conference on Internet measurement. 2008.
 	
-	-2008
+	131 viittausta
+	
+	Abstract
+		Recently, it has been reported that certain access ISPs are surreptitiously
+		blocking their customers from uploading data using the
+		popular BitTorrent file-sharing protocol. The reports have sparked
+		an intense and wide-ranging policy debate on network neutrality
+		and ISP traffic management practices. However, to date, end users
+		lack access to measurement tools that can detect whether their access
+		ISPs are blocking their BitTorrent traffic. And since ISPs do
+		not voluntarily disclose their traffic management policies, no one
+		knows how widely BitTorrent traffic blocking is deployed in the
+		current Internet. In this paper, we address this problem by designing
+		an easy-to-use tool to detect BitTorrent blocking and by presenting
+		results from a widely used public deployment of the tool.
 	
 	Network oblivious sharing increases costs for ISPs. As
 	demand increases on transit links, backbone ISPs are forced
@@ -2005,6 +2242,11 @@ Detecting BitTorrent Blocking
 	In response, some ISPs have elected to rate-limit or simply
 	block these “problem” protocols [4, 14], in turn leading
 	developers into an arms race to evade restrictions. (Pitfalls for ISP-Friendly P2P Design)
+	
+	As a result of
+	this tension, some ISPs have started to
+	traffic shape and even block BitTorrent
+	traffic (Peer-to-peer-systems)
 	
 Efficiency of Caches for Content Distribution on the Internet
 	28
@@ -2267,11 +2509,28 @@ Behavior-based P2P Traffic Identification using Fuzzy Approach
     -Tää paperi esittelee keinoja identifioimaan P2P-liikennettä
 
 Network pricing: can both ISP and P2P benefit?
+	Li, Zhen, and Qi Liao. "Network pricing: can both ISP and P2P benefit?." International Journal of Network Management 24.6 (2014): 433-449.
+	
     -6 viittausta
 
-    -2015
-
-    -Käsittelee enemmän hinnoitusta, mutta esittelee joitain artikkeleja jotka voisivat olla hyödyllisiä...
+    -Käsittelee tarkemmin miksi ISP täytyy rajoittaa P2P liikennettä rahallisesta näkökulmasta
+	
+	Abstract
+		Internet service providers are facing increasing back pressure from rising access demand by users, especially
+		peer-to-peer (P2P)-based applications that greatly enhance the large-scale distribution of content into and
+		out  of  their  networks.  With  the  ever  increasing  consumption  pressure  on  scarce  bandwidth  resources,
+		ISPs have been forced to reconsider their business model of overselling ‘all-you-can-eat’ broadband at flat
+		rates. Technical solutions such as traffic differentiation or blocking violate the principle of network neu-
+		trality; traffic shaping and deep packet analysis fall short in the presence of encryption; and P4P (localized
+		P2P)-based solutions are difficult to achieve in a heterogeneous environment. Economically, various usage-based 
+		pricing schemes have been proposed and discussed. While they can improve efficiency in bandwidth
+		consumption,  they  tend  to  face  strong  customer  resistance  as  users  have  strong  preference  in  favour  of
+		simple  flat  rates.  We  argue  that  any  feasible  pricing  reforms  cannot  deviate  much  from  the  current  flat
+		rates while providing financial incentives for bandwidth hogs to limit their bandwidth access. In contrast tonormal usage-
+		based pricing models that charge by volume, we propose a temporal-based pricing modelthat may generate a mutually beneficial 
+		solution that can not only increase the profitability of ISPs but also
+		accommodate P2P, rather than killing it, without changing the software, protocols or hardware that clients
+		or ISPs use on the network. Copyright © 2014 John Wiley & Sons, Ltd
 
 
 Economics of network pricing with multiple ISPs
@@ -2657,7 +2916,7 @@ The Bittorrent P2P File-sharing System: Measurements and Analysis
 	and providing a better understanding of peer interarrival
 	times [21]. (Should internet service providers fear peer-assisted content distribution?)
 	
-Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload <--------- KATO TÄÄ
+Measurement, modeling, and analysis of a peer-to-peer file-sharing workload <--------- KATO TÄÄ
 	Gummadi, Krishna P., et al. "Measurement, modeling, and analysis of a peer-to-peer file-sharing workload." Proceedings of the nineteenth ACM symposium on Operating systems principles. 2003.
 	
 	1253 viittausta
@@ -2712,6 +2971,11 @@ Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload <---
 	study the impact of caching and the potential for bandwidth
 	savings of a locality aware mechanism. (Pitfalls for ISP-Friendly P2P Design)
 	
+	There are several possibilities on how to control the traffic patterns
+	of P2P by ISPs. One proposal is to deploy P2P caching devices
+	to cut down bandwidth consumed by P2P applications (e.g., [8,
+	12, 16, 27, 29, 32, 36]) (P4P: Provider Portal for Applications)
+	
 DSL Broadband Providers Perform Balancing Act (uutisartsa)
 	http://www.slyck.com/news.php?story=973
 	
@@ -2725,7 +2989,7 @@ Controlling P2P Traffic (uutisartsa)
 	
 	On the other hand, ISPs find that P2P traffic poses a significant traffic engineering challenge [4, 7] (Can ISPs and P2P Users Cooperate for Improved Performance?)
 	
-Methodology for EstimatingNetwork Distances of Gnutella Neighbors
+Methodology for Estimating Network Distances of Gnutella Neighbors
 	Aggarwal, Vinay, et al. "Methodology for estimating network distances of Gnutella neighbors." Informatik 2004, Informatik verbindet, Band 2, Beiträge der 34. Jahrestagung der Gesellschaft für Informatik eV (GI) (2004).
 	
 	33 viittausta
@@ -2747,6 +3011,14 @@ Methodology for EstimatingNetwork Distances of Gnutella Neighbors
 		This is not necessarily optimal as most network bottlenecks in the
 		Internet are assumed to be either in the access network or on the
 		links between ISPs, but not in the backbones of the ISPs [11].
+		
+	Most P2P systems employ an arbitrary peer selection policy
+	that ignores the underlying Internet topology and ISP link costs,
+	establishing connections between randomly chosen subsets of cooperating
+	peers from around the world. Such a policy results in
+	P2P traffic that often crosses network boundaries multiple times to
+	reach content that could have been more speedily obtained from
+	nearby peers [2, 8, 17]. (Taming the torrent)
 	
 An Empirical Evaluation of Wide-Area Internet Bottlenecks
 	Akella, Aditya, Srinivasan Seshan, and Anees Shaikh. "An empirical evaluation of wide-area internet bottlenecks." Proceedings of the 3rd ACM SIGCOMM conference on Internet measurement. 2003.
@@ -2758,6 +3030,11 @@ An Empirical Evaluation of Wide-Area Internet Bottlenecks
 	This is not necessarily optimal as most network bottlenecks in the
 	Internet are assumed to be either in the access network or on the
 	links between ISPs, but not in the backbones of the ISPs [11]. (Can ISPs and P2P Users Cooperate for Improved Performance?)
+	
+	Further, we expect that these peers
+	will be mostly within the same ISP, thus avoiding cross-ISP traffic
+	and optimizing clients’ performance by avoiding most network
+	bottlenecks [7]. (Taming the torrent)
 	
 On the Long-term Evolution of the Two-Tier Gnutella Overlay
 	Rasti, Amir H., Daniel Stutzbach, and Reza Rejaie. "On the long-term evolution of the two-tier gnutella overlay." Proceedings IEEE INFOCOM 2006. 25TH IEEE International Conference on Computer Communications. IEEE, 2006.
@@ -2873,7 +3150,281 @@ Characterizing the Performance and Stability Issues of the AS Path Prepending Me
 		ensuring honesty likely requires substantial restriction in
 		policy freedom. (Pitfalls for ISP-Friendly P2P Design)
 	
+On the locality of bittorrent-based video file swarming
+	Wang, Haiyang, Jiangchuan Liu, and Ke Xu. "On the locality of BitTorrent-based video file swarming." IPTPS. 2009.
 	
+	43 viittausta
+	
+	In contrast to the aforementioned work, we show in this
+	paper that a win-no lose situation is difficult to achieve under
+	the real-life conditions we observe in today’s Internet. The
+	scenarios we investigate here differ mainly in two aspects from
+	the ones considered in the previous work: First, we consider
+	skewed peer distributions, i.e., a few ASes contain a large
+	number of peers and most ASes contain only very few peers.
+	According to the measurement studies presented in [5] and [6],
+	these distributions are typical for today’s BitTorrent swarms. (Can P2P-users benefit from Locality-Awarenss)
+	
+Measurement of bittorrent swarms and their as topologies
+	Hoßfeld, Tobias, et al. "Measurement of BitTorrent swarms and their AS topologies." Computer Networks (2009).
+	
+	19 viittausta
+	
+	In contrast to the aforementioned work, we show in this
+	paper that a win-no lose situation is difficult to achieve under
+	the real-life conditions we observe in today’s Internet. The
+	scenarios we investigate here differ mainly in two aspects from
+	the ones considered in the previous work: First, we consider
+	skewed peer distributions, i.e., a few ASes contain a large
+	number of peers and most ASes contain only very few peers.
+	According to the measurement studies presented in [5] and [6],
+	these distributions are typical for today’s BitTorrent swarms. (Can P2P-users benefit from Locality-Awarenss)
+	
+Characterizing residential broadband networks
+	Dischinger, Marcel, et al. "Characterizing residential broadband networks." Proceedings of the 7th ACM SIGCOMM conference on Internet measurement. 2007.
+	
+	430 viittausta
+	
+	Second, not all peers in a swarm have the same access speeds
+	(cf. [7]) as assumed in most previous works. (Can P2P-users benefit from Locality-Awarenss)
+	
+Characterizing and mitigating inter-domain policy violations in overlay routes
+	Seetharaman, Srinivasan, and Mostafa Ammar. "Characterizing and mitigating inter-domain policy violations in overlay routes." Proceedings of the 2006 IEEE International Conference on Network Protocols. IEEE, 2006.
+	
+	45 viittausta
+	
+	Abstract
+		The Internet is a complex structure arising from the interconnection of numerous autonomous systems (AS), each exercising its own administrative policies to reflect the 
+		commercial agreements behind the interconnection. However, routing in service overlay networks is quite capable of violating these policies to its advantage. To prevent 
+		these violations, we see an impending drive in the current Internet to detect and filter overlay traffic. In this paper, we first present results from a case study overlay 
+		network, constructed on top of Planetlab, that helps us gain insights into the frequency and characteristics of the different inter-domain policy violations. We further 
+		investigate the impact of two types of overlay traffic filtering that aim to prevent these routing policy violations: blind filtering and policy- aware filtering. We show 
+		that such filtering can be detrimental to the performance of overlay routing. We next consider two approaches that allow the overlay network to realize the full advantage of 
+		overlay routing in this context. In the first approach, overlay nodes are added so that good overlay paths do not represent inter-domain policy violations. In the second 
+		approach, the overlay acquires transit permits from certain ASes that allow certain policy violations to occur. We develop a single cost-sharing framework that allows the 
+		incorporation of both approaches into a single strategy. We formulate and solve an optimization problem that aims to determine how the overlay network should allocate a 
+		given budget between paying for additional overlay nodes and paying for transit permits to ASes. We illustrate the use of this approach on our case study overlay network and 
+		evaluate its performance under varying network characteristics.
+		
+	Second, for interdomain, network-oblivious P2P may generate a
+	significant amount of interdomain transit traffic [12] or relay a substantial
+	amount of traffic between the providers of a network [30]. (P4P: Provider Portal for Applications)
+		-[30] on tämä artikkeli
+		
+Making intra-domain routing robust to changing and uncertain traffic demands: Understanding fundamental tradeoffs
+	Applegate, David, and Edith Cohen. "Making intra-domain routing robust to changing and uncertain traffic demands: Understanding fundamental tradeoffs." Proceedings of the 2003 conference on Applications, technologies, architectures, and protocols for computer communications. 2003.
+	
+	382 viittausta
+	
+	Abstract
+		Intra-domain traffic engineering can significantly enhance
+		the performance of large IP backbone networks. Two im-
+		portant components of traffic engineering are understanding
+		the traffic demands and configuring the routing protocols.
+		These two components are inter-linked, as it is widely be-
+		lieved that an accurate view of traffic is important for op-
+		timizing the configuration of routing protocols and through
+		that, the utilization of the network.
+		
+		This basic premise, however, never seems to have been
+		quantified – How important is accurate knowledge of traf-
+		fic demands for obtaining good utilization of the network?
+		Since traffic demand values are dynamic and illusive, is it
+		possible to obtain a routing that is “robust” to variations
+		in demands? Armed with enhanced recent algorithmic tools
+		we explore these questions on a diverse collection of ISP net-
+		works. We arrive at a surprising conclusion: it is possible
+		to obtain a robust routing that guarantees a nearly optimal
+		utilization with a fairly limited knowledge of the applicable
+		traffic demands.
+	
+		While ISPs have clear incentives to improve network
+		efficiency, existing approaches have limitations. The traditional
+		approach to improving network efficiency is traffic engineering
+		(e.g., [2, 10]). (P4P: Provider Portal for Applications)
+		
+Walking the tightrope: Responsive yet stable traffic engineering
+	Kandula, Srikanth, et al. "Walking the tightrope: Responsive yet stable traffic engineering." ACM SIGCOMM Computer Communication Review 35.4 (2005): 253-264.
+	
+	491 viittausta
+	
+	Abstract
+		Current intra-domain Traffic Engineering (TE) relies on offlin
+		emethods, which use long term average traffic demands.  It can-
+		not react to realtime traffic changes caused by BGP reroutes, di-
+		urnal traffic variations, attacks, or flash crowds. Further, current
+		TE deals with network failures by pre-computing alternative rout-
+		ings for a limited set of failures. It may fail to prevent congestion
+		when unanticipated or combination failures occur, even though the
+		network has enough capacity to handle the failure.
+		
+		This paper presents TeXCP, an online distributed TE protocol
+		that balances load in realtime, responding to actual traffic demands
+		and failures. TeXCP uses multiple paths to deliver demands from
+		an ingress to an egress router, adaptively moving traffic from over-
+		utilized to under-utilized paths. These adaptations are carefully de-
+		signed such that, though done independently by each edge router
+		based on local information, they balance load in the whole net-
+		work without oscillations. We model TeXCP, prove the stability of
+		the model, and show that it is easy to implement. Our extensive
+		simulations show that, for the same traffic demands, a network us-
+		ing TeXCP supports the same utilization and failure resilience as a
+		network that uses traditional offline TE, but with half or third the
+		capacity.
+		
+	While ISPs have clear incentives to improve network
+	efficiency, existing approaches have limitations. The traditional
+	approach to improving network efficiency is traffic engineering
+	(e.g., [2, 10]). (P4P: Provider Portal for Applications)
+	
+BLINC: Multilevel Traffic Classification in the Dark
+	Karagiannis, Thomas, Konstantina Papagiannaki, and Michalis Faloutsos. "BLINC: multilevel traffic classification in the dark." Proceedings of the 2005 conference on Applications, technologies, architectures, and protocols for computer communications. 2005.
+	
+	1541 viittausta
+	
+	Abstract
+		We present a fundamentally different approach to classify-
+		ing traffic flows according to the applications that gener-
+		ate them. In contrast to previous methods, our approach is
+		based on observing and identifying patterns of host behavior
+		at the transport layer. We analyze these patterns at three
+		levels of increasing detail (i) the social, (ii) the functional
+		and (iii) the application level. This multilevel approach of
+		looking at traffic flow is probably the most important con-
+		tribution of this paper. Furthermore, our approach has two
+		important features.  First, it operatesin the dark, having
+		(a) no access to packet payload, (b) no knowledge of port
+		numbers and (c) no additional information other than what
+		current flow collectors provide.  These restrictions respect
+		privacy, technological and practical constraints. Second, it
+		can be tuned to balance the accuracy of the classification
+		versus the number of successfully classified traffic flows. We
+		demonstrate the effectiveness of our approach on three real
+		traces. Our results show that we are able to classify 80%-90% 
+		of the traffic with more than 95% accuracy
+		
+	A widely used ISP approach is to use traffic shaping devices to
+	rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
+	deep packet inspection or other P2P traffic identification schemes
+	(e.g., [11, 31]) (P4P: Provider Portal for Applications) (tää papru on [11])
+	
+iPlane: An information plane for distributed services
+	Madhyastha, Harsha V., et al. "iPlane: An information plane for distributed services." Proceedings of the 7th symposium on Operating systems design and implementation. 2006.¨¨
+	
+	670 viittausta
+	
+	Abstract
+		In this paper, we present the design, implementation, and
+		evaluation ofiPlane, a scalable service providing accu-
+		rate predictions of Internet path performance for emerg-
+		ing overlay services. Unlike the more common black box
+		latency prediction techniques in use today,iPlane
+		adopts a structural approach and predicts end-to-end path per-
+		formance by composing the performance of measured
+		segments of Internet paths. For the paths we observed,
+		this method allows us to accurately and efficiently pre-
+		dict latency, bandwidth, capacity and loss rates between
+		arbitrary Internet hosts. We demonstrate the feasibility
+		and utility of theiPlaneservice by applying it to several
+		representative overlay services in use today: content dis-
+		tribution, swarming peer-to-peer filesharing, and voice-over-IP. 
+		In each case, usingiPlane’s predictions leads to
+		improved overlay performance.
+	
+	Karagiannis et al. [12] and Madhyastha et
+	al. [17] have observed that locality of P2P connections indeed reduces
+	the download time of users. (P4P: Provider Portal for Applications)
+	
+Exploiting autonomous system information in structured peer-to-peer networks
+	Li, Ji, and Karen Sollins. "Exploiting autonomous system information in structured peer-to-peer networks." Proceedings. 13th International Conference on Computer Communications and Networks (IEEE Cat. No. 04EX969). IEEE, 2004.
+	
+	29 viittausta
+	
+	Abstract
+		With  the  rise  of  peer-to-peer  (P2P)  networks,  two  
+		problems have become prominent: (1) reliance on large 
+		amounts of probing traffic to improve lookup perform-
+		ance;  (2)  no  adequate  information  for  peers  to  
+		place  replicas. We believe that there is an emerging need 
+		for information  flow  across  network  layers.  In  this 
+		work,  we  explore  how  structured  P2P  networks  can  
+		exploit  Autonomous System information. We propose a hybrid 
+		proximity neighbor selection algorithm which uses the AS-path  
+		length  as  a  proxy  for  network  latency  to  re-
+		duce  the  number  of  nodes  to  be  probed.  We  find  
+		that,  by  using  Autonomous  System  information  
+		effectively,  we  can  achieve  lookup  performance  
+		approaching  that  based  on  proximity  neighbor  selection,  
+		but  with  much  less  network  traffic.  For  example,  our  
+		simulation  re-sults  demonstrate  a  92%  reduction  in  
+		probing  traffic  with  only  a  2%  increase  in  the  lookup  
+		latency  on  a  synthetic  topology.  We  also  present  a  
+		heuristic  ap-proach using simple AS topology and scoping informa-
+		tion to improve replication in structured P2P networks. 
+		Finally  we  discuss  how  our  approach  helps  to  match  
+		peer-to-peer activities with administrative boundaries.
+		
+	Several proposals have suggested using AS
+	numbers in peer selection (e.g., [18, 23]) to improve performance
+	and reduce cross-network traffic, and this approach has even been
+	adopted by several P2P applications (e.g., Neokast and Joost). (Taming the torrent)
+	
+A Routing Underlay for Overlay Networks
+	Nakao, Akihiro, Larry Peterson, and Andy Bavier. "A routing underlay for overlay networks." Proceedings of the 2003 conference on Applications, technologies, architectures, and protocols for computer communications. 2003.
+	
+	330 viittausta
+	
+	Abstract
+		We argue that designing overlay services to independently probe the Inter-
+		net –with the goal of making informed application-speciﬁc routing decisions–
+		is an untenable strategy. Instead, we propose a shared routing underlay that
+		overlay services query. We posit that this underlay must adhere to two high-
+		level principles. First, it must take cost (in terms of network probes) into
+		account. Second, it must be layered so that specialized routing services can
+		be built from a set of basic primitives. These principles lead to an underlay
+		design where lower layers expose large-scale, coarse-grained static infor-
+		mation already collected by the network, and upper layers perform more
+		frequent probes over a narrow set of nodes. This paper proposes a set of
+		primitive operations and three library routing services that can be built on
+		top of them, and describes how such libraries could be useful to overlay
+		services.
+		
+	Several proposals have suggested using AS
+	numbers in peer selection (e.g., [18, 23]) to improve performance
+	and reduce cross-network traffic, and this approach has even been
+	adopted by several P2P applications (e.g., Neokast and Joost). (Taming the torrent)
+	
+Transport Layer Identification of P2P Traffic
+	Karagiannis, Thomas, et al. "Transport layer identification of P2P traffic." Proceedings of the 4th ACM SIGCOMM conference on Internet measurement. 2004.
+	
+	1066 viittausta
+	
+	Abstract
+		Since the emergence of peer-to-peer (P2P) networking in the
+		late ’90s, P2P applications have multiplied, evolved and es-
+		tablished themselves as the leading ‘growth app’ of Internet
+		traffic workload.  In contrast to first-generation P2P net-
+		works which used well-defined port numbers, current P2P
+		applications have the ability to disguise their existence through
+		the use of arbitrary ports. As a result, reliable estimates of
+		P2P traffic require examination of packet payload, a method-
+		ological landmine from legal, privacy, technical, logistic, and
+		fiscal perspectives. Indeed, access to user payload is often
+		rendered impossible by one of these factors, inhibiting trust-
+		worthy estimation of P2P traffic growth and dynamics. In
+		this paper, we develop a systematic methodology to identify
+		P2P flows at the transport layer, i.e., based on connection
+		patterns of P2P networks, and without relying on packet
+		payload. We believe our approach is the first method for
+		characterizing P2P traffic using only knowledge of network
+		dynamics rather than any user payload.  To evaluate our
+		methodology, we also develop a payload technique for P2P
+		traffic identification, by reverse engineering and analyzing
+		the nine most popular P2P protocols, and demonstrate its
+		efficacy with the discovery of P2P protocols in our traces
+		that were previously unknown to us.  Finally, our results
+		indicate that P2P traffic continues to grow unabatedly, con-
+		trary to reports in the popular media
 	
 	
 	

@@ -6,6 +6,7 @@ P2P esittely
 		
 		BitTorrent (tosi pieni prio)
 			-Ehkä ei tarvitse dedikoida omaa sektiota, mutta voi mainita lyhyesti kun oleellista tarkentaas
+			http://wiki.theory.org/BitTorrentSpecification
 				
 			Toiminta
 				Incentives build robustness in bittorrent (BitTorrentin tekijän paperi)
@@ -56,6 +57,10 @@ P2P esittely
 				-Käsitellään tarkemmin omassa sektiossa
 		
 P2P aiheuttamat ongelmat ISP:ille
+	-Liikenteenhallinta (en varmaan kirjoita, mutta laitan nyt kuitenkin muistiin jos mieli muuttuu)
+		-Making intra-domain routing robust to changing and uncertain traffic demands: Understanding fundamental tradeoffs
+		-Walking the tightrope: Responsive yet stable traffic engineering
+	
 	-Liikenteenhallinnan hankaloittaminen
 		Can ISPs Take the Heat from Overlay Networks
 			-Linkkien ruuhkauttaminen
@@ -81,6 +86,19 @@ P2P aiheuttamat ongelmat ISP:ille
 			-Is P2P dying or just hiding? (2002-2004)
 			https://web.archive.org/web/20061018024722/http://www.cachelogic.com/home/pages/studies/2004_03.php (2004)
 				A. Parker. The true picture of peer-to-peer filesharing, 2004. http://www.cachelogic.com/.
+				
+			IPOQUE. Internet Study 2007: Data about P2P, VoIP, Skype, file hosters like RapidShare and streaming services like YouTube, November 2007.
+				https://web.archive.org/web/20071201162213/http://www.ipoque.com/media/internet_studies/internet_study_2007
+					-Kuvat ei toimi
+					
+				Peer-to-peer (P2P) systems use decentralization to enable a
+				wide range of important, scalable and reliable services such as
+				data sharing, voice-over-IP (VoIP) and video streaming. These
+				systems are so prevalent that reports indicate they generate as much
+				as 70% of Internet traffic worldwide [14]. (Taming the torrent)
+				
+				We chose BitTorrent for its popularity, as it has been
+				reported to account for over 66% of the P2P user population [14]. (Taming the torrent)
 			
 			-Sandvine. Global internet phenomena report 2018
 				-BitTorrent
@@ -126,12 +144,86 @@ P2P aiheuttamat ongelmat ISP:ille
 			Packeteer. Packetshaper. http://www.packeteer.com/prodsol/products/packetshaper.cfm.
 			Sandvine. Sandvine: Intelligent broadband network management www.sandvine.com
 			
+			P4P
+				A widely used ISP approach is to use traffic shaping devices to
+				rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
+				deep packet inspection or other P2P traffic identification schemes
+				(e.g., [11, 31]). Unilateral rate limiting by ISPs can be considered
+				strong handed and may lead to P2P reactions such as encryption
+				and dynamic ports to avoid being identified. Furthermore, techniques
+				such as rate limiting, end-point usage-based charging, or
+				priority are mainly for controlling edge traffic demands, not for improving
+				network efficiency.
+				
+				Cisco. Network-based application recognition (NBAR).
+					https://web.archive.org/web/20070125001345/https://www.cisco.com/univercd/cc/td/doc/product/software/ios122/122newft/122t/122t8/dtnbarad.htm
+				
+				F5 White Paper. Bandwidth management for peer-to-peer applications. 
+					https://web.archive.org/web/20070825073535/http://www.f5.com/solutions/technology/rateshaping_wp.html
+					
+				P-Cube. P-Cube. 
+					https://web.archive.org/web/20070826155034/http://www.p-cube.net/indexold.shtml
+					
+				Packeteer. Packeteer PacketShaper. 
+					https://web.archive.org/web/20070515215819/http://www.packeteer.com/products/packetshaper/
+					
+				Sandvine. Intelligent broadband network management. 
+					http://www.sandvine.com
+					
+				Statelog White Paper. Peer-to-peer and bandwidth management. 
+					https://web.archive.org/web/20040723175718/http://www.staselog.com/whitepaper-p2p.pdf, Mar. 2004
+					
+				BLINC: Multilevel traffic classification in the dark
+			
 		Miksi ei toimi (etsi paperi josta luin nämä, en muista atm)
 			-P2P-sovellukset keksivät miten kiertää estoja
 				-Syntyy "asevarustelukilpa" P2P ja ISP välille
 				-Keinoja mainittu ylläpuolella
+				
+				Detecting BitTorrent Blocking
+					-Ei vissiin suoraan välttämiskeinoja, mutta ainakin miten voidaan havaita estetäänkö liikennettä vai ei
+					-Tää voi kuitenkni olla hyvä artsa myös siinä mielessä, että osoittaa ISPn estävän P2P liikennettä
 			
 			-Pääasiassa onnistuu vain hidastamaan p2p-liikennettä, ei poista ulkoliikenneongelmaa
+			
+			-P4P: Provider Portal for Applications (Lisätty aineen jälkeen)
+				A widely used ISP approach is to use traffic shaping devices to
+				rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
+				deep packet inspection or other P2P traffic identification schemes
+				(e.g., [11, 31]). Unilateral rate limiting by ISPs can be considered
+				strong handed and may lead to P2P reactions such as encryption
+				and dynamic ports to avoid being identified. Furthermore, techniques
+				such as rate limiting, end-point usage-based charging, or
+				priority are mainly for controlling edge traffic demands, not for improving
+				network efficiency.
+				
+			-Taming the torrent
+				The effectiveness of ISPs’ efforts at shaping, blocking or otherwise
+				limiting P2P traffic is questionable. For example, when
+				early P2P systems ran over a fixed range of ports (e.g., 6881-
+				9 for BitTorrent) ISPs attempted to shape traffic directed toward
+				those ports. In response, P2P systems have switched to nonstandard
+				ports, often selected at random.
+				
+				More advanced strategies
+				such as the use of deep packet inspection to identify and shape
+				P2P-specific flows have resulted in peer clients encrypting their
+				connections.
+				
+				Recently, some ISPs have attempted to reduce P2P
+				traffic by placing caches at the ISP’s gateway to the Internet or
+				by using network appliances (e.g., Sandvine [28]) for spoofing
+				TCP RST messages, which trick clients into closing connections
+				to remote peers [28, 31]. The legality of these approaches is
+				questionable. By caching content, ISPs may become participants in
+				illegal distribution of copyrighted material, while interfering with
+				P2P flows in a non-transparent way may not only break the law
+				but also lead to significant backlash [11].
+				
+				In summary, history
+				has offered no sustainable solution that relies exclusively on ISP
+				controls for addressing traffic-engineering problems posed by P2P
+				systems.
 
 Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 	Potentiaali ja hyödyt paikallisuudelle
@@ -154,8 +246,11 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 			-Muut kuin P2P-sovellukset hyötyvät kun P2P ei ruuhkauta verkkoa
 				-Ruuhkia ei pitäisi syntyä niin herkästi jos ISPt voivat hallita P2P liikennettä paremmin
 								
-		Can ISPs and P2P users cooperate for improved performance?
-			-Paikalliset vertaiset voivat olla nopeampia, sillä pystytään välttämään verkkojen väliset pääsylinkit, jotka ovat yleensä pullonkauloja
+		Paikalliset vertaiset voivat olla nopeampia, sillä pystytään välttämään verkkojen väliset pääsylinkit, jotka ovat yleensä pullonkauloja
+			Can ISPs and P2P users cooperate for improved performance?
+			Taming the torrent
+			
+			-Molemmat viittaavat samaan paperiin: An Empirical Evaluation of Wide-Area Internet Bottlenecks
 	
 	Ratkaisut					
 		Painotettu vertaisvalinta (Biased Peer Selection)
@@ -225,8 +320,10 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 				
 		-P2P omat estimoinnit
 			-Ono-lisäri (Taming the torrent: a practical approach to reducing cross-isp traffic in peer-to-peer systems)
-					-Hyödynnetään CDN:nien tekemiä estimointeja lataajien sijainneista P2P-sovelluksissa
-					-Eräänlainen painotettu vertaisvalinta
+				-Hyödynnetään CDN:nien tekemiä estimointeja lataajien sijainneista P2P-sovelluksissa
+				-Eräänlainen painotettu vertaisvalinta
+				-Azureus-clientille
+					-Huom nykyään nimeltään Vuze
 					
 			-Azureus itsessään ilmeisesti käyttää Vivaldi-menetelmää (A survey of research on the application-layer traffic optimization problem and the need for layer cooperation)
 			
@@ -243,8 +340,35 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 						-Monet menetelmät perustuvat latenssiin, joka ei yksinään ole riittävä P2P kannalta
 						
 					-Estimointi luo ylimääräistä traffic overheadia
-						
+					
+				P4P: Provider Portal for Applications
+						However, there are fundamental limits
+					on what P2P can achieve alone: to improve network efficiency, P2P
+					applications will have to rely on inferring various types of network
+					information such as topology, congestion status, cost, and policies.
+					Reverse engineering of such information, in particular cost and policy
+					information, is challenging if not impossible.
+				
+					-Jonkin informaation estimointi on erittäin haasteellista
+					
+		-AS numeroihin perustuvat ratkaisut (voisi ehkä kirjoittaa, täytyisi kuitenkin myös keksiä miten järjestellä kaikki ratkaisuehdotukset uudelleen mielekkäästi)
+			Several proposals have suggested using AS
+			numbers in peer selection (e.g., [18, 23]) to improve performance
+			and reduce cross-network traffic, and this approach has even been
+			adopted by several P2P applications (e.g., Neokast and Joost). (Taming the torrent)
+			
+			Exploiting autonomous system information in structured peer-to-peer networks
+			A Routing Underlay for Overlay Networks
+			-Oli myös joku noista isoista paperista joissa oli joku simppelimpi AS-pohjainen ratkaisu
+			
 		-Välimuisti
+			-Kato näitä paperita
+				Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
+				ARE FILE SWAPPING NETWORKS CACHEABLE? CHARACTERIZING P2P TRAFFIC
+				An analysis of internet content delivery systems
+				HPTP: Relieving the tension between ISPs and P2P
+				Cache Replacement Policies Revisited: The Case of P2P Traffic 
+				
 			-Potentiaali
 				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
 				Should internet service providers fear peer-assisted content distribution?
@@ -267,11 +391,29 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 			-Implementaatiot
 				CacheLogic. Cachelogic - advanced solutions for peer-to-peer networks. http://www.cachelogic.com (ei enää toiminnassa)
 				
+				Taming the Torrent
+					SANDVINE. Sandvine incorporated: Peer-to-peer policy management, 2008. http://www.sandvine.com/solutions/p2p_policy_mngmt.asp
+					HPTP: Relieving the tension between ISPs and P2P
+				
 			-Ongelmat
 				A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
 					-Välimuistien täytyy tukea useita eri protokollia (BitTorrent, HTTP)
 					-Laillisuus
 						-Tekijänoikeuksia rikkovan materiaalin säilöminen
+						
+				P4P: Provider Portal for Applications
+					There are several possibilities on how to control the traffic patterns
+					of P2P by ISPs. One proposal is to deploy P2P caching devices
+					to cut down bandwidth consumed by P2P applications (e.g., [8,
+					12, 16, 27, 29, 32, 36]). However, P2P caches need to be designed
+					for specific applications and speak the appropriate protocols, which
+					limit their generality and applicability to proprietary protocols. In
+					addition, ISPs may not want to bear the costs of caches if they
+					consider that P2P is a mechanism for content providers to shift distribution
+					costs to ISPs. Furthermore, caching contents may lead to
+					legal liability.
+					
+					-Samaa kamaa mitä ylemmässä
 			
 		-Gateway peer (Tähän mennessä en löytänyt tarpeeksi tietoa tarkempaan käsittelyyn)
 			Should internet service providers fear peer-assisted content distribution
@@ -298,20 +440,29 @@ Ongelmat paikallisuusratkaisuille
 		-Kaikki torrentit/ASsät eivät hyödy 
 			-Ulkopuolisen liikenteen määrä ei vähene
 			
-			Pushing bittorrent locality to the limit
-				-Pienet torrentit ja ASsät eivät sisällä paljoa vertaisia -> pientä potentiaalia paikallisuudelle
-					-Should fear paperissa visiin myös havaittiin että suuremmat ASsät/ISPt hyötyvät enemmän
-				
-			Pitfalls for ISP-friendly P2P design
-				-Alkuruuhkan jälkeen torrentit ovat varsin pieniä
-					-Ei enää niin paljoa potentiaalia paikallisuudelle
+		-Pushing bittorrent locality to the limit
+			-Pienet torrentit ja ASsät eivät sisällä paljoa vertaisia -> pientä potentiaalia paikallisuudelle
+				-Should fear paperissa visiin myös havaittiin että suuremmat ASsät/ISPt hyötyvät enemmän
+			
+		-Can P2P-Users Benefit from Locality awareness?
+			-BitTorrent swarmeissa vertaiset jakautuneet verkossa epätasaisesti
+				-Suurista ASsistä tulee paljon, pienemmistä vähän
+					-On the locality of BitTorrent-based video file swarming.
+					-Measurement of bittorrent swarms and their as topologies
+		
+				-Kaikilla swarmin vertaisilla ei ole samanlaiset latausnopeudet, toisin kuin ratkaisupaperissa on yleensä oletettu
+					-Characterizing residential broadband networks
 					
-				-BitTorrentissa suuri osa total kapasiteetista tulee pienemmältä käyttäjäkunnalta
-					-Käyttäjät eivät ole tasaisesti jakaantuneet globaalisti, vaan sijaitsevat tietyillä alueilla joilla nopeammin 
-						-Tällöin paikallistaminen rypästää nämä käyttäjät tietylle alueelle
-							-Muiden latausajat kärsivät
-							
-						-(Tutkimuksissa tätä ei välttämättä tule ilmi jos simuloidaan otaksutuilla homogeenisillä verkoilla tai tarkastellaan vaan yhden palveluntarjoajan näkökulmasta)
+		-Pitfalls for ISP-friendly P2P design
+			-Alkuruuhkan jälkeen torrentit ovat varsin pieniä
+				-Ei enää niin paljoa potentiaalia paikallisuudelle
+				
+			-BitTorrentissa suuri osa total kapasiteetista tulee pienemmältä käyttäjäkunnalta
+				-Käyttäjät eivät ole tasaisesti jakaantuneet globaalisti, vaan sijaitsevat tietyillä alueilla joilla nopeammin 
+					-Tällöin paikallistaminen rypästää nämä käyttäjät tietylle alueelle
+						-Muiden latausajat kärsivät
+						
+					-(Tutkimuksissa tätä ei välttämättä tule ilmi jos simuloidaan otaksutuilla homogeenisillä verkoilla tai tarkastellaan vaan yhden palveluntarjoajan näkökulmasta)
 					
 				
 					
@@ -357,9 +508,46 @@ Ongelmat paikallisuusratkaisuille
 					
 				-P2P-sovellukset voivat keksiä keinoja välttää middlewareja yms
 					-(Samaa asevarustelukilpaa kuin ennenkin (omahuomio))
+					
+				-Ratkaisuehdotukset usein testattu skenaarioissa jotka olettavat homogeenisia yhteysnopeuksia ja vertaisten jakautuvan tasaisesti ympäri Internettiä
+				
+				-Testasivat BPS ja BU (biased unchoking) omissa simulaatioskenaarioissa
+					-Heterogeenisesti jakautuneet vertaiset heterogeenisillä nopeuksilla
+					-Homogeenisesti jakatuneet vertaiset heterogeenisillä nopeuksilla
+					-Heterogeenisesti jakautuneet vertaiset homogeenisillä nopeuksilla
+					
+					-Myös testasivat paikallisuusmenetelmien parametrien muuntelua
+					
+					-BU ja BPS eivät pysty tarjoamaan yleistä no-lose tilannetta
+						-Pääasiassa hitaat ja pienet ASsät eivät hyödy, paikallisuus saattaa jopa haitata
+							-AS jossa sisäisesti erilaisia yhteysnopeuksia, hitaammat vertaiset hyötyvät nopeampien kustannuksella
+								-Epäreiluus vähenee, mutta nopeampien käyttäjien nopeudet hidastuvat
+						
+					
+				-Hyviä huomioita
+					-Vaikka nopeammat AS:sät hyötyvät paikallisuudesta, hyödyt eivät kuitenkaan jakaannu muille hitaammille AS:sille
+						-Nopeat vertaiset lataavat yhä nopeammin -> lähtevät myös swarmeista nopeammin pois
+							-Osasyy miksi paikallisuuden hyödyntäminen ei näy keskimäärin positiivisena koetuloksissa
+							
+						-Paikallisuus skenaariot tarjoavat hitaampia vertaisia hitaissa AS:sissä
+						-Onko nopeiden uploaadiajien oikeus myös ladata nopeammin muiden kustannuksella?
+						
+					-Suosimalla vähemmän paikallisuutta latausajat tasaistuvat (epäreiluus vähenee), mutta ulkoliikennesäästöjen kustannuksella
+					-Jos ei ole edes no-lose, niin käyttäjät välttävät
+						-Hitaat vs nopeat AS
+							-Nopeat hyötyvät, hitaat hidastuvat => hitaat kiertävät paikallisuutta
+							
+						-AS sisällä heterogeeniset nopeudet
+							-Hitaat hyötyvät, nopeat hidastuvat => nopeat kiertävät paikallisuutta
 							
 		-Luottavatko käyttäjät ja P2P-sovellukset ISPihin
 			-Käytettääisiinkö middlewareja piraattien identifioimiseen ja rankaisemiseen
+			
+			Taming the Torrent
+				However, all of them require deployments
+				of oracles for each participating ISP and their effectiveness is
+				ultimately predicated on their adoption by P2P applications and a
+				trust relationship between P2P users and their ISPs
 			
 	
 	-Ulkoliikenteen väheneminen ei välttämättä kaikille hyvä asia
@@ -409,6 +597,13 @@ Ongelmat paikallisuusratkaisuille
 		-Ono
 			-Toisessa testissä ei osoittautunut hyödylliseksi (Pitfalls for ISP-friendly P2P design)
 			-Erään paperin mukaan testattiin yhden ISPn skaalalla eikä globaalilla Internet-skaalalla (Pushing Bittorrent Locality to the Limit)
+			
+		-Can P2P-Users benefit from Locality awareness? (Aineen jälkeen lisätty)
+			-The evaluation of BNS in [1] uses simulations with a homogeneous peer distribution of 700 peers over 14 ASes.
+			-In [2], an approach very similar to BNS is investigated by experiments of up to 10.000 real BitTorrent clients which are homogeneously distributed among 10 ASes.
+				-Pushing BitTorrent Locality to the Limit
+				
+		
 		
 	-Tarvittavat rakenteelliset muutokset Internetiin (Should Internet Service Providers Fear Peer-Assisted Content Distribution?)
 		-Välimuistit
@@ -427,6 +622,10 @@ Ongelmat paikallisuusratkaisuille
 	
 	-Laillisuus
 		-Tekijänoikeuksia rikkovan materiaalin välimuistiin tallettaminen / sen jakamisen edesauttaminen	
+		
+		Taming the torrent
+			-Välimuistit asettaa ISPt osasyyllisiksi laittoman materiaalin jakoon
+			-Verkkoliikenteen interceptaus ja uudelleenohjaus ehkä hieman kyseenalaista
 		
 		
 Paperit
@@ -463,6 +662,9 @@ Paperit
 	Can ISPs and P2P users cooperate for improved performance?
 		Aggarwal, Vinay, Anja Feldmann, and Christian Scheideler. "Can ISPs and P2P users cooperate for improved performance?." ACM SIGCOMM Computer Communication Review 37.3 (2007): 29-40.
 		
+	A border gateway protocol 4 (BGP-4)
+		Rekhter, Yakov, Tony Li, and Susan Hares. "A border gateway protocol 4 (BGP-4)." (1994).
+	
 	Improving traffic locality in bittorrent via biased neighbor selection
 		Bindal, Ruchir, et al. "Improving traffic locality in BitTorrent via biased neighbor selection." 26th IEEE International Conference on Distributed Computing Systems (ICDCS'06). IEEE, 2006.
 		
@@ -488,5 +690,5 @@ Paperit
 	Pitfalls for ISP-friendly P2P design
 		Piatek, Michael, et al. "Pitfalls for ISP-friendly P2P design." HotNets. 2009.
 		
-	Can P2P-Users Benefit from Locality-Awareness?
+	Can P2P-Users Benefit from Locality-Awareness? (ei ollut aineessa)
 		Lehrieder, Frank, et al. "Can p2p-users benefit from locality-awareness?." 2010 IEEE Tenth International Conference on Peer-to-Peer Computing (P2P). IEEE, 2010.

@@ -95,3 +95,8 @@ Should internet service providers fear peer-assisted content distribution?-paper
 	-Myös paperita jotka käsittelevät vertaisten klusterointia (ehkä metodi joita p2p käyttävät etäisyyksien estimointiin tms.)
 	
 Pystyykö P2P-pakettien alkuperäistä lähtökonetta selvittämään?
+
+Although there
+is no one-to-one relationship between ASes and ISPs, the number
+of AS-hops along a path gives us an upper-bound estimate on the
+number of cross-ISP hops.

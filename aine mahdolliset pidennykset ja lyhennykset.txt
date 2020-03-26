@@ -22,6 +22,22 @@ Kappale 3
 		-Esittele pushing bittorrent locality to the limitin tekniikat
 		-Käsittele välimuistiratkaisua (etsi hyvä implementaatiopaperi)
 		
+Kappale 4
+	Pidennykset
+		-Pohdiskele miksi pitfalls ja taming the torrent testitulokset eriävät
+			-Käytetty skenaario?
+			-Lokaliteetin potentiaalia yliarvioitu?
+			-BitTorrentin suosion laskemisen alkua?
+			-Onko Onon käyttämä paikallisuusmetodi virheellinen?
 
 	
 	
+Kuvat ja taulukot
+	-Biased peer selection kuva
+	-Kuva jossa verrataan eri skenaarioista:
+		-1. Client/server
+		-2. Satunnainen vertaisvalinta
+		-3. Paikallisuuden huomioonottava vertaisvalinta
+		-4. Välimuisti/gateway peer
+		
+	-Kuva joka havainnollistaa 2. kappaleen riippuuvuuden aiheuttamista
