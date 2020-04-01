@@ -1856,3 +1856,22 @@ Rarest First and Choke Algorithms Are Enough
 		[20] The true picture of peer-to-peer filesharing. http://www.cachelogic.com/, July 2004.
 		[21] The bittorrent p2p file-sharing system: Measurements and analysis.
 		[22] Modeling and performance analysis of bittorrent-like peer-to-peer networks
+		
+Pushing the Performance of Biased Neighbor Selection through Biased Unchoking
+	ithBNS,thepeerstryto adjusttheirsetofneighborssothatit containsatleasta certainfractionoflocalpeers.However, sinceonlythecompositionoftheneighborsetisinuencedbythisstrategy,  thereisnohardpreferenceforlocalpeersinthedataexchangeprocess.
+	
+	Viitatut artikkelit
+		[1] "Bittorrent". http://www.bittorrent.com/
+		[2] B.Cohen, "Bittorrentprotocolspecification" , February 2005.
+		[4] Pushing BitTorrent Locality to the Limit
+		[5] Improving traffic locality in bittorrent via biased neighbor selection
+		[6] Can ISPs and P2P systems cooperate for improved performance?
+		[7] P4P: Provider portal for applications
+		[8] A New Approach for Managing Traffic of Overlay Applications of the SmoothIT Project
+		[9] "Application-layer traffic optimization (alto)." http://www.ietf.org/html.charters/alto-charter.html.
+		[10] Taming the torrent: a practical approach to reducing cross-ISP traffic in Peer-to-Peer systems
+		[11] "Comcast throttles bittorrent traffic, seeding impossible." http://torrentfreak.com/comcast-throttles-bittorrent-traffic-seeding-impossible/, 2007.
+		[12] Should internet service providers fear peer-assisted content distribution?
+		[13] Modeling and caching of peer-to-peer traffic
+		[14] Rarest first and choke algorithms are enough
+		[15] "Bittorrent specification." http://wiki.theory.org/BitTorrentSpecification. 

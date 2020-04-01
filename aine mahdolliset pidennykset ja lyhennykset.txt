@@ -17,6 +17,8 @@ Kappale 2
 			-Pakettianalysaattorit
 			-Porttien esto
 			
+		Kirjoita BitTorrentista
+			
 Kappale 3
 	Pidennykset
 		-Esittele pushing bittorrent locality to the limitin tekniikat

@@ -100,3 +100,31 @@ Although there
 is no one-to-one relationship between ASes and ISPs, the number
 of AS-hops along a path gives us an upper-bound estimate on the
 number of cross-ISP hops.
+
+Tapoja mitata paikallisuutta
+	-Latenssi
+	-AS Hop
+	-IP Hop
+		-Ei ehkä niin hyvä kuin AS
+		
+Vaikka BitTorrent on dominoiva p2p jakelumenetelmä, on cachauksesta hyötyä myös muille käyttötarkoituksille, esim. streamaukselle
+	-(Aiemmin ajattelin siis että cachen vaikeudelle ei mitään pointtia koska bittorrent nykyään selvästi suosituin p2p jakelumenetelmä)
+	
+BitTorrent valittujen vertaisten määrä
+	-BPS paperin mukaan valitsee defaulttina randomilla 50 solmua
+		The tracker then randomly selects C nodes (default
+		C is 50), out of all the nodes in the network, and hands the
+		list back to p. Peer p then initiates connections with those
+		nodes. Later on, other peers joining the network may get
+		p as one of nodes returned by the tracker and initiate connections
+		with p. By default, each peer connects to a maximum
+		of 35 other peers on its own. Moreover, since peers
+		may leave the network at any time, if p’s neighbor count
+		drops below a certain threshold (default is 20), p contacts
+		the tracker again to obtain a new list of nodes
+		
+-Mitä bittorrentista kantsii selittää
+	-Termistö
+	-Vertaisten valinta listasta
+	-Choking ja unchoking
+	-Rarest piece first

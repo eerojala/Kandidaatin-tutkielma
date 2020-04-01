@@ -667,7 +667,7 @@ Paikallisuus
 						figures represents the average of the statistics recorded from one
 						Ono peer during a six-hour interval.
 				
-				-6.3 Reducing Cross-ISP-Traffic
+				-6.2 Reducing Cross-ISP-Traffic
 					-Verrattiin onon suosittelemia vertaisia vs. bittorrentin suosittelmiin satunnaisiin vertaisiin (huom. nämä menetelmät voivat suositella samoja yksittäisiä vertaisia)
 						-Huom käytetty näkökulma ei ollut globaali!
 						-Ensin tarkasteltiin käyttämällä ranskalaisen sanomalehden verkkosivujen CDNnää Onossa
@@ -1336,7 +1336,7 @@ Vastaväitteet
 			h-index: 12
 			JUFO-taso: 1
 			
-		Frank Lehirieder
+		Frank Lehrieder
 			h: 12
 			339 (sitaattien määrä) / 263 (dokumenttien määrä) sitaattia 
 			
@@ -1473,10 +1473,16 @@ Vastaväitteet
 					-Latausajat eroavat
 						-Osa hyötyi paikallisuudesta, osa ei
 						
-					-Kuvaaja
-						-BU:sta pienet AS:sät eivät hyötyneet, mutta suuret hyötyivät paljon
-						-BNS oli jotakuinkin verrattavissa normi bittorrent, välillä parempi, välillä heikompi
-						-BNSBU pienempi pohja kuin BU, mutta myös pienempi katto kuin BU
+					-Kuvaaja (HUOM: Mitä pienempi k, sitä suurempi AS)
+						-BU hyödytti suurempia AS, mutta ei pienepiä
+							-Pääosin hitaampi kuin normi bittorrent
+							
+						-BNS antoi pienemmille ASsille suht saman latausnopeudet kuin normi
+							-Suuremmat ASt saivat vähän hitaammat latausnopeudet
+							-Keskikokoiset saivat vähän nopeamman
+							
+						-BNSBU hyödytti suuria AS
+							-Pienemmät ja keskikokoiset AS saivat paljon hitaamman
 						
 					-Ei ole siis yleistä no-lose tilannetta kummallekkaan menetelmälle
 					
@@ -1505,6 +1511,11 @@ Vastaväitteet
 						ISP which is charged by either its uploaded or downloaded
 						traffic or the maximum of both, this translates into higher cost
 						savings.
+						
+					-Kuvaaja
+						-BU mahdollistaa suuremmille AS nopeammat nopeudet, hitaammat pienemmille
+						-BNS suurimmilla verkoilla hidas, muilla vähän nopeampi kuin perus bit-torrent
+						-BNSBU about samat setit kuin BU
 						
 				-D
 					Vertaiset homogeenisesti jakautuneet heterogeenisillä nopeuksilla
@@ -1555,6 +1566,28 @@ Vastaväitteet
 								shows that the actual bandwidth distribution of peers has a
 								significant impact on the performance of locality-mechanisms
 								experienced by the user
+								
+				Yhteenveto:
+					A: No-lose (mutta ei realistinen)
+					B: Pääasiassa nopeammat hyötyivät (paitsi pelkällä BNS), pienemmät kärsivät
+						-BU: Suuret nopeita, muilla hitaampi kuin normi
+						-BNS: Suuret vähän hitaampia, keskikokoisilla nopeampi, pienillä about sama kuin normi
+						-BNSBU: Suuremmat nopeampia, muut hitaampia
+						
+					C: Muuten sama kuin B, paitsi BNS hyödytti yleisesti myös pienempiä AS
+						-BU: Suuret nopeita, muut hitaampia
+						-BNS: Suuret hitaampia, muilla nopeampi 
+						-BNSBU: Suuret nopeita, muut hitaampia (about samat setit kuin BU)
+						
+					D.1: Nopeat hyötyvät, keskimäärin kuitenkin kaikki hidastuvat
+						-Kaikki yleisesti: Paikallisuusmenetelmät hieman hitaampia kuin normi bittorrent
+						-Hitaat vertaiset: Paikallisuusmenetelmät vaihtelevasti hitaampia kuin normi
+						-Nopeat vertaiset: Paikallisuusmenetelmät hieman nopeampia kuin normi bittorrent
+						
+					D.2: Hitaat hyötyvät, nopeat hidastuvat, yleisesti ei juurikaan eroa normi bittorrenttiin
+						-Kaikki yleisesti: ei juurikaan eroa 
+						-Hitaat vertaiset: BU ja BNSBU nopeuttaa suht paljon, BNS ei hirveästi
+						-Nopeat vertaiset: Paikallisuusmenetelmät jonkin verran hitaampia kuin normi
 								
 			-Koe 2: Eri parametrit paikallisuusskenaarioille
 				-Pienempi preferenssi paikallisuudelle tasoittaa keskimääräisiä latausnopeuksia

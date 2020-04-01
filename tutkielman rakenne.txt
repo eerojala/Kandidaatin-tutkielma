@@ -124,6 +124,8 @@ P2P aiheuttamat ongelmat ISP:ille
 				-Estetään esim. BitTorrent-paketit
 					-> P2P-sovellukset salaavat pakettinsa
 					
+					Network Traffic Analysis Using PacketSniffer
+					
 			-Estetään liikenne porteilta joita P2P-sovellukset usein käyttävät
 				-> P2P-sovellukset satunnaistavat käyttämänsä portit
 				
@@ -237,7 +239,8 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 			
 		Pushing Bittorrent Locality to the Limit
 			-Potentiaalia suurimmille globaaleille torrenteille ja paikallisien intressien/kielien mukaisille torrenteille
-				(Paikalliset intressit ja kieli mainittu myös Should Fear -paperissa)
+				(Paikalliset intressit ja kieli mainittu myös Should Fear -paperissa (tais olla sittenkin oraakkeli-paperissa))
+					On the  Long-term  Evolution of  the Two-TierGnutella  Overlay
 				
 			-BitTorrentissa paikallisuutta voidaan puskea yllättävän pitkälle ennen kuin se rupeaa aiheuttamaan torrent-verkon eheyttä (ja täten saatavuutta/latausaikoja)
 				
@@ -663,7 +666,16 @@ Paperit
 		Aggarwal, Vinay, Anja Feldmann, and Christian Scheideler. "Can ISPs and P2P users cooperate for improved performance?." ACM SIGCOMM Computer Communication Review 37.3 (2007): 29-40.
 		
 	A border gateway protocol 4 (BGP-4)
-		Rekhter, Yakov, Tony Li, and Susan Hares. "A border gateway protocol 4 (BGP-4)." (1994).
+		Rekhter, Yakov, Tony Li, and Susan Hares. "A border gateway protocol 4 (BGP-4)." (2006).
+		
+	Network traffic analysis and intrusion detection using packet sniffer
+		Qadeer, Mohammed Abdul, et al. "Network traffic analysis and intrusion detection using packet sniffer." 2010 Second International Conference on Communication Software and Networks. IEEE, 2010.
+	
+	On the Long-term Evolution of the Two-Tier Gnutella Overlay
+		Rasti, Amir H., Daniel Stutzbach, and Reza Rejaie. "On the long-term evolution of the two-tier gnutella overlay." Proceedings IEEE INFOCOM 2006. 25TH IEEE International Conference on Computer Communications. IEEE, 2006.
+	
+	An Empirical Evaluation of Wide-Area Internet Bottlenecks
+		Akella, Aditya, Srinivasan Seshan, and Anees Shaikh. "An empirical evaluation of wide-area internet bottlenecks." Proceedings of the 3rd ACM SIGCOMM conference on Internet measurement. 2003.
 	
 	Improving traffic locality in bittorrent via biased neighbor selection
 		Bindal, Ruchir, et al. "Improving traffic locality in BitTorrent via biased neighbor selection." 26th IEEE International Conference on Distributed Computing Systems (ICDCS'06). IEEE, 2006.
@@ -692,3 +704,6 @@ Paperit
 		
 	Can P2P-Users Benefit from Locality-Awareness? (ei ollut aineessa)
 		Lehrieder, Frank, et al. "Can p2p-users benefit from locality-awareness?." 2010 IEEE Tenth International Conference on Peer-to-Peer Computing (P2P). IEEE, 2010.
+		
+	Pushing the Performance of Biased Neighbour Selection through Biased Unchoking
+		Oechsner, Simon, et al. "Pushing the performance of biased neighbor selection through biased unchoking." 2009 IEEE Ninth International Conference on Peer-to-Peer Computing. IEEE, 2009.
