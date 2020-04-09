@@ -119,6 +119,52 @@ P2P aiheuttamat ongelmat ISP:ille
 				(or indirectly from their downstream ISPs) in order to reach all destinations in the Internet Region. 
 			
 	ISPiden tekemä P2P rajoittaminen (pienempi prio alkuun)
+		Etsi:
+			Mitä keinoja ISP käyttää
+				-P2P identifioimiseen
+				-P2P estämiseen
+				
+			BitTorrentin ja muiden P2P encryptaus
+				Wikipedia
+					In late January 2006 the developers of Vuze (then known as Azureus) decided to design and simultaneously implement a new, open protocol obfuscation method, called message stream encryption (MSE). It was included in Azureus CVS snapshot 2307-B29 on 19 January 2006.[5]
+
+					This first draft was heavily criticized since it lacked several key features. After negotiations between different BitTorrent developers a new proposal was written and then implemented into the Azureus and μTorrent betas within days. In μTorrent, the new protocol was called protocol encryption (PE). 
+	
+		Detecting BitTorrent Blocking
+		
+		P2P-pakettien havaitseminen
+			Design and Evaluation of a Proxy Cache for Peer to Peer Traffic	
+				Several previous works address
+				the  problem  of  identifying  P2P  traffic,  including  [15]–[17].
+				The  authors  of  [15]  identify  P2P  traffic  based  on  application
+				signatures  appearing  in  the  TCP  stream.  The  authors  of  [17]
+				analyze  the  behavior  of  different  P2P  protocols,  and  identify
+				patterns specific to each protocol. The authors of [16] identify
+				P2P traffic using only transport layer information. A compar-
+				ison  among  different  methods  is  conducted  in  [18].
+				
+				15: Accurate, scalable in-network identification of P2P traffic using application signatures
+				16: Transport layer identification of P2P traffic
+				17: A methodology for P2P file-sharing traffic detection
+				18: A longitudinal study of P2P traffic classification
+				
+			Caching P2P Traffic: What are the Benefits for an ISP?	
+				P2P traffic has been extensively studied for multiple
+				reasons. First of all, P2P applications generate a tremendous
+				quantity of traffic in the network. At first a lot of ISPs tried
+				to rate-limit, or even block P2P applications. It led to efforts
+				by P2P applications developers to obfuscate their traffic so
+				as to not be detected by network operators. Thus,
+				researchers began to study properties of P2P traffic in order
+				to allow its identification in spite of the application
+				obfuscation.
+					Identification could be performed with
+					application signatures in the packet payloads [5], or by
+					finding traffic layer-3 properties that indicates P2P traffic
+					[7]. Other techniques involve participating in the overlay in
+					order to obtain information [6] or using statistical methods,
+					like in [8] for instance.
+					
 		Liikenteen hidastaminen/estäminen
 			-Tutkitaan paketteja
 				-Estetään esim. BitTorrent-paketit
@@ -365,13 +411,7 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 			-Oli myös joku noista isoista paperista joissa oli joku simppelimpi AS-pohjainen ratkaisu
 			
 		-Välimuisti
-			-Kato näitä paperita
-				Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
-				ARE FILE SWAPPING NETWORKS CACHEABLE? CHARACTERIZING P2P TRAFFIC
-				An analysis of internet content delivery systems
-				HPTP: Relieving the tension between ISPs and P2P
-				Cache Replacement Policies Revisited: The Case of P2P Traffic 
-				
+
 			-Potentiaali
 				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
 				Should internet service providers fear peer-assisted content distribution?
@@ -384,6 +424,79 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 					than what they upload.
 			
 			-Vaatimukset
+				-P2P ja HTTP hyvin erilaisia
+					-Koko
+						-Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
+						-ARE FILE SWAPPING NETWORKS CACHEABLE? - CHARACTERIZING P2P TRAFFIC
+						
+					-Sessio (ARE FILE SWAPPING NETWORKS CACHEABLE? - CHARACTERIZING P2P TRAFFIC)
+						-HTTP: Objektit siirretään kokonaan yhdessä tai useammassa peräkkäisessä sessiossa jotka kestävät muutamia sekunteja
+						-P2P: Objekteja ei välttämättä siirretä kokonaan, useita samanaikaisia sessioita jotka voivat kestää useita tunteja
+						
+					-Käyttö (Measurement, modeling, and analysis of a peer-to-peer file-sharing workload)
+						-HTTP: Käyttäjät käyvät useasti samoilla sivuilla
+						-P2P: Käyttäjät lataavat tiedostot vain kerran
+						
+					-Suosion elinikä (Measurement, modeling, and analysis of a peer-to-peer file-sharing workload)
+						-HTTP: Sivujen suosio säilyy keskimäärin melko tasaisena pitempään
+						-P2P: Tiedostojen suosio hyvin lyhytikäistä
+						
+					-Tekniset ominaisuudet (ARE FILE SWAPPING NETWORKS CACHEABLE? - CHARACTERIZING P2P TRAFFIC)
+						-HTTP: Yksi protokolla, 1 portti (80)
+						-P2P: Useita protokollia, useita portteja
+						
+				-Välimuistin toteutus
+					-Kokonaiset vs osittaiset tiedostot
+					-Palautetaanko vain kokonaiset byte ranget vai myös osittaiset
+					-Lataako välimuisti itsenäisesti sisältöä vai säilöökö pelkästään käyttäjien ulkopuolelta lataamaa sisältöä
+					-Replacement policy
+					-Koko
+					-Eri P2P-protokollien tukeminen (bittorrent saattaa olla riittävää)
+						-Eri protokollat käyttävät eri segmentointimenetelmiä (Design and Evaluation of a Proxy Cache for Peer to Peer Traffic	)
+				
+				Design and Evaluation of a Proxy Cache for Peer to Peer Traffic	(41 viittausta)						
+					-Jos P2P-paketit salataan niin välimuistit eivät välttämättä pysty tallettamaan haluttua sisältöä (paprussa sanottiin etto aikovat tehdä pcache version joka 
+					tunnistaa salatut paketit) (tän vois ehkä mainita ongelmana 4. luvussa)
+					-Välimuistin pitää tukea eri P2P implementaatioita
+						-P2P-sovellukset jakavat tiedostot segmentteihin
+							-Käytetty segmentaatio riippuu protokollasta ja ehkä myös jopa sovelluksesta
+							
+					-P2P ei välttämättä lataa tiedostoa kokonaan
+						-Välimuistin pitää siis tukea satunnaisten tiedostonosien säilömistä
+						
+				Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
+					-Web- ja P2P-sisällön erot
+						-Multimedia sisältö ei muutu, mutta web-sivut voivat
+					
+				ARE FILE SWAPPING NETWORKS CACHEABLE? - CHARACTERIZING P2P TRAFFIC
+					P2P-liikenne eroaa HTTP-liikenteestä
+						-HTTP välimuistit eivät siis soveltuvia P2P:lle
+						
+						HTTP
+							Uniikki sisällön tunnitaminen URLin avulla
+								Recent HTTP traffic analysis [4][5] suggests some portion of HTTP objects are associated with multiple URLs, degrading web caching
+								performance which assumes unique content identification by URL.
+					
+						P2P
+							Samalla sisällöllä eri nimiä (eli ei uniikisti identifioitavissa)
+							
+					
+				Cache Replacement Policies Revisited: The Case of P2P Traffic
+					-Kolme P2P cachauksen ongelmaa (HUOM!!! Käsittelee nimenomaan fasttrackkia, ei ehkä kokonaisuudessa sovellu myös bittorrenttiins)
+					-Replacement policyjen vertailu
+					
+				Caching P2P Traffic: What are the Benefits for an ISP?
+					-Aktiivisella välimuistilla LRU paras
+						-LFU tosi huono
+						
+					-Passiivisella välimuistilla LFU parempi
+						-LRU hyvin kelvollinen, yhtä hyvä suuremmilla välimuistin kooilla
+						
+					-Välimuistin koon kasvulla eksponentiaalinen hyödyn kasvun paraneminen 1 teraan asti
+						-2 teraan asti vauhti hiljentyy, mutta säästöt nousevat yhtä 50gb
+							-Tämän jälkeen kasvu hidastuu, ja ei ole enää niin kustannustehokasta
+							
+						
 				Improving Traffic Locality in BitTorrent via Biased Neighbor Selection
 					-Korkea upload
 					-Suuri tila
@@ -397,6 +510,28 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 				Taming the Torrent
 					SANDVINE. Sandvine incorporated: Peer-to-peer policy management, 2008. http://www.sandvine.com/solutions/p2p_policy_mngmt.asp
 					HPTP: Relieving the tension between ISPs and P2P
+					
+				A longitudinal study of P2P traffic classification
+					Several  P2P  caching  products  have  been  introduced  to  the market.  
+					Oversi’s  OverCache  [19]  implements  P2P  caching,
+					but takes a quite different approach compared to pCache. An
+					OverCache server participates in P2P networks and only serves
+					peers within the ISP. This approach may negatively affect fair-
+					ness in P2P networks because peers in ISPs with OverCache
+					deployed  would  never  contribute  as  they  can  always  receive
+					data from the cache servers without uploading to others. This
+					in turns degrades the performance of P2P networks
+					
+					PeerApp’s
+					UltraBand [20] supports multiple P2P protocols, such as Bit-
+					Torrent, Gnutella, and FastTrack. These commercial products
+					demonstrate  the  importance  and  timeliness  of  the  problem
+					addressed in this paper. The details of these products, however,
+					are not publicly available, thus the research community cannot
+					use them to evaluate new P2P caching algorithms
+					
+					[19]: “OverCache MSP Home Page,” http://www.oversi.com/products/overcache-msp
+					[20]: “PeerApp UltraBand Home Page,” http://www.peerapp.com/products-ultraband.aspx
 				
 			-Ongelmat
 				A survey of research on the application-layer traffic optimization problem and the need for layer cooperation
@@ -417,6 +552,8 @@ Ratkaisu ongelmiin: Paikallisuuden huomioonottaminen
 					legal liability.
 					
 					-Samaa kamaa mitä ylemmässä
+				
+
 			
 		-Gateway peer (Tähän mennessä en löytänyt tarpeeksi tietoa tarkempaan käsittelyyn)
 			Should internet service providers fear peer-assisted content distribution
@@ -629,7 +766,11 @@ Ongelmat paikallisuusratkaisuille
 		Taming the torrent
 			-Välimuistit asettaa ISPt osasyyllisiksi laittoman materiaalin jakoon
 			-Verkkoliikenteen interceptaus ja uudelleenohjaus ehkä hieman kyseenalaista
-		
+			
+	-Välimuistit
+		Taming the torrent
+			-Välimuistit asettaa ISPt osasyyllisiksi laittoman materiaalin jakoon
+			
 		
 Paperit
 	Peer-to-peer systems
@@ -648,6 +789,11 @@ Paperit
 		Karagiannis, Thomas, et al. "Is p2p dying or just hiding?[p2p traffic measurement]." IEEE Global Telecommunications Conference, 2004. GLOBECOM'04.. Vol. 3. IEEE, 2004.
 		
 		-Tutkimuksessa näkyy P2P-liikenteen osuus muuhun verkkoliikenteeseen
+		
+	An Analysis of Internet Content Delivery Systems
+		Saroiu, Stefan, et al. "An analysis of internet content delivery systems." ACM SIGOPS Operating Systems Review 36.SI (2002): 315-327.
+		
+		-P2P merkittävä osa testatun yliopiston verkon kokonaisliikenteessä
 		
 	Global Internet Phenomena Report - October 2018, Sandvine
 		

@@ -1875,3 +1875,295 @@ Pushing the Performance of Biased Neighbor Selection through Biased Unchoking
 		[13] Modeling and caching of peer-to-peer traffic
 		[14] Rarest first and choke algorithms are enough
 		[15] "Bittorrent specification." http://wiki.theory.org/BitTorrentSpecification. 
+		
+Design and Evaluation of a Proxy Cache for Peer to Peer Traffic	
+	The authors of [7] propose using already-deployed web caches
+	to  serve  P2P  traffic.  This,  however,  requires  modifying  the
+	P2P  protocols  to  wrap  their  messages  in  HTTP  format  and
+	to  discover  the  location  of  the  nearest  web  cache.  Given  the
+	distributed and autonomous nature of the communities devel-
+	oping  P2P  client  software,   incorporating  these  modifications
+	into  actual  clients  may  not  be  practical.
+	
+	In  addition,  severalmeasurement  studies  have  shown  that  the  characteristics  of
+	P2P  traffic  are  quite  different  from  those  of  web  traffic  [1],[2], [8], [10], [11]. 
+	These different characteristics indicate that
+	web  proxy  caches  may  yield  poor  performance  if  they  were
+	to be used for P2P traffic. he experimental results presented
+	in this paper confirm this intuition.
+	
+	In  order  to  store  and  serve  P2P  traffic,  proxy  caches  need
+	to identify connections belonging to P2P systems and extractn
+	eeded information from them. Several previous works address
+	the  problem  of  identifying  P2P  traffic,  including  [15]–[17].
+	The  authors  of  [15]  identify  P2P  traffic  based  on  application
+	signatures  appearing  in  the  TCP  stream.  The  authors  of  [17]
+	analyze  the  behavior  of  different  P2P  protocols,  and  identify
+	patterns specific to each protocol. The authors of [16] identify
+	P2P traffic using only transport layer information. A compar-
+	ison  among  different  methods  is  conducted  in  [18].
+		 Unlike 
+		 our  work,  all  previous  identification  approaches  only  detect
+		 the presence of P2P traffic: they just decide whether a packet
+		 or  a  stream  of  packets  belongs  to  one  of  the  known  P2P
+		 systems. This is useful in applications such as traffic shaping
+		 and  blocking,  capacity  planning,  and  service  differentiation.
+		 P2P  traffic  caching,  however,  does  need  to  go  beyond  just
+		 identifying  P2P  traffic;  it  requires  not  only  the  exchanged
+		 object ID, but also the requested byte range of that object. In
+		 some  P2P  protocols,  this  information  can  easily  be  obtained
+		 by reading a few bytes from the payload, while in others it is
+		 not straightforward.
+	
+	Several  P2P  caching  products  have  been  introduced  to  the market.  
+	Oversi’s  OverCache  [19]  implements  P2P  caching,
+	but takes a quite different approach compared to pCache. An
+	OverCache server participates in P2P networks and only serves
+	peers within the ISP. This approach may negatively affect fair-
+	ness in P2P networks because peers in ISPs with OverCache
+	deployed  would  never  contribute  as  they  can  always  receive
+	data from the cache servers without uploading to others. This
+	in turns degrades the performance of P2P networks
+	
+	PeerApp’s
+	UltraBand [20] supports multiple P2P protocols, such as Bit-
+	Torrent, Gnutella, and FastTrack. These commercial products
+	demonstrate  the  importance  and  timeliness  of  the  problem
+	addressed in this paper. The details of these products, however,
+	are not publicly available, thus the research community cannot
+	use them to evaluate new P2P caching algorithms
+	
+	Several storage
+	management  systems  have  been  proposed  in  the  literature
+	for  web  proxy  caches  [21]–[24]  and  for  multimedia  proxy
+	caches  [25]–[27].  These  systems  offer  services  that  may  not
+	be useful for P2P proxy caches, e.g., minimizing startup delay
+	and  clustering  of  multiple  objects  coming  from  the  same
+	web server, and they lack other services, e.g., serving partial
+	requests with arbitrary byte ranges, which are essential in
+	P2Pproxy caches. We describe some examples to show why such
+	systems are not suitable for P2P caches.
+	
+	Most storage systems of web proxy caches are designed for
+	small objects. For example, the Damelo system [28] supports
+	objects  that  have  sizes  less  than  a  memory  page,  which  is
+	rather small for P2P systems. The UCFS system [23] maintains
+	data structures to combine several tiny web objects together in
+	order to fill a single disk block and to increase disk utilization.
+	This adds overhead and is not needed in P2P systems, because
+	a  segment  of  an  object  is  typically  much  larger  than  a  disk
+	block.  Clustering  of  web  objects  downloaded  from  the  same
+	web  server  is  also  common  in  web  proxy  caches  [22],  [24].
+	This clustering exploits the temporal correlation among these
+	objects in order to store them near to each other on the disk.
+	This  clustering  is  not  useful  in  P2P  systems,  because  even  a
+	single object is typically downloaded from multiple senders.
+	
+	Proxy caches for multimedia streaming systems [25]–[27],
+	on  the  other  hand,  could  store  large  objects  and  serve  byte
+	ranges.  Multimedia  proxy  caches  can  be  roughly  categorized
+	into four classes [25]: sliding-interval, prefix, segment-based,
+	and  rate-split  caching.  Sliding-interval  caching  employs
+	a sliding-window  for  each  cached  object  to  take  advantage  of
+	the  sequential  access  pattern  that  is  common  in  multimedia
+	systems.  Sliding-interval  caching  is  not  applicable  to  P2P
+	traffic,  because  P2P  applications  do  not  request  segments  in
+	a  sequential  manner.  Prefix  caching  stores  the  initial  portion
+	of multimedia objects to minimize client start-up delays. P2P
+	applications  seek  shorter  total  download  times  rather  than
+	start-up  delays.  Segment-based  multimedia  caching  divides  a
+	multimedia object into segments using segmentation strategies
+	such  as  uniform,  exponential,  and  frame-based.  P2P  proxy
+	caches  do  not  have  the  freedom  to  choose  a  segmentation
+	strategy;  it  is  imposed  by  P2P  software  clients.  Rate-split
+	caching  employs  scalable  video  coding  that  encodes  a  video
+	into several substreams, and selectively caches some of theses
+	ubstreams.  This  requires  scalable  video  coding  structures,
+	which renders rate-split caching useless for P2P applications
+	
+	Viitatut paperit
+		[1]: Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
+		[2]: Analyzing peer-to-peer traffic across large networks
+		[3]: Is P2P dying or just hiding?
+		[4]: Should Internet service providers fear peer-assisted content distribution?
+		[5]: Improving traffic locality in BitTorrent via biased neighbor selection
+		[6]: Cache replacement policies revisited: The case of P2P traffic
+		[7]: HPTP: relieving the tension between ISPs and P2P
+		[8]: Modeling and caching of peer-to-peer traffic
+		[9]: Are file swapping networks cacheable?
+		[10]: Characterizing files in the modern Gnutella network
+		[11]: Traffic modeling and proportional partial caching for peer-to-peer systems
+		[15]: Accurate, scalable in-network identification of P2P traffic using application signatures
+		[16]: Transport layer identification of P2P traffic
+		[17]: A methodology for P2P file-sharing traffic detection
+		[18]: A longitudinal study of P2P traffic classification
+		[19]: “OverCache MSP Home Page,” http://www.oversi.com/products/overcache-msp
+		[20]: “PeerApp UltraBand Home Page,” http://www.peerapp.com/products-ultraband.aspx
+		[21]: Web object-based storage management in proxy caches
+		[22]: Storage management for web proxies
+		[23]: UCFS – a novel user-space, high performance, customized file system for web proxy servers
+		[24]: Web-conscious storage management for web proxies
+		[25]: Proxy caching for media streaming over the Internet
+		[26]: Segmentation of multimedia streams for proxy caching
+		[27]: SProxy: A caching infrastructure to support internet streaming
+		[30]: P4P: Portal for (P2P) applications
+		
+Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload
+	For
+	example,a March 2000 study at the University of Wisconsin
+	found that the bandwidth consumed by Napster had edged
+	ahead of HTTP bandwidth [28]. Only two years later,a University
+	of Washington study showed that peer-to-peer file
+	sharing dominates the campus network,con suming 43% of
+	all bandwidth compared to only 14% for WWW traffic [29]
+	
+	Recent stud-
+	ies have described high-level characteristics of P2P workloads
+	[6,29,30,32]. Our goals in this section are to: (1)
+	dig beneath these high-level studies to uncover the processes
+	that drive the workloads,an d (2) demonstrate ways in which
+	these processes fundamentally differ from those of the Web.
+	
+	Leibowitz et al. [22] performed a cache study based on
+	measurements of FastTrack-based P2P systems,in cluding
+	Kazaa.
+	
+	Viitatut paperit
+		[6]: Understanding availability
+		[22]: Are file swapping networks cacheable? Characterizing P2P traffic
+		[28]: D. Plonka. University of Wisconsin-Madison, Napster traffic measurement, March 2000. Available at http://net.doit.wisc.edu/data/Napster, March 2000.
+		[29]: An analysis of internet content delivery systems
+		[30]: A measurement study of peer-to-peer file sharing systems
+		[32]: Analyzing peer-to-peer traffic across large networks
+		
+BitTorrent Locality-Awareness Application with Colorless ONUs in an Enhanced EPON System 
+	According  to  Cisco’s  network  traffic  measurements  
+	and forecasts, P2P file sharing applications account for 
+	up  to  83.5%  of  the  total  file  sharing  traffic  and  they
+	will account for 60.3% of the total file sharing traffic in 2018 [4]. 
+	
+	The current BT implementation is based on random graphs  because  
+	they  are  known  to  be  robust.  BT  is  unaware of the locations 
+	of the random graphs, which has been a burden to Internet service 
+	providers (ISPs) for many years because traffic may unnecessarily 
+	cross the ISP network and incur high costs that need to be paid 
+	to other ISPs. [7-9]. 
+	
+	Recent studies have tried to decrease  the  amount  of  inter-ISP  
+	P2P  traffic  by  introducing  locality  awareness  into  the  
+	neighbor  selection policies of popular P2P applications. Locality 
+	information can be provided by the ISPs and used to prioritize  
+	nearby  peers  over  distant  peers  when  exchanging  data,  
+	thereby  vastly  decreasing  the  bandwidth  load  on  the  server  
+	side  and  the  inter-ISP  traffic  cost  [10-12]
+	
+	Liu  et  al.  [13]  modified  the  BT  system by building locality-
+	awareness into its neighbor selection process, as well as peer 
+	choking or unchoking and  piece  selection  processes.  This  method  
+	is  clearly  advantageous  because  locality-aware  solutions  can  
+	reduce  inter-AS  traffic  and  achieve  shorter  download  times
+	
+	Le Blond et al. [14] proposed two new strategies called “round robin” 
+	and “partition merging” to make better use of a small number of inter-
+	ISP connections, thereby  dramatically  reducing  the  overheads  and  
+	slowdown  independently  of  the  torrent  size,  the  number of peers 
+	per ISP, the upload capacity of peers, or the churn.
+	
+	Pacifici et al. [15] proposed the used of P2P caches in a similar 
+	manner to Web proxy caches in order to decrease the amount of inter-
+	ISP traffic by storing the most popular contents in the ISP’s own 
+	network. The problem of cache bandwidth allocation was formulated 
+	as  a  Markov  decision  process  to  approximate  the  optimal 
+	allocation policy. However, the locality-aware P2P  exchanges  
+	managed  and  coordinated  by  the  network infrastructure itself 
+	direct the traffic as much as possible to the end users rather 
+	than by enhancing the user software for a next generation passive 
+	optical network (PON), as first proposed by Di Pascale et al. [16].
+	
+	
+	
+	[15]  V.  Pacifici,  F.  Lehrieder,  G.  Dan,  Cache  Bandwidth  Allocation  for  P2P  File-sharing  Systems  to  Minimize  Inter-ISP Traffic, IEEE/ACM Transactions on Networking, Vol. 24, No. 1, pp. 437-448, November, 2016
+	
+An Analysis of Internet Content Delivery Systems
+	A recent study [24] has found the peer-to-peer traffic
+	of a small ISP to be highly repetitive, showing great potential
+	for caching.
+	
+	Participation
+	is purely voluntary, and a recent study [31] has shown
+	that most content-serving hosts are run by end-users, suffer
+	from low availability, and have relatively low capacity network
+	connections (modem, cable modems, or DSL routers).
+	
+	Participation in a P2P system is voluntary, and as a result,
+	servers on P2P system are often less well-provisioned
+	than in the web or a CDN [31].
+	
+	[24]: Are file swapping networks cacheable? Characterizing P2P traftic.
+	[31]: A measurement study of peer-to-peer file sharing systems
+	
+HPTP: Relieving the Tension between ISPs and P2P
+	In fact, several P2P caching schemes
+	have been proposed [2, 4–7], and a few startups have also
+	appeared.
+	
+Caching P2P Traffic: What are the Benefits for an ISP?
+	Another non-exclusive approach is the
+	usage of caches for P2P applications [14].
+	
+	P2P traffic has been extensively studied for multiple
+	reasons. First of all, P2P applications generate a tremendous
+	quantity of traffic in the network. At first a lot of ISPs tried
+	to rate-limit, or even block P2P applications. It led to efforts
+	by P2P applications developers to obfuscate their traffic so
+	as to not be detected by network operators. Thus,
+	researchers began to study properties of P2P traffic in order
+	to allow its identification in spite of the application
+	obfuscation.
+		Identification could be performed with
+		application signatures in the packet payloads [5], or by
+		finding traffic layer-3 properties that indicates P2P traffic
+		[7]. Other techniques involve participating in the overlay in
+		order to obtain information [6] or using statistical methods,
+		like in [8] for instance.
+		
+	Handurukande et al. studied in [9] the popularity of files in
+	eDonkey and observed a geographical clustering of peers
+	offering a given file. This geographical clustering hints that
+	caching could be useful, but in their study the authors could
+	only gather data about the files offered and not those
+	downloaded.
+		
+	Wierzbicki et al. evaluate in [15] the web cache
+	replacement algorithms and propose a new policy that
+	exploits the characteristics of P2P traffic.
+	
+	Later on, in [14] and [21], Saleh and Hefeeda model the
+	popularity of P2P objects, based on a large passive
+	measurement conducted in the Gnutella overlay network.
+	They observe that file popularity diverges from the Zipf law
+	and rather follows a Mandelbrot-Zipf distribution. They also
+	propose a new algorithm evaluated with a simulation. The
+	results show that a hit rate of 35% can be achieved with a
+	cache size of 10% of the total traffic. Their algorithm
+	consists in admitting objects partially and incrementally.
+	More popular files will therefore have more segments
+	cached.
+		However, the effect of the size of the population
+		served by the cache is not considered in the paper, even
+		though it is one of the major factors influencing cache
+		performance. Another shortcoming of these studies is that
+		the dataset contains only the queries of the users. However,
+		Gnutella users can perform queries but they do not
+		necessarily proceed with downloading the contents.
+		Therefore, assuming that each query on a file is
+		automatically followed by a download leads to overestimating
+		the quantity of data downloaded. In consequence
+		it also leads to over-estimating the performance of P2P
+		caches. In contrast, this paper is based on the capture of
+		actual downloads from the P2P users. (ei siis ehkä välttämättä kannata kattoa tarkemmin, paitsi tuo mandelbrot-zipf osio)
+		
+		This confirms the findings of Saleh and Hefeeda [14]
+		about the modeling of P2P object popularity. This model
+		can be used to estimate the theoretical performance of a
+		cache, as explained in section VI.B.
