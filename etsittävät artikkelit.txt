@@ -13,3 +13,7 @@ Etsi:
 		
 	-Välimuistiratkaisuja
 	-ISP vanhoja keinoja estää P2P liikennettä
+	
+	
+	
+	Cache-to-cache: Could ISPs cooperate to decrease peer-to-peer content distribution costs?

@@ -130,40 +130,54 @@ P2P aiheuttamat ongelmat ISP:ille
 
 					This first draft was heavily criticized since it lacked several key features. After negotiations between different BitTorrent developers a new proposal was written and then implemented into the Azureus and μTorrent betas within days. In μTorrent, the new protocol was called protocol encryption (PE). 
 	
-		Detecting BitTorrent Blocking
+		
+		-ISPt rupeavat estämään/rajoittamaan P2P-liikennettä
+			Identification and Analysis of Peer-to-Peer Traffic
+				-ISPt estävät P2P myös sen takia koska niillä usein levitetään tekijänoikeuksia rikkovaa materiaalia
+				-P2P-sovellukset käyttivät ennen vakioportteja
+				-Vastauksena ongelmiin ISPt estivät/rajoittivat P2P-liikennettä käytettyjen porttien perusteella
+					-P2P-sovellukset rupesivat käyttämään satunnaisia portteja (tässä vaiheessa ei vissiin vielä salausta?)
 		
 		P2P-pakettien havaitseminen
-			Design and Evaluation of a Proxy Cache for Peer to Peer Traffic	
-				Several previous works address
-				the  problem  of  identifying  P2P  traffic,  including  [15]–[17].
-				The  authors  of  [15]  identify  P2P  traffic  based  on  application
-				signatures  appearing  in  the  TCP  stream.  The  authors  of  [17]
-				analyze  the  behavior  of  different  P2P  protocols,  and  identify
-				patterns specific to each protocol. The authors of [16] identify
-				P2P traffic using only transport layer information. A compar-
-				ison  among  different  methods  is  conducted  in  [18].
-				
-				15: Accurate, scalable in-network identification of P2P traffic using application signatures
-				16: Transport layer identification of P2P traffic
-				17: A methodology for P2P file-sharing traffic detection
-				18: A longitudinal study of P2P traffic classification
-				
-			Caching P2P Traffic: What are the Benefits for an ISP?	
-				P2P traffic has been extensively studied for multiple
-				reasons. First of all, P2P applications generate a tremendous
-				quantity of traffic in the network. At first a lot of ISPs tried
-				to rate-limit, or even block P2P applications. It led to efforts
-				by P2P applications developers to obfuscate their traffic so
-				as to not be detected by network operators. Thus,
-				researchers began to study properties of P2P traffic in order
-				to allow its identification in spite of the application
-				obfuscation.
-					Identification could be performed with
-					application signatures in the packet payloads [5], or by
-					finding traffic layer-3 properties that indicates P2P traffic
-					[7]. Other techniques involve participating in the overlay in
-					order to obtain information [6] or using statistical methods,
-					like in [8] for instance.
+			Accurate, scalable in-network identification of p2p traffic using application signatures
+				-Aikaisemmin P2P-sovelluksia havaittiin niiden käyttämien porttien avulla
+					-Sittemin nämä sovellukset rupesivat käyttämään satunnaisia portteja laajalta väliltä (muotoile ehkä vähän toisin)
+					
+				-Porttinumeroiden pohjalta tehty tunnistus oli hyvä keino
+					-Oli hyvin skaalautuva (sieti lukuisia samanaikaisia yhteyksiä) kun tarvitsi tarkastaa pelkät porttinumerot, ja P2P-sovelluksen tunnistamiseen riitti yhdenkin paketin havaitseminen
+						-Ei enää toimi kun käytetään satunnaisia portteja
+						
+				Paperin havaitsemiskeinot
+					-Yritetään havaita P2P-liikenne eri soveluksille/protokollille tyypillisten TCP/UDP-käytäntöjen avulla
+						-Esim. BitTorrent-pakettien TCP-sisällön (payload) ensimmäinen tavu sisältää luvun 19, ja sitä seuraavat 19 tavua sisältävät merkkijonon 'BitTorrent protocol'
+							-Huom, merkkijono 19 merkin pituinen
+							
+						-Huom tää vissiin ennen kuin ruvettu salaamaan P2P?
+		
+			Identification and Analysis of Peer-to-Peer Traffic
+				-P2P havaitsemisella kaksi lupaavaa tapaa
+				-P2P traffic identification based on payload information
+					+Tarkempi
+					-high processor claim (for payload check)
+					-Riippuvainen tarkasta toteutuksesta, P2P-sovellusten jatkuva muutos (etenkin salauksen jälkeen)
+					-Laillisuuteen ja yksityisyyteen liittyvät ongelmat
+					
+				-P2P traffic identification based on flow dynamics
+					+Yksinkertaisempi toteuttaa
+					+Ei ole riippuvainen P2P-protokollien tarkoista toteutuksista
+					-Heuristisista metodeista johtuen vähemmän tarkka
+			
+			
+			Transport Layer Identification of P2P Traffic
+				-Pakettien sisällön tarkastelu ongelmallista
+					-Laillisesti kyseenalaista
+					-Rikkoo yksityisyydensuojaa
+					-Vaativampi toteuttaa
+					-Monet P2P-protollat huonosti dokumentoituja
+						-Vaikea reverse engineerata
+						-Päivittyivät siihen aikaan (2000-luvulla) semi usein, joten pakettientarkastelumenetelmiä piti myös tiheästi päivittää			
+					
+			
 					
 		Liikenteen hidastaminen/estäminen
 			-Tutkitaan paketteja
@@ -233,6 +247,10 @@ P2P aiheuttamat ongelmat ISP:ille
 					-Tää voi kuitenkni olla hyvä artsa myös siinä mielessä, että osoittaa ISPn estävän P2P liikennettä
 			
 			-Pääasiassa onnistuu vain hidastamaan p2p-liikennettä, ei poista ulkoliikenneongelmaa
+			
+			-Pakettien kaappaaminen ja suora tarkastelu voi olla laillisesti/yksityisyydensuojan puolesta kyseenalaista
+				-Dunno laillisuudesta, mutta yksityisyydensuoja ihan relevanttia
+				-Identification and Analysis of Peer-to-Peer Traffic
 			
 			-P4P: Provider Portal for Applications (Lisätty aineen jälkeen)
 				A widely used ISP approach is to use traffic shaping devices to

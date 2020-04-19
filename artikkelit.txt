@@ -75,8 +75,159 @@ P2P
 				-ISP näkee P2P myös kilpailijana
 					-ISPt tarjoavat puhelin liittymiä; P2P puhelinpalvelut kuten skype
 						-IPTV ja P2P IPTV
+
+P2P tunnistus/esto
+	Accurate, scalable in-network identification of p2p traffic using application signatures
+		Sen, Subhabrata, Oliver Spatscheck, and Dongmei Wang. "Accurate, scalable in-network identification of p2p traffic using application signatures." Proceedings of the 13th international conference on World Wide Web. 2004.
 		
+		1144 viittausta
+		
+		A widely used ISP approach is to use traffic shaping devices to
+		rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
+		deep packet inspection or other P2P traffic identification schemes
+		(e.g., [11, 31]) (P4P: Provider Portal for Applications)
+		
+		Artikkelin pointit
+			-Artikkeli tehty sen jälkeen kun P2P sovellukset ruveneet implementoimaan piilotusmekanismeja
+			-P2P halutaan rajoittaa jotta ne eivät aiheuttaisi liikaa ulkoliikennettä ja takaamaan reiluus muille sovelluksille
+				-Tätä varten täytyy pystyä tunnistamaan P2P-paketit
+				
+			-Aikaisemmin P2P-sovelluksia havaittiin niiden käyttämien porttien avulla
+				-Sittemin nämä sovellukset rupesivat käyttämään satunnaisia portteja laajalta väliltä (muotoile ehkä vähän toisin)
+				
+			-Vaatimukset liikenteen tunnistamiselle
+				-Tarkkuus
+					-Pieni määrä false positiveja (jotta ei haittaa muita sovelluksia)
+					-Pieni määrä false negativeja (jotta P2P-liikennettä ei pääse livahtamaan ohi)
+					
+				-Skaalautuvuus
+					-Tunnistustekniikan tulee pystyä käsittelemään erittäin suuria liikennemääriä (luokkaa sadat tuhannet ja miljoona eri yhteyttä)
+						-Tarkkuus ei saa kärsiä
+						-Tulee olla riittävän halpa
+						
+				-Robustness
+					-Trafc measurement in the middle of the network has
+					to deal with the effects of asymmetric routing (2 directions
+					of a connection follow different paths), packet losses and reordering.
+					
+				-Näiden välillä on tradeoffeja
+		
+			-Porttinumeroiden pohjalta tehty tunnistus oli hyvä keino
+				-Oli hyvin skaalautuva kun tarvitsi tarkastaa pelkät porttinumerot, ja P2P-sovelluksen tunnistamiseen riitti yhdenkin paketin havaitseminen
+					-Ei enää toimi kun käytetään satunnaisia portteja
+		
+			-Paperin havaitsemiskeinot
+				-Yritetään havaita P2P-liikenne eri soveluksille/protokollille tyypillisten TCP/UDP-käytäntöjen avulla
+					-Esim. BitTorrent-pakettien TCP-sisällön (payload) ensimmäinen tavu sisältää luvun 19, ja sitä seuraavat 19 tavua sisältävät merkkijonon 'BitTorrent protocol'
+						-Huom, merkkijono 19 merkin pituinen
+						
+					-Huom tää vissiin ennen kuin ruvettu salaamaan P2P?
+					
+	Identification and Analysis of Peer-to-Peer Traffic
+		Perényi, Marcell, et al. "Identification and analysis of peer-to-peer traffic." Journal of Communications 1.7 (2006): 36-46.
+		
+		87 viittausta
+	
+		-Artikkelin pointit	
+			-ISPt estävät P2P myös sen takia koska niillä usein levitetään tekijänoikeuksia rikkovaa materiaalia
+			-Vastauksena ongelmiin ISPt estivät/rajoittivat P2P-liikennettä
+				-P2P-sovellukset rupesivat käyttämään satunnaisia portteja (tässä vaiheessa ei vissiin vielä salausta?)
+				
+			-Pakettien kaappaaminen ja suora tarkastelu voi olla laillisesti/yksityisyydensuojan puolesta kyseenalaista
+				-Dunno laillisuudesta, mutta yksityisyydensuoja ihan relevanttia
+				
+			-P2P havaitsemisella kaksi lupaavaa tapaa
+				-P2P traffic identification based on payload information
+					+Tarkempi
+					-high processor claim (for payload check)
+					-Riippuvainen tarkasta toteutuksesta, P2P-sovellusten jatkuva muutos (etenkin salauksen jälkeen)
+					-Laillisuuteen ja yksityisyyteen liittyvät ongelmat
+					
+				-P2P traffic identification based on flow dynamics
+					+Yksinkertaisempi toteuttaa
+					+Ei ole riippuvainen P2P-protokollien tarkoista toteutuksista
+					-Heuristisista metodeista johtuen vähemmän tarkka
+					
+			-Heuristiikassa käytetyt menetelmät
+				-P2P protokollat käyttävät sekä UDP että TCP
+					-UDP viestintään vertaisille ja trackkereille
+					-TCPllä varsinainen tiedonsiirto
+					-Eli kahden IP:n välillä tapahtuva molempia protokollia käyttävä rinnakkainen (eli molempia samaan aikaan) tiedonsiirto on melko varmasti P2P
+					
+				-On myös muita, mutta en kirjoita tarkemmin
+				
+	Transport Layer Identification of P2P Traffic
+		Karagiannis, Thomas, et al. "Transport layer identification of P2P traffic." Proceedings of the 4th ACM SIGCOMM conference on Internet measurement. 2004.
+		
+		1066 viittausta
+		
+		Abstract
+			Since the emergence of peer-to-peer (P2P) networking in the
+			late ’90s, P2P applications have multiplied, evolved and es-
+			tablished themselves as the leading ‘growth app’ of Internet
+			traffic workload.  In contrast to first-generation P2P net-
+			works which used well-defined port numbers, current P2P
+			applications have the ability to disguise their existence through
+			the use of arbitrary ports. As a result, reliable estimates of
+			P2P traffic require examination of packet payload, a method-
+			ological landmine from legal, privacy, technical, logistic, and
+			fiscal perspectives. Indeed, access to user payload is often
+			rendered impossible by one of these factors, inhibiting trust-
+			worthy estimation of P2P traffic growth and dynamics. In
+			this paper, we develop a systematic methodology to identify
+			P2P flows at the transport layer, i.e., based on connection
+			patterns of P2P networks, and without relying on packet
+			payload. We believe our approach is the first method for
+			characterizing P2P traffic using only knowledge of network
+			dynamics rather than any user payload.  To evaluate our
+			methodology, we also develop a payload technique for P2P
+			traffic identification, by reverse engineering and analyzing
+			the nine most popular P2P protocols, and demonstrate its
+			efficacy with the discovery of P2P protocols in our traces
+			that were previously unknown to us.  Finally, our results
+			indicate that P2P traffic continues to grow unabatedly, con-
+			trary to reports in the popular media
 			
+		Artikkelin pointit
+			-In contrast to first-generation P2P networks
+			which used well-defined port numbers, current P2P
+			applications have the ability to disguise their existence through
+			the use of arbitrary ports. As a result, reliable estimates of
+			P2P traffic require examination of packet payload, a methodological
+			landmine from legal, privacy, technical, logistic, and
+			fiscal perspectives.
+			
+			-Pakettien sisällön tarkastelu ongelmallista
+				-Laillisesti kyseenalaista
+				-Rikkoo yksityisyydensuojaa
+				-Vaativampi toteuttaa
+				-Monet P2P-protollat huonosti dokumentoituja
+					-Vaikea reverse engineerata
+					-Päivittyivät siihen aikaan (2000-luvulla) semi usein, joten pakettientarkastelumenetelmiä piti myös tiheästi päivittää			
+				
+				-Kappaleessa 4 lueteltut haasteet
+					-Monet P2P-sovellukset käyttävät HTTP tiedostonsiirrossa, jolloin niitä ei voida erottaa websivujen paketeista mikäli tarkastelu on pinnallisempaa (nopeuden vuoksi)
+					-Jos P2P salaa paketit niin ei voi suoraan katsella
+					
+			-Paperissa tunnistetaan P2P-paketteja kuljetustasolla
+				-P2P-liiketeen profilointia identifioimalla flow patterneja ja P2P-liikenteelle tyypillistä käyttäytymistä
+				-Pystyy tunnistamaan P2P-paketteja tietämättä niiden protokollien tarkempaa toteutusta
+					-Pystyy täten huomaan myös päivitysten jälkeen
+			
+				-Kahdella heuristiikalla
+					-Kaksi IP-paria käyttävät sekä UDP että TCP keskenään
+						-Huom. ei päde kaikille p2p protokollille
+						-Huom. myös jotkin sovellustason sovellukset kuten DNS ja multimedia streamaus tekee näin
+							-Nämä muut sovellukset kuitenkin käyttävät vakioportteja, joten niiden perusteella voidaan karsia pois muut sovellukset
+						
+					-The second is based on how P2P peers connect to each other by studying connection characteristics of fIP, portg pairs
+						-In summary,
+						web traffic will have a higher ratio than P2P traffic of
+						the number of distinct ports versus number of distinct IPs
+						connected to the fIP, portg pair fW,80g.
+			
+			
+	
 Ongelmat
 	Can ISPs Take the Heat from Overlay Networks? 2004
 		Keralapura, Ram, et al. "Can ISPs take the heat from overlay networks." ACM SIGCOMM Workshop on Hot Topics in Networks (HotNets). 2004.
@@ -2625,16 +2776,6 @@ on ISP peering
 A Stochastic Analytical Modelling Framework on ISP-P2P Collaborations in Multi-domain Environments
 	4 viittausta
 	
-Accurate, scalable in-network identification of p2p traffic using application signatures
-	Sen, Subhabrata, Oliver Spatscheck, and Dongmei Wang. "Accurate, scalable in-network identification of p2p traffic using application signatures." Proceedings of the 13th international conference on World Wide Web. 2004.
-	
-	1144 viittausta
-	
-	A widely used ISP approach is to use traffic shaping devices to
-	rate limit P2P (e.g., [6, 7, 19, 20, 28, 33]). These devices rely on
-	deep packet inspection or other P2P traffic identification schemes
-	(e.g., [11, 31]) (P4P: Provider Portal for Applications)
-	
 BufferBank: A distributed cache infrastructure for peer-to-peer application
 	9
 	
@@ -3810,37 +3951,7 @@ A Routing Underlay for Overlay Networks
 	and reduce cross-network traffic, and this approach has even been
 	adopted by several P2P applications (e.g., Neokast and Joost). (Taming the torrent)
 	
-Transport Layer Identification of P2P Traffic
-	Karagiannis, Thomas, et al. "Transport layer identification of P2P traffic." Proceedings of the 4th ACM SIGCOMM conference on Internet measurement. 2004.
-	
-	1066 viittausta
-	
-	Abstract
-		Since the emergence of peer-to-peer (P2P) networking in the
-		late ’90s, P2P applications have multiplied, evolved and es-
-		tablished themselves as the leading ‘growth app’ of Internet
-		traffic workload.  In contrast to first-generation P2P net-
-		works which used well-defined port numbers, current P2P
-		applications have the ability to disguise their existence through
-		the use of arbitrary ports. As a result, reliable estimates of
-		P2P traffic require examination of packet payload, a method-
-		ological landmine from legal, privacy, technical, logistic, and
-		fiscal perspectives. Indeed, access to user payload is often
-		rendered impossible by one of these factors, inhibiting trust-
-		worthy estimation of P2P traffic growth and dynamics. In
-		this paper, we develop a systematic methodology to identify
-		P2P flows at the transport layer, i.e., based on connection
-		patterns of P2P networks, and without relying on packet
-		payload. We believe our approach is the first method for
-		characterizing P2P traffic using only knowledge of network
-		dynamics rather than any user payload.  To evaluate our
-		methodology, we also develop a payload technique for P2P
-		traffic identification, by reverse engineering and analyzing
-		the nine most popular P2P protocols, and demonstrate its
-		efficacy with the discovery of P2P protocols in our traces
-		that were previously unknown to us.  Finally, our results
-		indicate that P2P traffic continues to grow unabatedly, con-
-		trary to reports in the popular media
+
 	
 
 	

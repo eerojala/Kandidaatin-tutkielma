@@ -2167,3 +2167,436 @@ Caching P2P Traffic: What are the Benefits for an ISP?
 		about the modeling of P2P object popularity. This model
 		can be used to estimate the theoretical performance of a
 		cache, as explained in section VI.B.
+		
+	Several approaches exist in order to optimize P2P traffic.
+	Some are based on optimizing the peer selection for
+	accessing the overlay resources, such as the P4P initiative
+	for instance [1][2]
+	
+	At first a lot of ISPs tried
+	to rate-limit, or even block P2P applications. It led to efforts
+	by P2P applications developers to obfuscate their traffic so
+	as to not be detected by network operators. Thus,
+	researchers began to study properties of P2P traffic in order
+	to allow its identification in spite of the application
+	obfuscation. Identification could be performed with
+	application signatures in the packet payloads [5], or by
+	finding traffic layer-3 properties that indicates P2P traffic
+	[7].
+		Other techniques involve participating in the overlay in
+		order to obtain information [6] or using statistical methods,
+		like in [8] for instance.
+		
+	Other research studies aimed at modeling P2P systems in
+	order to improve their efficiency, or study their impact on
+	the underlying network. In [10], Pouwelse et al. uncover
+	various properties of real-life BitTorrent overlays. In
+	particular they have focused on properties such as system
+	activity, availability of peers, flash crowds, or download
+	speed. But none of these properties have a direct impact on
+	caching efficiency.
+	
+	Similarly in [12], Al-Hamra et al. monitor BitTorrent
+	overlays and observe the impact of the overlay structure on
+	its robustness. They particularly study the peer set size of an
+	overlay, the speed to reach the maximum set size, and the
+	diameter of the overlay. In [11], Sen and Wang study P2P
+	traffic at the flow level at several border routers of a large
+	ISP. In particular they were interested in the connectivity of
+	P2P applications and the dynamicity of P2P systems.
+	
+	Later on, in [14] and [21], Saleh and Hefeeda model the
+	popularity of P2P objects, based on a large passive
+	measurement conducted in the Gnutella overlay network.
+	They observe that file popularity diverges from the Zipf law
+	and rather follows a Mandelbrot-Zipf distribution. They also
+	propose a new algorithm evaluated with a simulation. The
+	results show that a hit rate of 35% can be achieved with a
+	cache size of 10% of the total traffic. Their algorithm
+	consists in admitting objects partially and incrementally.
+		However, Saleh et al. [14] have discovered that the
+		popularity of P2P resources is better modeled with the
+		Mandelbrot-Zipf law, shown in equation (2), with the same
+		notations as equation (1) and with q another parameter.
+		
+		This confirms the findings of Saleh and Hefeeda [14]
+		about the modeling of P2P object popularity. This model
+		can be used to estimate the theoretical performance of a
+		cache, as explained in section VI.B.
+		
+	Wierzbicki et al. evaluate in [15] the web cache
+	replacement algorithms and propose a new policy that
+	exploits the characteristics of P2P traffic.
+	
+	We have implemented in the simulation 4 algorithms:
+	LRU (Least Recently Used), LFU (Least Frequently Used),
+	FILO (First In Last Out) and SIZE. LRU and LFU are
+	among the most common replacement policies in the
+	literature [19] and in commercial products.
+	
+	The saved bandwidth is the quantity of data served by the
+	cache, minus the quantity of data downloaded by the cache.
+	A first way of estimating the bandwidth saved by a cache is
+	to count the number of times each file observed in the trace
+	is downloaded. This is the approach adopted in the literature
+	[21] and it is based on the popularity of the contents in the
+	overlay. With the hypothesis that customers download files
+	completely and only once, we can compute the saved
+	bandwidth if we had a cache serving our monitored
+	customers.
+		
+	Viittaukset
+		[1]: P4P: Explicit communications for cooperative control between P2P and network providers
+		[2]: "Verizon Gets Cozy With P2P File-Sharers", Associated Press, http://www.usatoday.com/tech/news/techinnovations/2008-03-14-verizon-p2p_N.htm (last accessed on 02/01/2010)
+		[4]: Should Internet Services Providers Fear Peer-assisted Content Distribution?
+		[5]: Accurate, scalable in-network identification of p2p traffic using application signatures
+		[6]: A Study on Traffic Characteristics Evaluation for a Pure P2P Application
+		[7]: Identification and Analysis of Peer-to-Peer Traffic
+		[10]: The bittorrent P2P file-sharing system: measurements and analysis
+		[11]: Analyzing peer-to-peer traffic across large networks
+		[12]: Understanding the Properties of the BitTorrent Overlay
+		[13]: Taming the Torrent, a Practical Approach to Reducing Cross-ISP Traffic in Peer-to-Peer Systems
+		[14]: Modelling and Caching of Peer-to-Peer Traffic
+		[15]: Cache Replacement Policies Revisited: The case of P2P Traffic
+		[19]: Cache replacement policies for P2P file sharing protocols
+		[21]: Traffic Modeling and Proportional Partial Caching for Peer-to-Peer Systems
+		
+Design and evaluation of a proxy cache for peer-to-peer traffic
+	File-sharing using peer-to-peer (P2P) systems is currently the
+	killer application for the Internet. A huge amount of traffic
+	is generated daily by P2P systems [1]–[3]. This huge amount
+	of traffic costs university campuses thousands of dollars every
+	year.
+	
+	We believe that caching is a promising approach to
+	mitigate some of the negative consequences of P2P traffic,
+	because objects in P2P systems are mostly immutable [1]
+	and the traffic is highly repetitive [9].
+	
+	As shown by numerous previous studies, e.g., [1], [2], [8],
+	[10], [11], network traffic generated by P2P applications has
+	different characteristics than traffic generated by other Internet
+	applications.
+	
+	The authors of [7] propose using already-deployed web caches
+	to serve P2P traffic. This, however, requires modifying the
+	P2P protocols to wrap their messages in HTTP format and
+	to discover the location of the nearest web cache. Given the
+	distributed and autonomous nature of the communities developing
+	P2P client software, incorporating these modifications
+	into actual clients may not be practical.
+		In addition, several
+		measurement studies have shown that the characteristics of
+		P2P traffic are quite different from those of web traffic [1],
+		[2], [8], [10], [11]. These different characteristics indicate that
+		web proxy caches may yield poor performance if they were
+		to be used for P2P traffic. The experimental results presented
+		in this paper confirm this intuition.
+	
+	Furthermore, previous work [11] showed
+	that to improve the cache performance, objects should be
+	incrementally admitted in the cache because objects in P2P
+	systems are fairly large, their popularity follows a flattenedhead
+	model [1], [11], and they may not be even downloaded in
+	their entirety since users may abort the download sessions [1].
+	
+	To the best of our
+	knowledge, there are no other storage systems proposed in the
+	literature for P2P proxy caches, even though the majority of
+	the Internet traffic comes from P2P systems [1]–[3].
+	
+	The
+	popularity distribution collect by our crawler is similar to those
+	observed in previous measurement studies [1], [8].
+	
+	The benefits
+	of caching P2P traffic have been shown in [9] and [4]. Object
+	replacement algorithms especially designed for proxy cache of
+	P2P traffic have also been proposed in [6] and in our previous
+	works [8], [11]. The above works do not present the design
+	and implementation of an actual proxy cache for P2P traffic,
+	nor do they address storage management issues in such caches.
+	
+	To mitigate the
+	negative effects of P2P traffic, several approaches have been
+	proposed in the literature, such as designing locality-aware
+	neighbor selection algorithms [5] and caching of P2P traffic
+	[6]–[8].
+	
+	In full-scale
+	deployment of the cache, the byte hit rate is expected to be
+	smaller, in the range of 30 to 60% [11], which would still
+	yield significant savings in bandwidth given the huge volume
+	of P2P traffic.
+	
+	In order to store and serve P2P traffic, proxy caches need
+	to identify connections belonging to P2P systems and extract
+	needed information from them. Several previous works address
+	the problem of identifying P2P traffic, including [15]–[17].
+	The authors of [15] identify P2P traffic based on application
+	signatures appearing in the TCP stream. The authors of [17]
+	analyze the behavior of different P2P protocols, and identify
+	patterns specific to each protocol. The authors of [16] identify
+	P2P traffic using only transport layer information. A comparison
+	among different methods is conducted in [18].
+	
+	Several P2P caching products have been introduced to the
+	market. Oversi’s OverCache [19] implements P2P caching,
+	but takes a quite different approach compared to pCache. An
+	OverCache server participates in P2P networks and only serves
+	peers within the ISP. This approach may negatively affect fairness
+	in P2P networks because peers in ISPs with OverCache
+	deployed would never contribute as they can always receive
+	data from the cache servers without uploading to others. This
+	in turns degrades the performance of P2P networks.
+		PeerApp’s
+		UltraBand [20] supports multiple P2P protocols, such as Bit-
+		Torrent, Gnutella, and FastTrack. These commercial products
+		demonstrate the importance and timeliness of the problem
+		addressed in this paper. The details of these products, however,
+		are not publicly available, thus the research community cannot
+		use them to evaluate new P2P caching algorithms.
+
+	
+	Viittaukset
+		[1]: Measurement, modeling, and analysis of a peer-to-peer file-sharing workload
+		[2]: Analyzing peer-to-peer traffic across large networks
+		[3]: Is P2P dying or just hiding?
+		[4]: Should Internet service providers fear peer-assisted content distribution?
+		[5]: Improving traffic locality in BitTorrent via biased neighbor selection
+		[6]: Cache replacement policies revisited: The case of P2P traffic
+		[7]: HPTP: relieving the tension between ISPs and P2P
+		[8]: Modeling and caching of peer-to-peer traffic
+		[9]: Are file swapping networks cacheable?
+		[11]: Traffic modeling and proportional partial caching for peer-to-peer system
+		[15]: Accurate, scalable in-network identification of P2P traffic using application signatures
+		[16]: Transport layer identification of P2P traffic
+		[17]: A methodology for P2P file-sharing traffic detection
+		[18]: A longitudinal study of P2P traffic classification
+		[19]: “OverCache MSP Home Page,” http://www.oversi.com/products/overcache-msp
+		[20]: "PeerApp UltraBand Home Page,” http://www.peerapp.com/products-ultraband.aspx
+		[30]: P4P: Portal for (P2P) applications
+		
+On the long-term evolution of the two-tier gnutella overlay
+	Furthermore, some studies report that the popular P2P
+	file sharing applications make a significant contribution to total
+	Internet traffic [1], [6]
+	
+	few
+	previous studies have examined characteristics of overlay
+	topologies [3], [5], [7], [13] and participating peers [8], [9]
+	in large scale P2P systems.
+	
+	Viittaukset
+		[6]: Transport Layer Identification of P2P Traffic
+		[9]: Analyzing Peer-To-Peer Traffic Across Large Networks
+		
+Cache replacement policies revisited: The case of P2P traffic
+	The analysis of other traces from the same source
+	[2] has shown a high reference locality: the ideal byte
+	hit rate of a cache was estimated at 67%. [2] also
+	estimates that a cache size of about 200GB should be
+	sufficient to achieve a byte hit rate of about 60%.
+	
+	Results for full P2P caching indicate a maximum
+	byte hit rate of 67% (this is similar to the estimate in
+	[2]). However, when compared to [2], the cache size
+	necessary for a byte hit rate that is close to maximum is
+	different. In our simulations, the size of 200GB (as
+	proposed in [2]) leads to a lower byte hit rate. Only a
+	cache that is twice larger (400GB) could obtain a byte
+	hit rate about 15% smaller than the theoretical
+	maximum. This difference is explained by an increase
+	in sizes of transmitted files since the observations
+	reported in [2]. When the cache sizes we study are
+	compared to the disk and memory sizes of the cache
+	used in the experimental setup (200GB and 1GB,
+	respectively) it becomes evident that effective cache
+	replacement policies are can bring significant savings.
+	
+	Today, the traffic volume of the most popular P2P
+	file sharing protocol, FastTrack (used by file sharing
+	applications like Kazaa, iMesh and Grockster which,
+	according to www.slyck.com, totaled more than 4.5M
+	users in January 2004) has increased to the extent that
+	it may dominate the Internet traffic [3,7,8]. This makes
+	caching efforts concentrating on Web objects less
+	effective since they target a small part of the overall
+	traffic volume, whose cacheability is further reduced
+	by the presence of dynamically generated content.
+	
+	Viittaukset
+		[2]: Are File Swapping Networks Cacheable?
+		[7]: Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload
+		[8]: An Analysis of Internet Content Delivery Systems
+		
+Accurate, scalable in-network identification of p2p traffic using application signatures
+	A lot of existing research on P2P traffic characterization has only
+	considered trafc on default network ports (e.g., [11, 18, 17]).
+	
+	There is also a large body of
+	literature on extracting information from packet traces (e.g., [9]);
+	however, none of these works provides and evaluates application
+	layer P2P signatures.
+	
+	Viitatut artikkelit
+		[1]: BitTorrent Protocol. http://bitconjurer.org/BitTorrent.
+		[11]: P2P The Gorilla in the Cable
+		[12]: Measurement, modeling, and analysis of a peer-to-peer le-sharing workload
+		[17]: An Analysis of Internet Content Delivery Systems
+		[18]: Analyzing peer-to-peer trafc across large networks
+
+Identification and Analysis of Peer-to-Peer Traffic		
+	A similar payload-based method is presented in [28].
+	This paper also proposes two heuristics for identification
+	of P2P traffic without payload examination. It is reported
+	that more than 90% of the results provided by the payload
+	method is identified by the proposed heuristics. It should
+	be mentioned that the payload examination only tries to
+	detect the traffic generated by several P2P applications.
+	We cannot know for sure all possible P2P applications
+	people use. Nevertheless, the idea is very promising. The
+	identification of P2P traffic aggregation should be done
+	by heuristics which are based on some common
+	properties of P2P communications instead of examining
+	particular P2P applications.
+	
+	An identification system for pure P2P applications is
+	given in [33]. The method is specialized for the Winny
+	application, which is currently the most popular P2P
+	application in Japan. It uses the server/client relationships
+	among peers. Some evaluation results of the method are
+	also presented.
+	
+	For the sake of completeness the crawl-and-probe
+	method [3] should also be mentioned. Authors
+	periodically “crawled” the P2P system to gather
+	instantaneous snapshots of a subset of user population
+	and then sent probes to users to directly measure some of
+	their properties. This method cannot collect users’ traffic
+	activities.
+	
+	The first heuristic is based on the fact that many
+	P2P protocols, e.g. eDonkey, Gnutella, Fasttrack, etc.,
+	use both TCP and UDP transport layers for
+	communication. Reasonably the unreliable UDP is
+	often used for control messaging, queries, and
+	responses while data transmission relies on TCP.
+	However, the large volume of UDP traffic observed in
+	our measurement data indicates that UDP could also
+	be used for data transfer. Thus by identifying those IP
+	pairs which participate in concurrent TCP and UDP
+	connections we can state that the traffic between these
+	IP pairs is almost surely P2P.
+		This heuristic is similar 
+		to what is proposed in [28] with a little difference. We
+		note that some other common applications like
+		NETBIOS, DNS also utilize both TCP and UDP. [28]
+		employs post-processing to extract this kind of traffic
+		from the result of the heuristic. In contrast, this is not
+		necessary in our case since we have already done this
+		in the initial (0th) step: these applications are among
+		the common ones.
+		
+	Viitatut artikkelit
+		[2]: A Measurement Study of Peer-to-Peer File Sharing Systems
+		[3]: An Analysis of Internet Content Delivery Systems
+		[4]: Measurement, Modeling, and Analysis of a Peer-to-Peer File-Sharing Workload
+		[5]: File-Sharing in the Internet: A Characterization of P2P Traffic in The Backbone
+		[6]: Analyzing Peer-to-Peer Traffic Across Large Networks
+		[8]: The Bittorrent P2P File-Sharing System: Measurements And Analysis
+		[9]: Modeling Peer-Peer File Sharing Systems
+		[13]: Modeling and Performance Analysis of BitTorrent-Like Peer-to-Peer Network
+		[26]: Accurate, Scalable In- Network Identification of P2P Traffic Using Application Signatures
+		[27]: Towards Peer-to-Peer Traffic Analysis Using Flows
+		[28]: Transport Layer Identification of P2P Traffic
+		[29]: Is P2P dying or just hiding?
+		[31]: P2P The Gorilla in the Cable
+		[33]: A Traffic Identification Method and Evaluations for a Pure P2P Application
+		[35]: On the Identification and Analysis of P2P Traffic Aggregation
+		
+Transport Layer Identification of P2P Traffic
+	Most P2P traffic research has thus far emphasized detailed
+	characterization of a small subset of P2P protocols and/or
+	networks [18] [14], often motivated by the dominance of that
+	protocol in a particular provider’s infrastructure or during
+	a specific time period. Typical data sources range from academic
+	network connections [27], [20] to Tier 2 ISPs [21].
+	
+	Other P2P measurement studies have focused on topological
+	characteristics of P2P networks based on flow level
+	analysis [29], or investigating properties such as bottleneck
+	bandwidths [27], the possibility of caching [21], or the availability
+	and retrieval of content [3] [12].
+	
+	Recently, Sen et al. developed a signature-based payload
+	methodology [28] to identify P2P traffic. The authors focus
+	on TCP signatures that characterize file downloads in five
+	P2P protocols based on the examination of user payload.
+	The methodology in [28] is similar to our payload analysis
+	and it is further discussed in section 4.
+	
+	Viitatut artikkelit
+		[3]: Understanding Availability
+		[4]: BitTorrent. http://bitconjurer.org/BitTorrent/.
+		[14]: Dissecting BitTorrent: Five Months in a Torrent’s Lifetime
+		[16]: Is P2P dying or just hiding?
+		[17]: File-sharing in the Internet: A characterization of P2P traffic in the backbone.
+		[21]: Are File Swapping Networks Cacheable? Characterizing P2P Traffic.
+		[24]: W. B. Norton. The evolution of the u.s. internet peering ecosystem, 2003.
+		[25]: Enabling local preference in peer-to-peer traffic
+		[27]: A Measurement Study of Peer-to-Peer File Sharing Systems
+		[28]: Accurate, Scalable In-Network Identification of P2P Traffic Using Application Signatures
+		[29]: Analyzing Peer-to-Peer Traffic Across Large Networks
+		
+A Methodology for P2P File-Sharing Traffic Detection
+	Furthermore, recent P2P networks tend to intentionally
+	camouflage their generated traffic [11] to circumvent
+	both filtering firewalls as well as possible legal litigation.
+	
+	There are some projects in the area of P2P traffic detection:
+	the same SNORT project group proposes some rules
+	for the detection of P2P traffic and there exist some commercial
+	applications (like p2pwatchdog [13]) that have the
+	only purpose to catch and to monitor P2P traffic.
+		However,
+		neither the SNORT community nor the p2pwatchdog developers
+		say how to write rules for all P2P file-sharing programs;
+		p2pwatchdog, furthermore, is neither open-source
+		nor free. What it is lacking, then, is a methodology to write
+		IDS rules for P2P traffic detection or, more in general, a
+		flexible methodology to be able to identify any applicationspecific
+		traffic.
+		
+	Early research on P2P traffic characterization were based
+	on the addressing of default network ports [18],[16].
+	
+	Recent
+	work [7], uses application signatures to characterize
+	the workload of KaZaA downloads, while in [17] signatures
+	for a wide range of P2P applications are provided.
+	
+	In [19], [1], [10] research focuses on aggregated data
+	traffic to distinguish regular one from the one originated by
+	P2P applications. These works provide a view of local P2P
+	usage, while in [18] is reported a complementary backbone
+	view, that is, the analysis of data gathered from a tier-1 Internet
+	Service Provider.
+	
+	Our approach is similar to that reported in [4],[17] in the
+	sense that as a final result we provide a set of signatures to
+	identify P2P file sharing traffic. Our approach differentiates
+	from [4],[17] in the sense that the methodology proposed is
+	clearly depicted and combines both signature and intrusion
+	detection techniques
+	
+	[1]: A signal analysis of network traffic anomalies
+	[4]: An analysis of internet chat systems
+	[7]: Measurement, modeling, and analysis of a peer-to-peer file-sharing workload.
+	[10]: Characterizing the query behavior in peer-to-peer file sharing systems.
+	[11]: Deconstructing the kazaa network
+	[13]: http://www.p2pwatchdog.com/.
+	[16]: An analysis of internet content delivery systems
+	[17]: Accurate, scalable innetworkidentification of p2p traffic using application signatures
+	[18]: S. Sen and J. Wang. Analyzing peer-to-peer traffic across large networks. IEEE/ACM Trans. Netw., 12(2):219–232, 2004.
+	[19]: S. Sen and J. Wang. Analyzing peer-to-peer traffic across large networks. In ACM SIGCOMM Internet Measurement Workshop. Proceedings, November, 2002
