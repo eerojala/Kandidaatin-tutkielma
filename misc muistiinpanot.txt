@@ -147,15 +147,4 @@ Wikipedia-artsat
 Nykyään varmaan musiikkia ladataan vähemmän p2p
 	-Löytyykö tälle väitteelle tukemaan mitään lähdettä?
 	
-Caching P2P Traffic: What are the Benefits for an ISP?
-	Understanding the Properties of the BitTorrent Overlay
-	"Verizon Gets Cozy With P2P File-Sharers", Associated Press, http://www.usatoday.com/tech/news/techinnovations/2008-03-14-verizon-p2p_N.htm (last accessed on 02/01/2010)
-	The bittorrent P2P file-sharing system: measurements and analysis
-	Cache replacement policies for P2P file sharing protocols
-	
-Design and evaluation of a proxy cache for peer-to-peer traffic
-	Traffic modeling and proportional partial caching for peer-to-peer system
-	“OverCache MSP Home Page,” http://www.oversi.com/products/overcache-msp
-	"PeerApp UltraBand Home Page,” http://www.peerapp.com/products-ultraband.aspx
-	
-Detecting BitTorrent Blocking
+A Survey on Internet Traffic Identification
